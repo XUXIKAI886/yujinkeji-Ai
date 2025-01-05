@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Avatar, message, Popconfirm } from 'antd';
+import { Input, Button, Avatar, message, Popconfirm, Upload } from 'antd';
 import { 
     SendOutlined, 
     RobotOutlined,
@@ -9,7 +9,9 @@ import {
     CopyOutlined,
     DownloadOutlined,
     CrownOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    UploadOutlined,
+    FileTextOutlined
 } from '@ant-design/icons';
 import aiAssistantService from '../services/aiAssistantService';
 import chatHistoryService from '../services/chatHistoryService';
@@ -20,6 +22,8 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #ffffff;
+  position: relative;
+  overflow: hidden;
 `;
 
 const ChatHeader = styled.div`
@@ -31,6 +35,7 @@ const ChatHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 const HeaderTitle = styled.div`
@@ -68,7 +73,10 @@ const MessageList = styled.div`
   overflow-y: auto;
   padding: 24px 32px;
   background: #fafafa;
-
+  position: relative;
+  height: calc(100vh - 200px);
+  margin: 0;
+  
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -160,12 +168,18 @@ const MessageContent = styled.div`
 
 const MessageActions = styled.div`
   position: absolute;
-  right: -100px;
+  right: -120px;
   top: 50%;
-  transform: translateY(-50%) translateX(-8px);
+  transform: translateY(-50%);
   display: flex;
   gap: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  
+  ${MessageWrapper}:hover & {
+    opacity: 1;
+    right: -110px;
+  }
 `;
 
 const MessageActionButton = styled(Button)`
@@ -336,6 +350,49 @@ const StyledInput = styled(Input.TextArea)`
   }
 `;
 
+const UploadWrapper = styled.div`
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin: 20px;
+  text-align: center;
+`;
+
+const AnalyzeButton = styled(Button)`
+  margin-top: 16px;
+  width: 200px;
+`;
+
+const FileList = styled.div`
+  margin-top: 16px;
+  text-align: left;
+  
+  .file-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fff;
+    margin-bottom: 8px;
+    
+    .anticon {
+      margin-right: 8px;
+      color: #666;
+    }
+    
+    .file-name {
+      flex: 1;
+      color: #333;
+    }
+    
+    .file-size {
+      color: #999;
+      font-size: 12px;
+      margin-left: 16px;
+    }
+  }
+`;
+
 const Message = ({ message, handleCopy, handleExport }) => (
     <MessageWrapper>
         <MessageAvatar $isUser={message.isUser}>
@@ -357,11 +414,56 @@ const Message = ({ message, handleCopy, handleExport }) => (
     </MessageWrapper>
 );
 
+const InputArea = styled.div`
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  
+  .ant-input {
+    flex: 1;
+    border-radius: 8px;
+    resize: none;
+    padding: 8px 12px;
+    min-height: 40px;
+    
+    &:focus {
+      box-shadow: none;
+      border-color: #1890ff;
+    }
+  }
+`;
+
+const ClearChatButton = styled(Button)`
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #ef4444;
+  border-color: #ef4444;
+  
+  &:hover {
+    color: #fff;
+    background: #ef4444;
+    border-color: #ef4444;
+  }
+`;
+
 const ChatWindow = ({ selectedAssistant, updateUser }) => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [assistantInfo, setAssistantInfo] = useState(null);
+    const [fileList, setFileList] = useState([]);
+    const [analyzing, setAnalyzing] = useState(false);
 
     // 加载AI助手信息
     useEffect(() => {
@@ -369,10 +471,11 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
             if (selectedAssistant?.key) {
                 try {
                     const response = await aiAssistantService.getActiveAssistants();
-                    if (response.data.success) {
-                        const assistant = response.data.data.find(a => a.key === selectedAssistant.key);
+                    if (response.success) {
+                        const assistant = response.data.find(a => a.key === selectedAssistant.key);
                         if (assistant) {
                             setAssistantInfo(assistant);
+                            console.log('当前助手配置:', assistant.config); // 添加日志
                         }
                     }
                 } catch (error) {
@@ -383,6 +486,17 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
 
         fetchAssistantInfo();
     }, [selectedAssistant?.key]);
+
+    // 判断是否为DeepSeek模型
+    const isDeepseekModel = useMemo(() => {
+        return selectedAssistant?.config?.modelType === 'deepseek' || assistantInfo?.config?.modelType === 'deepseek';
+    }, [selectedAssistant?.config?.modelType, assistantInfo?.config?.modelType]);
+
+    console.log('模型类型:', {  // 添加日志
+        selectedType: selectedAssistant?.config?.modelType,
+        assistantInfoType: assistantInfo?.config?.modelType,
+        isDeepseek: isDeepseekModel
+    });
 
     // 加载聊天历史
     useEffect(() => {
@@ -438,19 +552,10 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
         }
     };
 
-    const handleKeyPress = (e) => {
+    const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSend();
-        }
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && e.shiftKey) {
-            e.preventDefault();
-            const cursorPosition = e.target.selectionStart;
-            const newValue = inputValue.slice(0, cursorPosition) + '\n' + inputValue.slice(cursorPosition);
-            setInputValue(newValue);
         }
     };
 
@@ -484,6 +589,52 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
         message.success('聊天记录已清除');
     };
 
+    const handleUpload = ({ file, fileList }) => {
+        setFileList(fileList);
+    };
+
+    const handleAnalyze = async () => {
+        if (fileList.length === 0) {
+            message.warning('请先上传文件');
+            return;
+        }
+
+        setAnalyzing(true);
+        try {
+            // 创建FormData对象
+            const formData = new FormData();
+            fileList.forEach(file => {
+                formData.append('files', file.originFileObj);
+            });
+
+            // 调用分析接口
+            const response = await aiAssistantService.analyzeFiles(selectedAssistant.key, formData);
+            
+            if (response.success) {
+                const assistantMessage = { 
+                    id: Date.now(),
+                    content: response.message || '分析完成，但未返回结果', 
+                    isUser: false 
+                };
+                setMessages(prev => [...prev, assistantMessage]);
+
+                // 更新用户积分
+                const userResponse = await http.get('/users/me');
+                if (userResponse.data.success) {
+                    updateUser(userResponse.data.data);
+                }
+            } else {
+                message.error(response.message || '文件分析失败');
+            }
+        } catch (error) {
+            console.error('文件分析失败:', error);
+            message.error('文件分析失败，请稍后重试');
+        } finally {
+            setAnalyzing(false);
+            setFileList([]); // 清空文件列表
+        }
+    };
+
     if (!selectedAssistant) {
         return (
             <ChatContainer>
@@ -504,7 +655,18 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                         <HeaderPoints>
                             <CrownOutlined />
                             每次对话消费{assistantInfo?.pointsCost || selectedAssistant.pointsCost}积分
+                            {isDeepseekModel && <span style={{ marginLeft: 8 }}>（文件分析每个文件额外+5积分）</span>}
                         </HeaderPoints>
+                        <Popconfirm
+                            title="确定要清除所有聊天记录吗？"
+                            onConfirm={handleClearChat}
+                            okText="确定"
+                            cancelText="取消"
+                        >
+                            <ClearChatButton icon={<DeleteOutlined />}>
+                                清除记录
+                            </ClearChatButton>
+                        </Popconfirm>
                     </>
                 )}
             </ChatHeader>
@@ -532,34 +694,63 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                     </MessageWrapper>
                 )}
             </MessageList>
-            <InputContainer>
-                <StyledInput
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder={`向${selectedAssistant.name}提问，按Enter发送，Shift+Enter换行`}
-                    autoSize={{ minRows: 3, maxRows: 6 }}
-                    disabled={loading}
-                />
-                <Popconfirm
-                    title="确认清除聊天记录"
-                    description="此操作将清除所有聊天记录，确定要继续吗？"
-                    onConfirm={handleClearChat}
-                    okText="确定"
-                    cancelText="取消"
-                >
-                    <ClearButton icon={<DeleteOutlined />}>
-                        清除记录
-                    </ClearButton>
-                </Popconfirm>
-                <SendButton
-                    onClick={handleSend}
-                    disabled={!inputValue.trim() || loading}
-                    icon={loading ? <LoadingOutlined /> : <SendOutlined />}
-                >
-                    {loading ? '发送中...' : '发送'}
-                </SendButton>
-            </InputContainer>
+            <InputArea>
+                {isDeepseekModel ? (
+                    <UploadWrapper>
+                        <Upload
+                            multiple
+                            fileList={fileList}
+                            onChange={handleUpload}
+                            beforeUpload={() => false}
+                            accept=".pdf,.doc,.docx,.xlsx,.xls,.ppt,.pptx,.jpg,.jpeg,.png,.gif,.txt"
+                        >
+                            <Button icon={<UploadOutlined />}>选择文件</Button>
+                            <div style={{ marginTop: 8, color: '#666' }}>
+                                支持PDF、Word、Excel、PPT、图片、文本文件
+                            </div>
+                        </Upload>
+                        {fileList.length > 0 && (
+                            <FileList>
+                                {fileList.map(file => (
+                                    <div key={file.uid} className="file-item">
+                                        <FileTextOutlined />
+                                        <span className="file-name">{file.name}</span>
+                                        <span className="file-size">
+                                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                                        </span>
+                                    </div>
+                                ))}
+                            </FileList>
+                        )}
+                        <AnalyzeButton
+                            type="primary"
+                            onClick={handleAnalyze}
+                            loading={analyzing}
+                            disabled={fileList.length === 0}
+                        >
+                            {analyzing ? '正在分析...' : '开始分析'}
+                        </AnalyzeButton>
+                    </UploadWrapper>
+                ) : (
+                    <InputWrapper>
+                        <StyledInput
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onPressEnter={handleSend}
+                            placeholder="输入您的问题..."
+                            disabled={loading}
+                        />
+                        <SendButton
+                            type="primary"
+                            icon={<SendOutlined />}
+                            onClick={handleSend}
+                            loading={loading}
+                        >
+                            发送
+                        </SendButton>
+                    </InputWrapper>
+                )}
+            </InputArea>
         </ChatContainer>
     );
 };

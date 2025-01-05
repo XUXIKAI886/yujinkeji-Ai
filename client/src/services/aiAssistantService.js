@@ -187,6 +187,33 @@ const aiAssistantService = {
         return () => {
             assistantEvents.off('activeAssistantsUpdated', callback);
         };
+    },
+
+    /**
+     * 调用AI助手分析文件
+     * @param {string} assistantKey - AI助手的key
+     * @param {FormData} formData - 包含文件的FormData对象
+     * @returns {Promise<Object>} 分析结果
+     */
+    analyzeFiles: async (assistantKey, formData) => {
+        try {
+            const response = await http.post(`/assistants/${assistantKey}/analyze`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            return {
+                success: true,
+                data: response.data,
+                message: response.data.message
+            };
+        } catch (error) {
+            console.error('文件分析失败:', error);
+            return {
+                success: false,
+                message: error.response?.data?.message || '文件分析失败'
+            };
+        }
     }
 };
 

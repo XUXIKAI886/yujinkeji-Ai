@@ -1,14 +1,16 @@
 .chat-layout {
     height: 100vh;
     background: #fff;
+    overflow: hidden;
 }
 
 .chat-content {
     padding: 24px;
-    height: 100vh;
-    overflow-y: auto;
+    height: 100%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .chat-placeholder {

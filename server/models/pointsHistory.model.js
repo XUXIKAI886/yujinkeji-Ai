@@ -12,7 +12,7 @@ const pointsHistorySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['add', 'register', 'use_assistant', 'admin_grant'],
+        enum: ['add', 'register', 'use_assistant', 'admin_grant', 'analyze_files'],
         required: true
     },
     operation: {

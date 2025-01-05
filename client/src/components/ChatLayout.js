@@ -410,15 +410,22 @@ const ChatLayout = () => {
                             title: '变动积分',
                             dataIndex: 'points',
                             key: 'points',
-                            render: (points, record) => (
-                                <span style={{ 
-                                    color: ['add', 'register'].includes(record.type) || 
-                                           (record.type === 'admin_grant' && points > 0) ? '#52c41a' : '#ff4d4f' 
-                                }}>
-                                    {['add', 'register'].includes(record.type) || 
-                                     (record.type === 'admin_grant' && points > 0) ? `+${points}` : `-${points}`}
-                                </span>
-                            )
+                            render: (points, record) => {
+                                // 根据类型确定是否显示正负号
+                                const isPositive = ['add', 'register'].includes(record.type) || 
+                                                  (record.type === 'admin_grant' && points > 0);
+                                
+                                // 对于消费类型，points已经是负数，不需要再加负号
+                                const displayPoints = Math.abs(points);
+                                
+                                return (
+                                    <span style={{ 
+                                        color: isPositive ? '#52c41a' : '#ff4d4f' 
+                                    }}>
+                                        {isPositive ? `+${displayPoints}` : `-${displayPoints}`}
+                                    </span>
+                                );
+                            }
                         },
                         {
                             title: '变动类型',

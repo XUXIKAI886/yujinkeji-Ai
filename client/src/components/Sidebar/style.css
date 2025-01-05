@@ -1,0 +1,170 @@
+.app-sidebar {
+    position: relative;
+    overflow: hidden;
+}
+
+.app-sidebar.dark {
+    background: #1a1b1e;
+    color: #fff;
+}
+
+.sidebar-logo {
+    height: 64px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo-img {
+    height: 32px;
+    width: auto;
+}
+
+.sidebar-logo-text {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sidebar-menu {
+    background: transparent;
+    border-right: none;
+}
+
+.sidebar-menu-item {
+    margin: 4px 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.assistant-menu-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.assistant-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.assistant-description {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.assistant-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.assistant-tag.new {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.sidebar-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.sidebar-background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: 
+        radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.95), rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 50px 160px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 80px 120px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
+        radial-gradient(1.5px 1.5px at 110px 50px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
+        radial-gradient(1.5px 1.5px at 150px 180px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0));
+    background-size: 200px 200px;
+    animation: animateSiderStars 20s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes animateSiderStars {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-200px);
+    }
+}
+
+/* 暗色主题样式 */
+.dark .sidebar-menu {
+    background: transparent;
+}
+
+.dark .ant-menu-item {
+    color: rgba(255, 255, 255, 0.65);
+    transition: all 0.3s ease;
+}
+
+.dark .ant-menu-item:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dark .ant-menu-item-selected {
+    background: rgba(59, 130, 246, 0.3) !important;
+    color: #fff;
+}
+
+.dark .ant-menu-item-selected .assistant-name {
+    color: #fff;
+}
+
+.dark .ant-menu-item-selected .assistant-description {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .app-sidebar {
+        position: fixed;
+        z-index: 999;
+    }
+    
+    .ant-layout-sider-collapsed {
+        transform: translateX(-100%);
+    }
+}
+
+/* 滚动条样式 */
+.sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.sidebar-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 菜单项悬停和选中状态 */
+.ant-menu-dark .ant-menu-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+    background: #1890ff !important;
+} 

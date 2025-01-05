@@ -1,0 +1,17 @@
+.app-layout {
+    min-height: 100vh;
+}
+
+.app-content {
+    padding: 24px;
+    background: #fff;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .app-content {
+        padding: 16px;
+    }
+} 

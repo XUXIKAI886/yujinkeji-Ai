@@ -1,0 +1,37 @@
+.ai-assistant-management {
+    padding: 24px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    margin: 0;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.status.active {
+    background-color: #e6f7ff;
+    color: #1890ff;
+}
+
+.status.inactive {
+    background-color: #f5f5f5;
+    color: #999;
+} 

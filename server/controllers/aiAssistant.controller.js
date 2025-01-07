@@ -7,6 +7,7 @@ const PointsHistory = require('../models/pointsHistory.model');
 const Event = require('events');
 const fs = require('fs').promises;
 const path = require('path');
+const XLSX = require('xlsx');
 
 /**
  * 获取所有AI助手
@@ -37,10 +38,28 @@ exports.getActiveAssistants = async (req, res) => {
  */
 exports.createAssistant = async (req, res) => {
     try {
-        const assistant = await aiAssistantService.createAssistant(req.body);
-        res.status(201).json({ success: true, data: assistant });
+        const assistantData = {
+            ...req.body,
+            icon: req.body.icon || null,
+            metadata: {
+                ...req.body.metadata,
+                creator: req.user._id
+            }
+        };
+
+        const assistant = await aiAssistantService.createAssistant(assistantData);
+        
+        res.status(201).json({
+            success: true,
+            data: assistant,
+            message: 'AI助手创建成功'
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ 
+            success: false, 
+            message: error.message,
+            error: error.code === 11000 ? '该名称已被使用，请使用其他名称' : error.message
+        });
     }
 };
 
@@ -49,10 +68,25 @@ exports.createAssistant = async (req, res) => {
  */
 exports.updateAssistant = async (req, res) => {
     try {
-        const assistant = await aiAssistantService.updateAssistant(req.params.id, req.body);
-        res.json({ success: true, data: assistant });
+        const { id } = req.params;
+        const updateData = {
+            ...req.body,
+            icon: req.body.icon || null
+        };
+
+        const assistant = await aiAssistantService.updateAssistant(id, updateData);
+        
+        res.json({
+            success: true,
+            data: assistant,
+            message: 'AI助手更新成功'
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ 
+            success: false, 
+            message: error.message,
+            error: error.code === 11000 ? '该名称已被使用，请使用其他名称' : error.message
+        });
     }
 };
 
@@ -99,7 +133,9 @@ exports.chat = async (req, res) => {
         if (assistant.config.modelType === 'coze') {
             response = await cozeService.chat(assistant.config, req.user.id, req.body.message);
         } else if (assistant.config.modelType === 'deepseek') {
-            response = await deepseekService.chat(assistant.config, req.body.message, assistant.config.systemPrompt);
+            // 只使用配置中的专属提示词
+            const systemPrompt = assistant.config.systemPrompt || '';
+            response = await deepseekService.chat(assistant.config, req.body.message, systemPrompt);
         } else {
             return res.status(400).json({ success: false, message: '不支持的模型类型' });
         }
@@ -134,6 +170,31 @@ exports.chat = async (req, res) => {
 };
 
 /**
+ * 读取文件内容
+ * @param {Object} file - 上传的文件对象
+ * @returns {Promise<string>} - 文件内容
+ */
+async function readFileContent(file) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    
+    // Excel文件处理
+    if (['.xlsx', '.xls'].includes(ext)) {
+        const workbook = XLSX.readFile(file.path);
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const data = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+        return data.map(row => row.join('\t')).join('\n');
+    }
+    
+    // 文本文件处理
+    if (['.txt', '.csv'].includes(ext)) {
+        return await fs.readFile(file.path, 'utf8');
+    }
+    
+    // 其他类型文件，返回文件类型信息
+    return `[${file.mimetype}文件，大小：${(file.size / 1024).toFixed(2)}KB]`;
+}
+
+/**
  * 分析上传的文件
  */
 exports.analyzeFiles = async (req, res) => {
@@ -165,11 +226,15 @@ exports.analyzeFiles = async (req, res) => {
         // 读取文件内容
         const fileContents = await Promise.all(req.files.map(async (file) => {
             try {
-                // 使用绝对路径
-                const content = await fs.readFile(file.path, 'utf-8');
+                // 解码文件名
+                const decodedName = Buffer.from(file.originalname, 'binary').toString('utf8');
                 files.push(file.path); // 记录文件路径以便后续清理
+                
+                // 读取文件内容
+                const content = await readFileContent(file);
+                
                 return {
-                    name: file.originalname,
+                    name: decodedName,
                     content: content,
                     type: file.mimetype
                 };
@@ -179,15 +244,13 @@ exports.analyzeFiles = async (req, res) => {
             }
         }));
 
-        // 构建系统消息
-        const systemMessage = `你是一个专业的数据分析师，需要分析以下文件的内容：\n${
-            fileContents.map(f => `- ${f.name} (${f.type})`).join('\n')
-        }\n\n请提供详细的分析报告，包括：\n1. 数据概览\n2. 关键发现\n3. 趋势分析\n4. 建议和策略`;
+        // 构建系统消息，只使用助手配置中的专属提示词
+        const systemMessage = assistant.config.systemPrompt || '';
 
-        // 构建用户消息
+        // 构建用户消息，只包含文件信息
         const userMessage = fileContents.map(f => 
-            `文件：${f.name}\n内容：${f.content}\n---\n`
-        ).join('\n');
+            `文件：${f.name}\n数据内容：\n${f.content}`
+        ).join('\n\n');
 
         // 调用AI服务
         let response;

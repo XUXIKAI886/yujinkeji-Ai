@@ -249,30 +249,69 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
   const [selectedMenu, setSelectedMenu] = useState('ai-tools');
   const [selectedAssistant, setSelectedAssistant] = useState(null);
   const [assistants, setAssistants] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  // 获取助手列表
   const fetchAssistants = async () => {
     try {
-      setLoading(true);
       const response = await aiAssistantService.getActiveAssistants();
+      console.log('获取到的助手列表原始数据:', response);
+      
       if (response.success) {
-        const mappedAssistants = response.data.map(assistant => ({
-          key: assistant.key,
-          icon: getAssistantIcon(assistant.type),
-          label: assistant.name,
-          description: assistant.description,
-          badge: assistant.isNew ? 'NEW' : undefined,
-          pointsCost: assistant.pointsCost
-        }));
-        setAssistants(mappedAssistants);
+        const activeAssistants = response.data.filter(assistant => assistant.isActive);
+        console.log('处理后的活跃助手列表:', activeAssistants.map(a => ({
+          id: a._id,
+          key: a.key,
+          name: a.name,
+          type: a.type,
+          description: a.description,
+          isActive: a.isActive
+        })));
+
+        // 确保每个助手都有正确的type字段
+        const processedAssistants = activeAssistants.map(assistant => {
+          const name = assistant.name?.toLowerCase() || '';
+          const description = assistant.description?.toLowerCase() || '';
+          let type = 'general';
+          
+          // 根据名称和描述确定类型
+          if (name.includes('客服') || description.includes('客服')) {
+            type = 'customer-service';
+          } else if (name.includes('数据') || name.includes('分析') || description.includes('数据') || description.includes('分析')) {
+            type = 'analysis';
+          } else if (name.includes('营销') || name.includes('品牌') || description.includes('营销') || description.includes('品牌')) {
+            type = 'business';
+          } else if (name.includes('聊天') || name.includes('对话') || description.includes('聊天') || description.includes('对话')) {
+            type = 'chat';
+          } else if (name.includes('优化') || name.includes('增长') || description.includes('优化') || description.includes('增长')) {
+            type = 'growth';
+          } else if (name.includes('文档') || name.includes('markdown') || description.includes('文档') || description.includes('markdown')) {
+            type = 'document';
+          } else if (name.includes('店铺') || name.includes('外卖') || description.includes('店铺') || description.includes('外卖')) {
+            type = 'shop';
+          } else if (name.includes('评价') || name.includes('好评') || description.includes('评价') || description.includes('好评')) {
+            type = 'message';
+          } else if (name.includes('搭配') || name.includes('菜品') || description.includes('搭配') || description.includes('菜品')) {
+            type = 'shopping';
+          } else if (name.includes('竞店') || name.includes('竞争') || description.includes('竞店') || description.includes('竞争')) {
+            type = 'team';
+          }
+          
+          return {
+            ...assistant,
+            type
+          };
+        });
+
+        console.log('添加类型后的助手列表:', processedAssistants.map(a => ({
+          name: a.name,
+          type: a.type
+        })));
+        
+        setAssistants(processedAssistants);
       } else {
         console.error('获取助手列表失败:', response.message);
       }
     } catch (error) {
       console.error('获取助手列表错误:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -281,31 +320,97 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
 
     // 订阅助手列表更新事件
     const unsubscribe = aiAssistantService.onActiveAssistantsUpdated((updatedAssistants) => {
-      const mappedAssistants = updatedAssistants.map(assistant => ({
-        key: assistant.key,
-        icon: getAssistantIcon(assistant.type),
-        label: assistant.name,
-        description: assistant.description,
-        badge: assistant.isNew ? 'NEW' : undefined,
-        pointsCost: assistant.pointsCost
-      }));
-      setAssistants(mappedAssistants);
+      console.log('收到助手列表更新:', updatedAssistants);
+      const activeAssistants = updatedAssistants.filter(assistant => assistant.isActive);
+      
+      // 处理助手类型
+      const processedAssistants = activeAssistants.map(assistant => {
+        const name = assistant.name?.toLowerCase() || '';
+        const description = assistant.description?.toLowerCase() || '';
+        let type = 'general';
+        
+        // 根据名称和描述确定类型
+        if (name.includes('客服') || description.includes('客服')) {
+          type = 'customer-service';
+        } else if (name.includes('数据') || name.includes('分析') || description.includes('数据') || description.includes('分析')) {
+          type = 'analysis';
+        } else if (name.includes('营销') || name.includes('品牌') || description.includes('营销') || description.includes('品牌')) {
+          type = 'business';
+        } else if (name.includes('聊天') || name.includes('对话') || description.includes('聊天') || description.includes('对话')) {
+          type = 'chat';
+        } else if (name.includes('优化') || name.includes('增长') || description.includes('优化') || description.includes('增长')) {
+          type = 'growth';
+        } else if (name.includes('文档') || name.includes('markdown') || description.includes('文档') || description.includes('markdown')) {
+          type = 'document';
+        } else if (name.includes('店铺') || name.includes('外卖') || description.includes('店铺') || description.includes('外卖')) {
+          type = 'shop';
+        } else if (name.includes('评价') || name.includes('好评') || description.includes('评价') || description.includes('好评')) {
+          type = 'message';
+        } else if (name.includes('搭配') || name.includes('菜品') || description.includes('搭配') || description.includes('菜品')) {
+          type = 'shopping';
+        } else if (name.includes('竞店') || name.includes('竞争') || description.includes('竞店') || description.includes('竞争')) {
+          type = 'team';
+        }
+        
+        return {
+          ...assistant,
+          type
+        };
+      });
+      
+      setAssistants(processedAssistants);
     });
 
     return () => unsubscribe();
   }, []);
 
-  // 根据助手类型获取对应图标
   const getAssistantIcon = (type) => {
-    const iconMap = {
-      'general': <CustomerServiceOutlined />,
-      'professional': <ShopOutlined />,
-      'customer-service': <MessageOutlined />,
-      'text': <FileTextOutlined />,
-      'analysis': <PieChartOutlined />,
-      'optimization': <RiseOutlined />
-    };
-    return iconMap[type] || <AppstoreOutlined />;
+    switch (type?.toLowerCase()) {
+      case 'customer':
+      case 'customer-service':
+        return <CustomerServiceOutlined />;
+      case 'business':
+      case 'shop':
+        return <ShopOutlined />;
+      case 'analysis':
+      case 'analytics':
+      case 'chart':
+        return <PieChartOutlined />;
+      case 'chat':
+      case 'message':
+      case 'conversation':
+        return <MessageOutlined />;
+      case 'growth':
+      case 'rise':
+      case 'trend':
+        return <RiseOutlined />;
+      case 'shopping':
+      case 'store':
+      case 'mall':
+        return <ShoppingOutlined />;
+      case 'research':
+      case 'search':
+      case 'find':
+        return <FileSearchOutlined />;
+      case 'report':
+      case 'stats':
+      case 'statistics':
+        return <BarChartOutlined />;
+      case 'team':
+      case 'group':
+      case 'users':
+        return <TeamOutlined />;
+      case 'document':
+      case 'file':
+      case 'text':
+        return <FileTextOutlined />;
+      case 'profile':
+      case 'user':
+      case 'person':
+        return <ProfileOutlined />;
+      default:
+        return <AppstoreOutlined />;
+    }
   };
 
   const menuItems = [
@@ -316,21 +421,21 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
       description: '点击查看详细介绍'
     },
     ...assistants.map(assistant => ({
-      key: `assistant-${assistant.key}`,
-      icon: assistant.icon,
-      label: assistant.label,
+      key: `assistant-${assistant.key || assistant._id}`,
+      icon: getAssistantIcon(assistant.type),
+      label: assistant.name || assistant.label,
       description: assistant.description,
-      badge: assistant.badge,
+      badge: assistant.isNew ? 'NEW' : undefined,
       pointsCost: assistant.pointsCost,
       onClick: () => {
         onSelectAssistant({
           ...assistant,
-          _id: assistant.key,
-          name: assistant.label,
-          type: 'assistant',
+          _id: assistant.key || assistant._id,
+          name: assistant.name || assistant.label,
+          type: assistant.type || 'assistant',
           pointsCost: assistant.pointsCost
         });
-        setSelectedAssistant(assistant.key);
+        setSelectedAssistant(assistant.key || assistant._id);
       }
     })),
     {

@@ -35,6 +35,10 @@ const aiAssistantService = {
             
             if (response.data.success) {
                 console.log('成功获取活跃AI助手:', response.data);
+                console.log('助手列表中的图标:', response.data.data.map(a => ({
+                    name: a.name,
+                    icon: a.icon
+                })));
                 // 触发活跃助手列表更新事件
                 assistantEvents.emit('activeAssistantsUpdated', response.data.data);
                 return {

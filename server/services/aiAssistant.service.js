@@ -12,11 +12,68 @@ class AiAssistantService {
         return `${nameSlug}-${timestamp}-${randomNum}`;
     }
 
+    // 根据助手名称生成图标URL
+    generateIconUrl(name) {
+        // 关键词映射到图标类型
+        const iconMappings = {
+            '客服': 'customer-service',
+            '服务': 'customer-service',
+            '品牌': 'tag',
+            '定位': 'tag',
+            '店': 'shop',
+            '商': 'shop',
+            '销售': 'shop',
+            '营销': 'rise',
+            '推广': 'rise',
+            '广告': 'rise',
+            '分析': 'pie-chart',
+            '数据': 'pie-chart',
+            '统计': 'pie-chart',
+            '创意': 'bulb',
+            '设计': 'bulb',
+            '创作': 'bulb',
+            '团队': 'team',
+            '人力': 'team',
+            '招聘': 'team',
+            '工具': 'tool',
+            '助手': 'tool',
+            '机器人': 'robot',
+            'AI': 'robot',
+            '智能': 'robot',
+            '评论': 'comment',
+            '反馈': 'comment',
+            '评价': 'comment',
+            '促销': 'gift',
+            '活动': 'gift',
+            '优惠': 'gift',
+            '体验': 'heart'
+        };
+
+        // 默认图标
+        let iconType = 'message';
+
+        // 遍历名称中的关键词，找到匹配的图标
+        for (const [keyword, icon] of Object.entries(iconMappings)) {
+            if (name.includes(keyword)) {
+                iconType = icon;
+                break;
+            }
+        }
+
+        // 返回图标URL
+        return `https://cdn.jsdelivr.net/npm/@ant-design/icons-svg/inline-svg/${iconType}.svg`;
+    }
+
     async createAssistant(assistantData) {
         try {
             // 生成唯一的key
             if (!assistantData.key) {
                 assistantData.key = this.generateKey(assistantData.name);
+            }
+
+            // 如果没有提供图标，自动生成
+            if (!assistantData.icon) {
+                assistantData.icon = this.generateIconUrl(assistantData.name);
             }
 
             // 确保 config.model 字段存在
@@ -56,6 +113,11 @@ class AiAssistantService {
                     action: 'update'
                 }
             });
+
+            // 如果更新了名称但没有提供新图标，自动生成新图标
+            if (updateData.name && !updateData.icon) {
+                updateData.icon = this.generateIconUrl(updateData.name);
+            }
 
             const assistant = await AiAssistant.findByIdAndUpdate(
                 id,
@@ -130,7 +192,16 @@ class AiAssistantService {
                 delete query.status;
             }
             
-            const assistants = await AiAssistant.find(query);
+            const assistants = await AiAssistant.find(query)
+                .select('name key description type pointsCost config isActive metadata stats icon')
+                .sort({ 'stats.totalCalls': -1 });
+
+            // 为没有图标的助手生成图标URL
+            assistants.forEach(assistant => {
+                if (!assistant.icon) {
+                    assistant.icon = this.generateIconUrl(assistant.name);
+                }
+            });
             
             logger.info('获取AI助手列表成功', {
                 data: {

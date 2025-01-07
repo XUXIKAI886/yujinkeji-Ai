@@ -12,6 +12,11 @@ const aiAssistantSchema = new mongoose.Schema({
         minlength: [2, 'AI助手名称至少需要2个字符'],
         maxlength: [50, 'AI助手名称不能超过50个字符']
     },
+    icon: {
+        type: String,
+        trim: true,
+        default: null
+    },
     key: {
         type: String,
         unique: true,

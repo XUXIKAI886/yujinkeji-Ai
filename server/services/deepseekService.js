@@ -13,17 +13,14 @@ class DeepseekService {
      */
     async chat(config, input, systemPrompt = '') {
         try {
-            // 处理API URL
-            let apiUrl = config.apiUrl;
-            if (!apiUrl.includes('/chat/completions')) {
-                apiUrl = `${apiUrl.replace(/\/+$/, '')}/chat/completions`;
+            // 处理API URL，确保正确的格式
+            let apiUrl = config.apiUrl || config.url;
+            if (!apiUrl.endsWith('/v1/chat/completions')) {
+                apiUrl = apiUrl.replace(/\/+$/, '') + '/v1/chat/completions';
             }
-
-            logger.debug('Deepseek API请求:', {
-                url: apiUrl,
-                input,
-                systemPrompt: systemPrompt ? '已设置' : '未设置'
-            });
+            
+            // 确保不会重复添加路径
+            apiUrl = apiUrl.replace(/\/chat\/completions\/v1\/chat\/completions$/, '/v1/chat/completions');
 
             const messages = [];
             if (systemPrompt) {
@@ -37,30 +34,34 @@ class DeepseekService {
                 content: input
             });
 
-            const response = await axios({
-                method: 'post',
+            const requestData = {
+                model: 'deepseek-chat',
+                messages: messages,
+                temperature: config.temperature || 0.7,
+                max_tokens: config.maxTokens || 2000,
+                stream: false
+            };
+
+            console.log('Deepseek API请求:', {
                 url: apiUrl,
+                messages: messages,
+                temperature: requestData.temperature,
+                max_tokens: requestData.max_tokens
+            });
+
+            const response = await axios.post(apiUrl, requestData, {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${config.apiKey}`,
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Accept-Charset': 'utf-8'
                 },
-                data: {
-                    model: 'deepseek-chat',  // 使用最新的DeepSeek-V3模型
-                    messages,
-                    temperature: parseFloat(config.temperature) || 0.7,
-                    max_tokens: parseInt(config.maxTokens) || 2000,
-                    stream: false
-                },
-                timeout: 60000 // 60秒超时
+                timeout: 60000, // 60秒超时
+                responseType: 'json',
+                responseEncoding: 'utf8'
             });
 
-            logger.debug('Deepseek API响应:', {
-                status: response.status,
-                statusText: response.statusText,
-                hasChoices: !!response.data?.choices
-            });
-
-            if (response.data?.choices?.[0]?.message?.content) {
+            if (response.data && response.data.choices && response.data.choices[0]) {
                 return {
                     success: true,
                     message: response.data.choices[0].message.content
@@ -105,10 +106,15 @@ class DeepseekService {
         if (!config.apiUrl) {
             throw new Error('缺少 Deepseek API URL');
         }
-        // 检查并修正API URL
-        if (!config.apiUrl.startsWith('https://api.deepseek.com')) {
-            throw new Error('无效的 Deepseek API URL，应以 https://api.deepseek.com 开头');
+        
+        // 检查并规范化API URL
+        let apiUrl = config.apiUrl;
+        if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
+            throw new Error('无效的 Deepseek API URL，必须以 http:// 或 https:// 开头');
         }
+        
+        // 移除末尾的斜杠
+        config.apiUrl = apiUrl.replace(/\/+$/, '');
     }
 }
 

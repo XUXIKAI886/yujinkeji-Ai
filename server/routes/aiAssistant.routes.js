@@ -16,15 +16,14 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
-        // 处理文件名
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const ext = path.extname(file.originalname);
-        // 使用Buffer处理中文文件名
-        const originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
-        const basename = path.basename(originalname, ext);
+        // 解码文件名
+        const decodedName = Buffer.from(file.originalname, 'binary').toString('utf8');
         // 生成安全的文件名
-        const filename = `${basename.replace(/[^a-zA-Z0-9]/g, '_')}-${uniqueSuffix}${ext}`;
-        cb(null, filename);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(decodedName);
+        const basename = path.basename(decodedName, ext);
+        const safeFilename = `${basename.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_')}-${uniqueSuffix}${ext}`;
+        cb(null, safeFilename);
     }
 });
 
@@ -35,6 +34,9 @@ const upload = multer({
         files: 5 // 最多5个文件
     },
     fileFilter: (req, file, cb) => {
+        // 解码MIME类型
+        file.originalname = Buffer.from(file.originalname, 'binary').toString('utf8');
+        
         const allowedTypes = [
             'application/pdf',
             'application/msword',

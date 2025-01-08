@@ -19,6 +19,7 @@ const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const aiAssistantRoutes = require('./routes/aiAssistant.routes');
 const userAssistantPermissionRoutes = require('./routes/userAssistantPermission.routes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
@@ -30,11 +31,61 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 根路径处理
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: '欢迎访问域锦科技 API 服务',
+        version: process.env.API_VERSION || '1.0.0',
+        endpoints: {
+            auth: '/api/auth',
+            users: '/api/users',
+            assistants: '/api/assistants',
+            upload: '/api/upload'
+        },
+        documentation: '访问 /api 路径获取更多API信息'
+    });
+});
+
+// API信息路径
+app.get('/api', (req, res) => {
+    res.json({
+        success: true,
+        message: 'API 接口信息',
+        version: process.env.API_VERSION || '1.0.0',
+        endpoints: {
+            auth: {
+                login: '/api/auth/login',
+                register: '/api/auth/register',
+                resetPassword: '/api/auth/reset-password'
+            },
+            users: {
+                me: '/api/users/me',
+                list: '/api/users',
+                points: '/api/users/:id/points'
+            },
+            assistants: {
+                list: '/api/assistants',
+                active: '/api/assistants/active',
+                chat: '/api/assistants/:key/chat',
+                analyze: '/api/assistants/:key/analyze'
+            },
+            upload: {
+                image: '/api/upload/image'
+            }
+        }
+    });
+});
+
 // 路由
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/assistants', aiAssistantRoutes);
+app.use('/api/upload', uploadRoutes);
 app.use('/api', userAssistantPermissionRoutes);
+
+// 静态文件服务
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 404处理
 app.use((req, res) => {

@@ -1,3 +1,2 @@
 #!/bin/bash
-
-node hello.js
+cd client && npm start

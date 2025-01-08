@@ -157,6 +157,12 @@ const MenuItem = styled.div`
     gap: 12px;
     color: ${props => props.className === 'selected' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)'};
     font-weight: ${props => props.className === 'selected' ? '600' : '500'};
+    
+    .badges {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
   }
 
   .menu-description {
@@ -253,20 +259,10 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
   const fetchAssistants = async () => {
     try {
       const response = await aiAssistantService.getActiveAssistants();
-      console.log('获取到的助手列表原始数据:', response);
-      
       if (response.success) {
         const activeAssistants = response.data.filter(assistant => assistant.isActive);
-        console.log('处理后的活跃助手列表:', activeAssistants.map(a => ({
-          id: a._id,
-          key: a.key,
-          name: a.name,
-          type: a.type,
-          description: a.description,
-          isActive: a.isActive
-        })));
-
-        // 确保每个助手都有正确的type字段
+        
+        // 处理助手类型
         const processedAssistants = activeAssistants.map(assistant => {
           const name = assistant.name?.toLowerCase() || '';
           const description = assistant.description?.toLowerCase() || '';
@@ -300,15 +296,8 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
             type
           };
         });
-
-        console.log('添加类型后的助手列表:', processedAssistants.map(a => ({
-          name: a.name,
-          type: a.type
-        })));
         
         setAssistants(processedAssistants);
-      } else {
-        console.error('获取助手列表失败:', response.message);
       }
     } catch (error) {
       console.error('获取助手列表错误:', error);
@@ -320,7 +309,6 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
 
     // 订阅助手列表更新事件
     const unsubscribe = aiAssistantService.onActiveAssistantsUpdated((updatedAssistants) => {
-      console.log('收到助手列表更新:', updatedAssistants);
       const activeAssistants = updatedAssistants.filter(assistant => assistant.isActive);
       
       // 处理助手类型
@@ -423,20 +411,11 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
     ...assistants.map(assistant => ({
       key: `assistant-${assistant.key || assistant._id}`,
       icon: getAssistantIcon(assistant.type),
-      label: assistant.name || assistant.label,
+      label: assistant.name,
       description: assistant.description,
       badge: assistant.isNew ? 'NEW' : undefined,
       pointsCost: assistant.pointsCost,
-      onClick: () => {
-        onSelectAssistant({
-          ...assistant,
-          _id: assistant.key || assistant._id,
-          name: assistant.name || assistant.label,
-          type: assistant.type || 'assistant',
-          pointsCost: assistant.pointsCost
-        });
-        setSelectedAssistant(assistant.key || assistant._id);
-      }
+      type: assistant.type
     })),
     {
       type: 'category',
@@ -457,21 +436,73 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
   const handleMenuClick = (item) => {
     if (item.onClick) {
       item.onClick();
+      return;
     }
     setSelectedMenu(item.key);
     
     // 如果是选择AI助手
-    const assistant = assistants.find(a => `assistant-${a.key}` === item.key);
+    const assistantKey = item.key.replace('assistant-', '');
+    const assistant = assistants.find(a => (a.key || a._id) === assistantKey);
     if (assistant) {
-      setSelectedAssistant(assistant.key);
+      setSelectedAssistant(assistantKey);
       onSelectAssistant({
         ...assistant,
-        _id: assistant.key,
-        name: assistant.label,
-        type: 'assistant',
-        pointsCost: assistant.pointsCost
+        _id: assistant._id,
+        key: assistant.key,
+        name: assistant.name,
+        type: assistant.type || 'assistant',
+        pointsCost: assistant.pointsCost,
+        description: assistant.description
       });
     }
+  };
+
+  // 添加HOT助手列表
+  const hotAssistants = [
+    '外卖竞店数据分析',
+    '外卖店铺数据分析',
+    '外卖商圈调研',
+    '外卖店铺诊断'
+  ];
+
+  const isHotAssistant = (name) => {
+    return hotAssistants.some(hotName => name.includes(hotName));
+  };
+
+  const renderMenuItem = (item) => {
+    if (item.type === 'category') {
+      return !collapsed && <CategoryTitle key={item.title}>{item.title}</CategoryTitle>;
+    }
+    
+    const isSelected = item.key === selectedMenu || 
+      (item.key.startsWith('assistant-') && selectedAssistant === item.key.replace('assistant-', ''));
+
+    return (
+      <MenuItem
+        key={item.key}
+        className={isSelected ? 'selected' : ''}
+        onClick={() => handleMenuClick(item)}
+        collapsed={collapsed}
+      >
+        <div className="menu-header">
+          {item.icon}
+          {!collapsed && (
+            <>
+              <span>{item.label}</span>
+              <div className="badges">
+                {isHotAssistant(item.label) && <HotBadge>HOT</HotBadge>}
+                {item.badge === 'NEW' && <NewBadge>NEW</NewBadge>}
+              </div>
+            </>
+          )}
+        </div>
+        {!collapsed && item.description && (
+          <div className="menu-description">
+            {item.description}
+          </div>
+        )}
+      </MenuItem>
+    );
   };
 
   return (
@@ -481,39 +512,7 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
         {!collapsed && '域锦AI平台'}
       </Logo>
       <MenuSection>
-        {menuItems.map(item => {
-          if (item.type === 'category') {
-            return !collapsed && <CategoryTitle key={item.title}>{item.title}</CategoryTitle>;
-          }
-          
-          const isSelected = item.key === selectedMenu || 
-            (item.key.startsWith('assistant-') && selectedAssistant === item.key.replace('assistant-', ''));
-
-          return (
-            <MenuItem
-              key={item.key}
-              className={isSelected ? 'selected' : ''}
-              onClick={() => handleMenuClick(item)}
-              collapsed={collapsed}
-            >
-              <div className="menu-header">
-                {item.icon}
-                {!collapsed && (
-                  <>
-                    {item.label}
-                    {item.badge === 'NEW' && <NewBadge>NEW</NewBadge>}
-                    {item.badge === 'HOT' && <HotBadge>HOT</HotBadge>}
-                  </>
-                )}
-              </div>
-              {!collapsed && item.description && (
-                <div className="menu-description">
-                  {item.description}
-                </div>
-              )}
-            </MenuItem>
-          );
-        })}
+        {menuItems.map(item => renderMenuItem(item))}
       </MenuSection>
     </SidebarContainer>
   );

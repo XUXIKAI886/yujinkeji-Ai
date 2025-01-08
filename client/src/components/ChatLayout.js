@@ -9,11 +9,12 @@ import {
   DesktopOutlined,
   ClockCircleOutlined,
   TrophyOutlined,
-  WechatOutlined
+  WechatOutlined,
+  ShareAltOutlined
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
-import ChatWindow from './ChatWindow';
+import ChatWindow from './ChatWindow/index';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserPointsHistory } from '../services/userService';
 import http from '../utils/http';
@@ -360,6 +361,47 @@ const ServiceButton = styled(ActionButton)`
   }
 `;
 
+const MindMapButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
+              0 4px 8px rgba(22, 163, 74, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: white;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3),
+                0 8px 24px rgba(22, 163, 74, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .anticon {
+    color: white;
+    opacity: 0.95;
+    font-size: 20px;
+    
+    svg {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+  }
+
+  &:hover .anticon {
+    color: white;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
 const ChatLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState(null);
@@ -514,6 +556,10 @@ const ChatLayout = () => {
     setCollapsed(!collapsed);
   };
 
+  const handleMindMapClick = () => {
+    window.open('/mindmap', '_blank');
+  };
+
   return (
     <StyledLayout>
       <StyledSider
@@ -542,6 +588,9 @@ const ChatLayout = () => {
             />
           </HeaderLeft>
           <HeaderRight>
+            <MindMapButton type="default" icon={<ShareAltOutlined />} onClick={handleMindMapClick}>
+              思维导图
+            </MindMapButton>
             <ServiceButton type="default" icon={<WechatOutlined />}>
               微信客服
             </ServiceButton>

@@ -10,8 +10,6 @@ const authService = {
         password
       });
 
-      console.log('Login response:', response.data);
-
       // 检查响应状态
       if (!response.data.success) {
         throw new Error(response.data.message || '登录失败');
@@ -27,7 +25,6 @@ const authService = {
       localStorage.setItem('user', JSON.stringify(user));
       return { token, user };
     } catch (error) {
-      console.error('Login error details:', error);
       authService.removeAuthHeader();
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
@@ -42,7 +39,6 @@ const authService = {
       const response = await http.post(`/auth/register`, userData);
       return response.data;
     } catch (error) {
-      console.error('Register error:', error);
       throw error;
     }
   },

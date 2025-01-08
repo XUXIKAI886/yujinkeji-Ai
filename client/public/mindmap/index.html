@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思维导图</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- 添加完整的依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.3"></script>
+    <script>
+        console.log('页面开始加载');
+        window.onerror = function(msg, url, line) {
+            console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
+        };
+    </script>
+</head>
+<body>
+    <!-- 简单的顶部栏 -->
+    <div class="nav-header">
+        <h1>域锦科技 AI 助手</h1>
+        <button class="back-button" onclick="window.location.href='https://pzfhxwuiuzde.sealoshzh.site/chat'">返回聊天</button>
+    </div>
+
+    <div class="container">
+        <div class="toolbar">
+            <input type="file" id="fileInput" accept=".md,.txt">
+            <button onclick="document.getElementById('fileInput').click()">打开文件</button>
+            <button id="exportBtn">导出 SVG</button>
+            <button id="exampleBtn">加载示例</button>
+        </div>
+        <div class="content">
+            <div class="editor">
+                <textarea id="markdown-input" placeholder="在这里输入 Markdown 文本..."></textarea>
+            </div>
+            <div class="preview">
+                <button id="fullscreenBtn" class="fullscreen-btn">全屏</button>
+                <svg id="markmap"></svg>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 确保 markmap 对象已加载
+        console.log('markmap 对象:', window.markmap);
+        window.transformer = new window.markmap.Transformer();
+    </script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

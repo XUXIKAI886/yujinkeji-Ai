@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
           setUser(currentUser);
         }
       } catch (error) {
-        console.error('认证检查失败:', error);
+        // 保留错误处理，但不打印日志
       } finally {
         setLoading(false);
       }
@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error('登录响应格式错误');
       }
     } catch (error) {
-      console.error('Login error:', error);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       authService.removeAuthHeader();

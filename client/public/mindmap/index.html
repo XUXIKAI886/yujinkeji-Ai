@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>思维导图</title>
+    <title>域锦思维导图</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- 添加完整的依赖 -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.3"></script>
+    <script src="config.js"></script>
     <script>
+        // 检查用户登录状态
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('请先登录后再使用思维导图功能');
+            window.location.href = '/login';
+        }
+
         console.log('页面开始加载');
         window.onerror = function(msg, url, line) {
             console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
@@ -19,8 +27,11 @@
 <body>
     <!-- 简单的顶部栏 -->
     <div class="nav-header">
-        <h1>域锦科技 AI 助手</h1>
-        <button class="back-button" onclick="window.location.href='https://pzfhxwuiuzde.sealoshzh.site/chat'">返回聊天</button>
+        <h1>域锦思维导图</h1>
+        <div class="nav-header-right">
+            <div class="screenshot-tip">全屏查看思维导图，请按键盘的 Ctrl+Shift+S 截图</div>
+            <button class="back-button" onclick="window.location.href='/chat'">返回聊天</button>
+        </div>
     </div>
 
     <div class="container">
@@ -29,6 +40,7 @@
             <button onclick="document.getElementById('fileInput').click()">打开文件</button>
             <button id="exportBtn">导出 SVG</button>
             <button id="exampleBtn">加载示例</button>
+            <span class="vip-tip">仅限域锦科技会员才能免费使用</span>
         </div>
         <div class="content">
             <div class="editor">

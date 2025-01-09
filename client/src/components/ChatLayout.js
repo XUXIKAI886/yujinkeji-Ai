@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Layout, Badge, Tooltip, Button, Input, Modal, Table, message } from 'antd';
+import { Layout, Badge, Tooltip, Button, Input, Modal, Table, message, Avatar } from 'antd';
 // eslint-disable-next-line no-unused-vars
 import { 
   MenuFoldOutlined, 
@@ -10,7 +10,10 @@ import {
   ClockCircleOutlined,
   TrophyOutlined,
   WechatOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  FileTextOutlined,
+  BarChartOutlined,
+  PieChartOutlined
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
@@ -18,6 +21,7 @@ import ChatWindow from './ChatWindow/index';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserPointsHistory } from '../services/userService';
 import http from '../utils/http';
+import { motion } from 'framer-motion';
 
 const { Header, Sider, Content } = Layout;
 
@@ -183,47 +187,39 @@ const ActionButton = styled(Button)`
   padding: 0 20px;
   border-radius: 12px;
   border: none;
-  color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(135deg, #e9f5f1 0%, #f4faf8 100%);
+  color: #2c3e50;
+  box-shadow: 0 2px 4px rgba(233, 245, 241, 0.2),
+              0 4px 8px rgba(244, 250, 248, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 15;
 
   &:hover {
-    color: white !important;
-    background: rgba(255, 255, 255, 0.15) !important;
+    color: #2c3e50 !important;
+    background: linear-gradient(135deg, #d7efe9 0%, #e2f2ee 100%) !important;
     transform: translateY(-1px);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-                0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(233, 245, 241, 0.3),
+                0 8px 24px rgba(244, 250, 248, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
                 
     .anticon {
-      color: white;
+      color: #2c3e50;
       opacity: 1;
       transform: scale(1.1);
     }
   }
 
-  &:active {
-    transform: translateY(0);
-    background: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
   .anticon {
     font-size: 20px;
     transition: all 0.3s ease;
-    color: rgba(255, 255, 255, 0.85);
-    
-    svg {
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    }
+    color: #2c3e50;
   }
 
   &:has(.ant-badge) {
@@ -239,41 +235,30 @@ const ActionButton = styled(Button)`
 `;
 
 const DownloadButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
+  background: linear-gradient(135deg, #dcefe9 0%, #e9f5f1 100%);
+  color: #2c3e50;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2),
-              0 4px 8px rgba(37, 99, 235, 0.1),
+  box-shadow: 0 2px 4px rgba(220, 239, 233, 0.2),
+              0 4px 8px rgba(233, 245, 241, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: white;
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #2c3e50;
+    background: linear-gradient(135deg, #cae7df 0%, #d7efe9 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3),
-                0 8px 24px rgba(37, 99, 235, 0.15),
+    box-shadow: 0 4px 12px rgba(220, 239, 233, 0.3),
+                0 8px 24px rgba(233, 245, 241, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
-  &:active {
-    transform: translateY(0);
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
   .anticon {
-    color: white;
+    color: #2c3e50;
     opacity: 0.95;
     font-size: 20px;
-    
-    svg {
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    }
   }
 
   &:hover .anticon {
-    color: white;
+    color: #2c3e50;
     opacity: 1;
     transform: scale(1.1);
   }
@@ -281,15 +266,15 @@ const DownloadButton = styled(ActionButton)`
 
 const PointsBadge = styled(Badge)`
   .ant-badge-count {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
+    background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+    color: #2c3e50;
     font-weight: 600;
     font-size: 14px;
     padding: 0 8px;
     height: 24px;
     line-height: 24px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2);
     min-width: 60px;
     text-align: center;
     
@@ -362,43 +347,178 @@ const ServiceButton = styled(ActionButton)`
 `;
 
 const MindMapButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color: white;
+  background: linear-gradient(135deg, #c2e3d9 0%, #cfe9e1 100%);
+  color: #2c3e50;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
-              0 4px 8px rgba(22, 163, 74, 0.1),
+  box-shadow: 0 2px 4px rgba(194, 227, 217, 0.2),
+              0 4px 8px rgba(207, 233, 225, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: white;
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: #2c3e50;
+    background: linear-gradient(135deg, #b0dbcf 0%, #bde1d7 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3),
-                0 8px 24px rgba(22, 163, 74, 0.15),
+    box-shadow: 0 4px 12px rgba(194, 227, 217, 0.3),
+                0 8px 24px rgba(207, 233, 225, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
-  &:active {
-    transform: translateY(0);
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
   .anticon {
-    color: white;
+    color: #2c3e50;
     opacity: 0.95;
     font-size: 20px;
-    
-    svg {
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    }
   }
 
   &:hover .anticon {
-    color: white;
+    color: #2c3e50;
     opacity: 1;
     transform: scale(1.1);
+  }
+`;
+
+const DocsButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #cfe9e1 0%, #dcefe9 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(207, 233, 225, 0.2),
+              0 4px 8px rgba(220, 239, 233, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #bde1d7 0%, #cae7df 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(207, 233, 225, 0.3),
+                0 8px 24px rgba(220, 239, 233, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const VisualizationButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const ReviewAnalysisButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #b5ddd1 0%, #c2e3d9 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(181, 221, 209, 0.2),
+              0 4px 8px rgba(194, 227, 217, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #a3d4c5 0%, #b0dbcf 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(181, 221, 209, 0.3),
+                0 8px 24px rgba(194, 227, 217, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const UserContainer = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  box-shadow: 0 2px 8px rgba(148, 194, 189, 0.25),
+              0 4px 12px rgba(181, 221, 209, 0.15),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+`;
+
+const UserAvatar = styled(Avatar)`
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #ffffff 0%, #f4faf8 100%);
+  color: #2c3e50;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(148, 194, 189, 0.2);
+  font-size: 18px;
+  font-weight: 600;
+  z-index: 2;
+  
+  .anticon {
+    font-size: 20px;
+    color: #2c3e50;
   }
 `;
 
@@ -557,7 +677,23 @@ const ChatLayout = () => {
   };
 
   const handleMindMapClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用思维导图功能');
+      return;
+    }
     window.open('/mindmap', '_blank');
+  };
+
+  const handleDocsClick = () => {
+    window.open('https://ev42nm8mkac.feishu.cn/wiki/KJEhwhvWvilhe2k6COjc7KR4nxe?from=from_copylink', '_blank');
+  };
+
+  const handleVisualizationClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用数据可视化功能');
+      return;
+    }
+    window.open('/visualization', '_blank');
   };
 
   return (
@@ -588,9 +724,18 @@ const ChatLayout = () => {
             />
           </HeaderLeft>
           <HeaderRight>
+            <VisualizationButton type="default" icon={<BarChartOutlined />} onClick={handleVisualizationClick}>
+              数据可视化
+            </VisualizationButton>
+            <ReviewAnalysisButton type="default" icon={<PieChartOutlined />} onClick={() => window.open('/takeout-review-analysis', '_blank')}>
+              外卖评价分析
+            </ReviewAnalysisButton>
             <MindMapButton type="default" icon={<ShareAltOutlined />} onClick={handleMindMapClick}>
               思维导图
             </MindMapButton>
+            <DocsButton type="default" icon={<FileTextOutlined />} onClick={handleDocsClick}>
+              使用文档
+            </DocsButton>
             <ServiceButton type="default" icon={<WechatOutlined />}>
               微信客服
             </ServiceButton>

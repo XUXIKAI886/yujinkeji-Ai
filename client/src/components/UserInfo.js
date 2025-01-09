@@ -72,12 +72,6 @@ const UserInfoComponent = () => {
 
   const menu = {
     items: [
-      {
-        key: 'profile',
-        icon: <UserOutlined />,
-        label: '个人资料',
-        onClick: () => navigate('/profile')
-      },
       ...(user?.role === 'admin' ? [{
         key: 'admin',
         icon: <DashboardOutlined />,
@@ -85,22 +79,10 @@ const UserInfoComponent = () => {
         onClick: () => navigate('/admin')
       }] : []),
       {
-        key: 'points',
-        icon: <CrownOutlined />,
-        label: '积分明细',
-        onClick: () => navigate('/points')
-      },
-      {
-        key: 'settings',
-        icon: <SettingOutlined />,
-        label: '系统设置',
-        onClick: () => navigate('/settings')
-      },
-      {
         key: 'help',
         icon: <QuestionCircleOutlined />,
         label: '帮助中心',
-        onClick: () => navigate('/help')
+        onClick: () => window.open('https://ev42nm8mkac.feishu.cn/wiki/KJEhwhvWvilhe2k6COjc7KR4nxe', '_blank')
       },
       { type: 'divider' },
       {

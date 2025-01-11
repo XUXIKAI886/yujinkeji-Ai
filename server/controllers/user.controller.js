@@ -533,24 +533,67 @@ exports.updateUserStatus = async (req, res) => {
         const { enabled } = req.body;
         const userId = req.params.id;
 
-        const user = await User.findByIdAndUpdate(
-            userId,
-            { enabled },
-            { new: true }
-        ).select('-password');
-
+        // 查找用户
+        const user = await User.findById(userId);
         if (!user) {
+            logger.warn('更新状态失败: 用户不存在', { userId });
             return res.status(404).json({
                 success: false,
                 message: '用户不存在'
             });
         }
 
+        logger.info(`尝试${enabled ? '启用' : '禁用'}用户:`, {
+            userId,
+            username: user.username,
+            email: user.email,
+            currentStatus: user.enabled ? '启用' : '禁用',
+            targetStatus: enabled ? '启用' : '禁用',
+            operatorId: req.user.id,
+            operationTime: new Date().toISOString()
+        });
+
+        // 防止禁用管理员账号
+        if (user.role === 'admin' && !enabled) {
+            logger.warn('尝试禁用管理员账号被拒绝:', {
+                userId,
+                operatorId: req.user.id,
+                userEmail: user.email
+            });
+            return res.status(403).json({
+                success: false,
+                message: '不能禁用管理员账号'
+            });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { enabled },
+            { new: true }
+        ).select('-password');
+
+        logger.info(`用户${enabled ? '启用' : '禁用'}成功:`, {
+            userId,
+            username: user.username,
+            email: user.email,
+            oldStatus: user.enabled ? '启用' : '禁用',
+            newStatus: enabled ? '启用' : '禁用',
+            operatorId: req.user.id,
+            operationTime: new Date().toISOString()
+        });
+
         res.json({
             success: true,
-            data: user
+            data: updatedUser
         });
     } catch (error) {
+        logger.error('更新用户状态失败:', {
+            error: error.message,
+            userId: req.params.id,
+            stack: error.stack,
+            operatorId: req.user.id,
+            operationTime: new Date().toISOString()
+        });
         res.status(500).json({
             success: false,
             message: '更新用户状态失败'
@@ -716,5 +759,61 @@ exports.checkUserStatus = async (req, res) => {
     } catch (error) {
         logger.error('检查用户状态失败:', error);
         res.status(500).json(ApiResponse.error('检查用户状态失败'));
+    }
+};
+
+/**
+ * 删除用户
+ */
+exports.deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        logger.info('尝试删除用户:', { userId, adminId: req.user.id });
+
+        // 检查用户是否存在
+        const user = await User.findById(userId);
+        if (!user) {
+            logger.warn('删除失败: 用户不存在', { userId });
+            return res.status(404).json({
+                success: false,
+                message: '用户不存在'
+            });
+        }
+
+        // 防止删除管理员账号
+        if (user.role === 'admin') {
+            logger.warn('删除失败: 不能删除管理员账号', { userId });
+            return res.status(403).json({
+                success: false,
+                message: '不能删除管理员账号'
+            });
+        }
+
+        // 删除用户
+        await User.findByIdAndDelete(userId);
+        
+        // 删除相关的积分历史记录
+        await PointsHistory.deleteMany({ user: userId });
+
+        logger.info('用户删除成功', {
+            deletedUserId: userId,
+            adminId: req.user.id
+        });
+
+        res.json({
+            success: true,
+            message: '用户删除成功'
+        });
+    } catch (error) {
+        logger.error('删除用户失败:', {
+            error: error.message,
+            userId: req.params.id,
+            adminId: req.user.id,
+            stack: error.stack
+        });
+        res.status(500).json({
+            success: false,
+            message: '删除用户失败'
+        });
     }
 }; 

@@ -23,5 +23,6 @@ router.post('/', userController.createUser);
 router.put('/:id', userController.updateUser);
 router.put('/:id/status', userController.updateUserStatus);
 router.put('/:id/points', userController.updatePoints);
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router; 

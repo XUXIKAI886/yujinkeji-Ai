@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Switch, message, Space, Tooltip, Spin } from 'antd';
-import { PlusOutlined, EditOutlined, StopOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Form, Input, InputNumber, Switch, message, Space, Tooltip, Spin, Popconfirm } from 'antd';
+import { PlusOutlined, EditOutlined, StopOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import * as userService from '../../services/userService';
 import { getUserAssistantPermissions, updateUserAssistantPermission } from '../../services/userAssistantPermissionService';
@@ -112,9 +112,13 @@ const UserManagement = () => {
   // 处理禁用/启用用户
   const handleToggleStatus = async (userId, enabled) => {
     try {
-      await userService.updateUserStatus(userId, enabled);
-      message.success(enabled ? '用户已启用' : '用户已禁用');
-      fetchUsers();
+      const response = await userService.updateUserStatus(userId, enabled);
+      if (response.success) {
+        message.success(enabled ? '用户已启用' : '用户已禁用');
+        fetchUsers(); // 刷新用户列表
+      } else {
+        message.error(response.message || '操作失败');
+      }
     } catch (error) {
       message.error('操作失败');
     }
@@ -315,6 +319,21 @@ const UserManagement = () => {
     });
   };
 
+  // 添加删除用户的处理函数
+  const handleDeleteUser = async (userId) => {
+    try {
+      const response = await userService.deleteUser(userId);
+      if (response.success) {
+        message.success(response.message);
+        fetchUsers(); // 刷新用户列表
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error('删除用户失败');
+    }
+  };
+
   const columns = [
     {
       title: '用户名',
@@ -392,14 +411,42 @@ const UserManagement = () => {
               }}
             />
           </Tooltip>
-          <Tooltip title={record.enabled ? '禁用' : '启用'}>
-            <Button
-              type="link"
-              icon={<StopOutlined />}
-              danger={record.enabled}
-              onClick={() => handleToggleStatus(record._id, !record.enabled)}
-            />
-          </Tooltip>
+          {record.role !== 'admin' ? (
+            <>
+              <Tooltip title={record.enabled ? '禁用' : '启用'}>
+                <Button
+                  type="link"
+                  icon={<StopOutlined />}
+                  danger={record.enabled}
+                  onClick={() => handleToggleStatus(record._id, !record.enabled)}
+                />
+              </Tooltip>
+              <Tooltip title="删除">
+                <Popconfirm
+                  title="确定要删除此用户吗？"
+                  description="删除后无法恢复，用户的所有数据都将被清除。"
+                  onConfirm={() => handleDeleteUser(record._id)}
+                  okText="确定"
+                  cancelText="取消"
+                  okButtonProps={{ danger: true }}
+                >
+                  <Button
+                    type="link"
+                    icon={<DeleteOutlined />}
+                    danger
+                  />
+                </Popconfirm>
+              </Tooltip>
+            </>
+          ) : (
+            <Tooltip title="管理员账号">
+              <Button
+                type="link"
+                icon={<StopOutlined />}
+                disabled
+              />
+            </Tooltip>
+          )}
         </Space>
       ),
     },

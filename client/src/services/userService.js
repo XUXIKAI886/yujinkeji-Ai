@@ -52,9 +52,9 @@ export const updateUser = async (userId, userData) => {
 };
 
 // 更新用户状态
-export const updateUserStatus = async (userId, status) => {
+export const updateUserStatus = async (userId, enabled) => {
     try {
-        const response = await http.put(`/users/${userId}/status`, { status });
+        const response = await http.put(`/users/${userId}/status`, { enabled });
         return {
             success: true,
             data: response.data.data,
@@ -127,6 +127,22 @@ export const getUserStats = async () => {
         return {
             success: false,
             message: error.response?.data?.message || '获取用户统计信息失败'
+        };
+    }
+};
+
+// 删除用户
+export const deleteUser = async (userId) => {
+    try {
+        const response = await http.delete(`/users/${userId}`);
+        return {
+            success: true,
+            message: response.data.message || '删除用户成功'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response?.data?.message || '删除用户失败'
         };
     }
 }; 

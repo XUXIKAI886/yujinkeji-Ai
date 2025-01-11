@@ -7,38 +7,37 @@ const WelcomeContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
-    text-align: center;
-    min-height: 100%;
-    background: #f9fafb;
-    flex: 1;
-    overflow-y: auto;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    box-sizing: border-box;
 `;
 
 const Title = styled.h1`
-    font-size: 2.5rem;
-    color: #1f2937;
-    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1rem;
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    margin-top: -2rem;
 `;
 
 const Description = styled.p`
-    font-size: 1.25rem;
-    color: #4b5563;
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
     margin-bottom: 2rem;
-    max-width: 800px;
+    line-height: 1.6;
 `;
 
 const FeaturesGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     width: 100%;
-    max-width: 1200px;
-    margin-top: 2rem;
-    padding: 0 20px;
+    margin: 3rem 0;
 `;
 
 const FeatureCard = styled.div`
@@ -68,6 +67,86 @@ const FeatureTitle = styled.h3`
 const FeatureDescription = styled.p`
     color: #6b7280;
     line-height: 1.5;
+`;
+
+const CompanyIntro = styled.div`
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 16px; 
+        padding: 4px;
+        background: linear-gradient(
+            300deg,
+            #2563eb,
+            #3b82f6,
+            #60a5fa,
+            #93c5fd,
+            #2563eb
+        );
+        background-size: 200% 200%;
+        animation: borderRotate 4s linear infinite;
+        -webkit-mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.8;
+    }
+
+    @keyframes borderRotate {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        transform: translateX(-100%);
+        transition: 0.5s;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover::after {
+        transform: translateX(100%);
+    }
+
+    p {
+        color: #333;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        text-align: justify;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
 `;
 
 const Welcome = () => {
@@ -116,6 +195,12 @@ const Welcome = () => {
             <Description style={{ marginTop: '3rem', fontSize: '1rem', color: '#6b7280' }}>
                 点击左侧的AI助手列表，选择一个助手开始对话吧！
             </Description>
+
+            <CompanyIntro>
+                <p>
+                    域锦科技以创新为魂，以智能为翼。我们深谙每位用户的独特需求，精心打造个性化解决方案。通过尖端AI技术，我们致力于全方位提升用户工作效率，释放更大商业价值。从个人创业者到大型企业，从传统行业到新兴领域，我们的产品设计始终秉持着简约直观的理念，让每个用户都能轻松驾驭科技的力量，开启智能化运营新篇章。你有任何需求，可以随时联系我们！
+                </p>
+            </CompanyIntro>
         </WelcomeContainer>
     );
 };

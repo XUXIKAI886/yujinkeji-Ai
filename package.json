@@ -40,7 +40,8 @@
     "uuid": "^11.0.4",
     "winston": "^3.17.0",
     "ws": "^8.18.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "turndown": "^7.1.2"
   },
   "devDependencies": {
     "eslint": "^8.38.0",

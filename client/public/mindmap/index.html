@@ -1,61 +1,229 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>域锦思维导图</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- 添加完整的依赖 -->
+    <!-- Layui CSS -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.9.0/css/layui.css">
+    <!-- 思维导图依赖 -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.3"></script>
     <script src="config.js"></script>
+    <style>
+        /* 覆盖 Layui 默认样式 */
+        .layui-layout-admin .layui-body {
+            bottom: 0;
+            background-color: #fff;
+        }
+        .layui-layout-admin .layui-header {
+            background-color: #23262E;
+        }
+        .layui-card {
+            background-color: #fff;
+        }
+        .content {
+            display: flex;
+            height: calc(100vh - 120px);
+            background-color: #fff;
+        }
+        .editor {
+            width: 40%;
+            padding: 15px;
+            border-right: 1px solid #eee;
+            background-color: #fff;
+        }
+        .preview {
+            width: 60%;
+            position: relative;
+            background-color: #fff;
+        }
+        #markdown-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            padding: 10px;
+            background-color: #fff;
+        }
+        #markmap {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+        }
+        .fullscreen-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 1000;
+        }
+        .screenshot-tip {
+            color: #FFB800;
+            font-size: 14px;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        /* 全屏模式下的样式 */
+        .preview:-webkit-full-screen {
+            background-color: #fff;
+            width: 100vw;
+            height: 100vh;
+        }
+        .preview:-moz-full-screen {
+            background-color: #fff;
+            width: 100vw;
+            height: 100vh;
+        }
+        .preview:fullscreen {
+            background-color: #fff;
+            width: 100vw;
+            height: 100vh;
+        }
+        /* SVG 样式 */
+        #markmap g {
+            background-color: #fff;
+        }
+        .layui-header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .layui-logo {
+            flex: 0 0 200px;
+        }
+        .vip-tip-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .vip-tip {
+            color: #FFB800;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .layui-layout-right {
+            flex: 0 0 auto;
+            margin-left: auto;
+        }
+        .layui-nav.layui-layout-right {
+            flex: 0 0 auto;
+            background: none;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item {
+            background: none;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item a.layui-btn {
+            height: 32px;
+            line-height: 32px;
+            padding: 0 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-top: 14px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item a.layui-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div class="layui-header">
+            <div class="layui-logo">域锦思维导图</div>
+            <div class="vip-tip-container">
+                <span class="vip-tip">仅限域锦科技会员才能免费使用</span>
+            </div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="/chat" class="layui-btn layui-btn-primary">返回聊天</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="layui-body">
+            <div class="layui-fluid">
+                <!-- 工具栏 -->
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div class="layui-btn-container">
+                            <input type="file" id="fileInput" accept=".md,.txt" style="display: none;">
+                            <button class="layui-btn" onclick="document.getElementById('fileInput').click()">
+                                <i class="layui-icon">&#xe67c;</i> 打开文件
+                            </button>
+                            <button class="layui-btn" id="exportBtn">
+                                <i class="layui-icon">&#xe67d;</i> 导出 SVG
+                            </button>
+                            <button class="layui-btn" id="exampleBtn">
+                                <i class="layui-icon">&#xe64c;</i> 加载示例
+                            </button>
+                            <span class="screenshot-tip">右侧思维导图请点击全屏后，按Win+Shift+S截图</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 编辑器和预览区域 -->
+                <div class="content">
+                    <div class="editor">
+                        <textarea id="markdown-input" class="layui-textarea" placeholder="在这里输入 Markdown 文本..."></textarea>
+                    </div>
+                    <div class="preview">
+                        <button id="fullscreenBtn" class="layui-btn layui-btn-primary fullscreen-btn">
+                            <i class="layui-icon">&#xe622;</i>
+                        </button>
+                        <svg id="markmap"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layui JS -->
+    <script src="https://cdn.staticfile.org/layui/2.9.0/layui.js"></script>
     <script>
         // 检查用户登录状态
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('请先登录后再使用思维导图功能');
-            window.location.href = '/login';
+            layer.msg('请先登录后再使用思维导图功能', {icon: 2}, function(){
+                window.location.href = '/login';
+            });
         }
 
-        console.log('页面开始加载');
-        window.onerror = function(msg, url, line) {
-            console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
-        };
-    </script>
-</head>
-<body>
-    <!-- 简单的顶部栏 -->
-    <div class="nav-header">
-        <h1>域锦思维导图</h1>
-        <div class="nav-header-right">
-            <div class="screenshot-tip">全屏查看思维导图，请按键盘的 Ctrl+Shift+S 截图</div>
-            <button class="back-button" onclick="window.location.href='/chat'">返回聊天</button>
-        </div>
-    </div>
+        layui.use(['layer'], function(){
+            var layer = layui.layer;
+            
+            // 确保 markmap 对象已加载
+            console.log('markmap 对象:', window.markmap);
+            window.transformer = new window.markmap.Transformer();
 
-    <div class="container">
-        <div class="toolbar">
-            <input type="file" id="fileInput" accept=".md,.txt">
-            <button onclick="document.getElementById('fileInput').click()">打开文件</button>
-            <button id="exportBtn">导出 SVG</button>
-            <button id="exampleBtn">加载示例</button>
-            <span class="vip-tip">仅限域锦科技会员才能免费使用</span>
-        </div>
-        <div class="content">
-            <div class="editor">
-                <textarea id="markdown-input" placeholder="在这里输入 Markdown 文本..."></textarea>
-            </div>
-            <div class="preview">
-                <button id="fullscreenBtn" class="fullscreen-btn">全屏</button>
-                <svg id="markmap"></svg>
-            </div>
-        </div>
-    </div>
-    <script>
-        // 确保 markmap 对象已加载
-        console.log('markmap 对象:', window.markmap);
-        window.transformer = new window.markmap.Transformer();
+            // 处理全屏模式的背景色
+            document.getElementById('fullscreenBtn').addEventListener('click', function() {
+                const preview = document.querySelector('.preview');
+                if (preview.requestFullscreen) {
+                    preview.requestFullscreen();
+                } else if (preview.webkitRequestFullscreen) {
+                    preview.webkitRequestFullscreen();
+                } else if (preview.msRequestFullscreen) {
+                    preview.msRequestFullscreen();
+                }
+            });
+
+            // 监听全屏变化
+            document.addEventListener('fullscreenchange', function() {
+                const preview = document.querySelector('.preview');
+                if (document.fullscreenElement === preview) {
+                    preview.style.backgroundColor = '#fff';
+                }
+            });
+        });
     </script>
     <script src="assets/js/main.js"></script>
 </body>

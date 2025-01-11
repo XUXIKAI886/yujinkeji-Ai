@@ -10,7 +10,9 @@ import {
     MessageOutlined,
     StarOutlined,
     MoneyCollectOutlined,
-    PictureOutlined
+    PictureOutlined,
+    EnvironmentOutlined,
+    CloudOutlined
 } from '@ant-design/icons';
 import aiAssistantService from '../../services/aiAssistantService';
 import chatHistoryService from '../../services/chatHistoryService';
@@ -32,6 +34,8 @@ import {
     FileList,
     ClearChatButton
 } from './styles';
+import html2pdf from 'html2pdf.js';
+import turndownService from '../../utils/turndownService';
 
 const ChatWindow = ({ selectedAssistant, updateUser }) => {
     const [messages, setMessages] = useState([]);
@@ -41,11 +45,11 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
     const [fileList, setFileList] = useState([]);
     const [analyzing, setAnalyzing] = useState(false);
     const [imageUploading, setImageUploading] = useState(false);
-
-    // 添加调试日志
-    useEffect(() => {
-        console.log('selectedAssistant:', selectedAssistant);
-    }, [selectedAssistant]);
+    const [locationInfo, setLocationInfo] = useState({
+        city: '',
+        weather: '',
+        loading: true
+    });
 
     // 加载AI助手信息
     useEffect(() => {
@@ -60,7 +64,7 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                         }
                     }
                 } catch (error) {
-                    console.error('获取AI助手信息失败:', error);
+                    message.error('获取AI助手信息失败');
                 }
             }
         };
@@ -79,10 +83,65 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
         return assistant.key || assistant._id;
     }, []);
 
+    // 获取IP地址和位置信息
+    useEffect(() => {
+        const fetchLocationAndWeather = async () => {
+            try {
+                // 使用 ip.useragentinfo.com 获取位置信息
+                const locationResponse = await fetch('https://ip.useragentinfo.com/json');
+                const locationData = await locationResponse.json();
+                
+                if (locationData.city) {
+                    try {
+                        // 使用 WeatherAPI 获取天气信息
+                        const weatherResponse = await fetch(
+                            `https://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${encodeURIComponent(locationData.city)}&lang=zh`
+                        );
+                        const weatherData = await weatherResponse.json();
+                        
+                        if (weatherData.current) {
+                            setLocationInfo({
+                                city: locationData.city,
+                                weather: `${weatherData.current.temp_c}°C ${weatherData.current.condition.text}`,
+                                loading: false,
+                            });
+                        } else {
+                            setLocationInfo({
+                                city: locationData.city,
+                                weather: '暂无天气数据',
+                                loading: false,
+                            });
+                        }
+                    } catch (weatherError) {
+                        setLocationInfo({
+                            city: locationData.city,
+                            weather: '暂无天气数据',
+                            loading: false,
+                        });
+                    }
+                } else {
+                    throw new Error('获取位置信息失败');
+                }
+            } catch (error) {
+                setLocationInfo({
+                    city: '未知城市',
+                    weather: '暂无天气数据',
+                    loading: false,
+                });
+            }
+        };
+
+        fetchLocationAndWeather();
+    }, []);
+
+    // 移除初始调试日志
+    useEffect(() => {
+        // 仅保留必要的初始化逻辑
+    }, [selectedAssistant]);
+
     // 加载聊天历史
     useEffect(() => {
         const assistantId = getAssistantId(selectedAssistant);
-        console.log('Loading chat history for assistant:', assistantId);
         
         // 无论是否有历史记录，都先清空当前消息列表
         setMessages([]);
@@ -90,23 +149,20 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
         if (assistantId) {
             // 加载新助手的历史记录
             const history = chatHistoryService.getHistory(assistantId);
-            console.log('Loaded history:', history);
             if (history && history.length > 0) {
                 setMessages(history);
             }
         }
-    }, [selectedAssistant, getAssistantId]); // 依赖 selectedAssistant 和 getAssistantId
+    }, [selectedAssistant, getAssistantId]);
 
     // 保存聊天历史
     useEffect(() => {
         const assistantId = getAssistantId(selectedAssistant);
-        console.log('Saving chat history for assistant:', assistantId);
-        console.log('Messages to save:', messages);
         
         if (assistantId) {
             chatHistoryService.saveHistory(assistantId, messages);
         }
-    }, [selectedAssistant, messages, getAssistantId]); // 依赖 selectedAssistant、messages 和 getAssistantId
+    }, [selectedAssistant, messages, getAssistantId]);
 
     const handleSend = async () => {
         if (!inputValue.trim()) {
@@ -176,7 +232,14 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
     };
 
     const handleCopy = (content) => {
-        navigator.clipboard.writeText(content).then(() => {
+        // 创建一个临时div来解析HTML内容
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        
+        // 获取纯文本内容
+        const textContent = tempDiv.textContent || tempDiv.innerText;
+        
+        navigator.clipboard.writeText(textContent).then(() => {
             message.success('已复制到剪贴板');
         }).catch(() => {
             message.error('复制失败');
@@ -184,7 +247,14 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
     };
 
     const handleExport = (content) => {
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        // 创建一个临时div来解析HTML内容
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        
+        // 获取纯文本内容
+        const textContent = tempDiv.textContent || tempDiv.innerText;
+
+        const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -252,36 +322,32 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
         }
     };
 
-    // 添加图片上传配置
+    // 图片上传处理
     const uploadProps = {
         name: 'image',
         showUploadList: false,
         beforeUpload: (file) => {
-            // 检查文件类型
             if (!file.type.startsWith('image/')) {
                 message.error('请上传图片文件');
                 return false;
             }
 
-            // 检查文件大小（限制为5MB）
             if (file.size > 5 * 1024 * 1024) {
                 message.error('图片大小不能超过5MB');
                 return false;
             }
 
-            // 自定义上传
             const formData = new FormData();
             formData.append('image', file);
 
             setImageUploading(true);
-            // 修改请求配置
             http.post('/upload/image', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Accept': 'application/json'
                 },
-                transformRequest: [(data) => data], // 防止axios转换FormData
-                timeout: 30000 // 增加超时时间
+                transformRequest: [(data) => data],
+                timeout: 30000
             })
             .then(response => {
                 if (response.data.success) {
@@ -293,20 +359,59 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                 }
             })
             .catch(error => {
-                console.error('图片上传失败:', error);
-                console.error('错误详情:', {
-                    message: error.message,
-                    response: error.response?.data,
-                    status: error.response?.status
-                });
                 message.error(error.response?.data?.message || '图片上传失败，请重试');
             })
             .finally(() => {
                 setImageUploading(false);
             });
 
-            return false; // 阻止默认上传
+            return false;
         }
+    };
+
+    const handleExportPDF = async (content) => {
+        try {
+            const element = document.createElement('div');
+            element.innerHTML = content;
+            element.style.padding = '20px';
+            element.style.color = '#000';
+            element.style.background = '#fff';
+            
+            const opt = {
+                margin: [10, 10],
+                filename: '对话内容.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                message.success('PDF 导出成功');
+            });
+        } catch (error) {
+            message.error('PDF 导出失败，请重试');
+        }
+    };
+
+    const handleExportMarkdown = (content) => {
+        // 创建一个临时div来解析HTML内容
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        
+        // 将HTML转换为Markdown格式
+        const markdownContent = turndownService.turndown(content);
+        
+        // 创建并下载文件
+        const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${selectedAssistant?.name || 'AI助手'}_对话内容_${new Date().toLocaleString()}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        message.success('Markdown导出成功');
     };
 
     const renderHeader = () => {
@@ -318,6 +423,19 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                 <HeaderTitle>
                     <RobotOutlined />
                     {assistantInfo.name}
+                    {locationInfo.loading ? (
+                        <span style={{ marginLeft: '20px', fontSize: '14px', color: '#666' }}>
+                            <LoadingOutlined style={{ marginRight: '5px' }} />
+                            获取位置信息...
+                        </span>
+                    ) : locationInfo.city && (
+                        <span style={{ marginLeft: '20px', fontSize: '14px', color: '#666' }}>
+                            <EnvironmentOutlined style={{ marginRight: '5px' }} />
+                            {locationInfo.city}
+                            <CloudOutlined style={{ marginLeft: '10px', marginRight: '5px' }} />
+                            {locationInfo.weather}
+                        </span>
+                    )}
                 </HeaderTitle>
                 <HeaderDescription>
                     {assistantInfo.description || '专业的AI助手，为您提供智能对话服务'}
@@ -357,17 +475,13 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
 
     // 修改渲染逻辑
     const renderContent = () => {
-        console.log('selectedAssistant in renderContent:', selectedAssistant);
-        
         // 如果没有选择助手，显示欢迎界面
         if (!selectedAssistant) {
-            console.log('Rendering Welcome component - no assistant selected');
             return <Welcome />;
         }
 
         // 如果选择了助手但缺少必要信息，也显示欢迎界面
         if (!selectedAssistant.key && !selectedAssistant._id) {
-            console.log('Rendering Welcome component - missing key and _id');
             return <Welcome />;
         }
 
@@ -381,6 +495,8 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
                             message={message}
                             handleCopy={handleCopy}
                             handleExport={handleExport}
+                            handleExportPDF={handleExportPDF}
+                            handleExportMarkdown={handleExportMarkdown}
                         />
                     ))}
                     {loading && (
@@ -454,12 +570,6 @@ const ChatWindow = ({ selectedAssistant, updateUser }) => {
             </>
         );
     };
-
-    // 添加调试日志
-    useEffect(() => {
-        console.log('ChatWindow mounted');
-        console.log('Initial selectedAssistant:', selectedAssistant);
-    }, [selectedAssistant]); // 依赖 selectedAssistant
 
     return (
         <ChatContainer>

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Layout, Badge, Tooltip, Button, Input, Modal, Table, message, Avatar } from 'antd';
+import { Layout, Badge, Tooltip, Button, Input, Modal, Table, message } from 'antd';
 // eslint-disable-next-line no-unused-vars
 import { 
   MenuFoldOutlined, 
   MenuUnfoldOutlined,
   SearchOutlined,
-  DesktopOutlined,
   ClockCircleOutlined,
   TrophyOutlined,
   WechatOutlined,
   ShareAltOutlined,
   FileTextOutlined,
   BarChartOutlined,
-  PieChartOutlined
+  PieChartOutlined,
+  LineChartOutlined
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
@@ -21,7 +21,6 @@ import ChatWindow from './ChatWindow/index';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserPointsHistory } from '../services/userService';
 import http from '../utils/http';
-import { motion } from 'framer-motion';
 
 const { Header, Sider, Content } = Layout;
 
@@ -187,39 +186,47 @@ const ActionButton = styled(Button)`
   padding: 0 20px;
   border-radius: 12px;
   border: none;
+  color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  background: linear-gradient(135deg, #e9f5f1 0%, #f4faf8 100%);
-  color: #2c3e50;
-  box-shadow: 0 2px 4px rgba(233, 245, 241, 0.2),
-              0 4px 8px rgba(244, 250, 248, 0.1),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 15;
 
   &:hover {
-    color: #2c3e50 !important;
-    background: linear-gradient(135deg, #d7efe9 0%, #e2f2ee 100%) !important;
+    color: white !important;
+    background: rgba(255, 255, 255, 0.15) !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(233, 245, 241, 0.3),
-                0 8px 24px rgba(244, 250, 248, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 4px 12px rgba(0, 0, 0, 0.1);
                 
     .anticon {
-      color: #2c3e50;
+      color: white;
       opacity: 1;
       transform: scale(1.1);
     }
   }
 
+  &:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
   .anticon {
     font-size: 20px;
     transition: all 0.3s ease;
-    color: #2c3e50;
+    color: rgba(255, 255, 255, 0.85);
+    
+    svg {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
   }
 
   &:has(.ant-badge) {
@@ -234,20 +241,33 @@ const ActionButton = styled(Button)`
   }
 `;
 
-const DownloadButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #dcefe9 0%, #e9f5f1 100%);
+const PointsHistoryButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #b5ddd1 0%, #c2e3d9 100%);
   color: #2c3e50;
-  padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(220, 239, 233, 0.2),
-              0 4px 8px rgba(233, 245, 241, 0.1),
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(181, 221, 209, 0.2),
+              0 4px 8px rgba(194, 227, 217, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    z-index: 1;
+  }
 
   &:hover {
     color: #2c3e50;
-    background: linear-gradient(135deg, #cae7df 0%, #d7efe9 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(220, 239, 233, 0.3),
-                0 8px 24px rgba(233, 245, 241, 0.15),
+    background: linear-gradient(135deg, #a3d4c5 0%, #b0dbcf 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(181, 221, 209, 0.3),
+                0 8px 24px rgba(194, 227, 217, 0.2),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
@@ -255,6 +275,54 @@ const DownloadButton = styled(ActionButton)`
     color: #2c3e50;
     opacity: 0.95;
     font-size: 20px;
+    z-index: 2;
+    margin-right: 8px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const PointsButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #c2e3d9 0%, #cfe9e1 100%);
+  color: #2c3e50;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(194, 227, 217, 0.2),
+              0 4px 8px rgba(207, 233, 225, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-width: 150px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    z-index: 1;
+  }
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #b0dbcf 0%, #bde1d7 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(194, 227, 217, 0.3),
+                0 8px 24px rgba(207, 233, 225, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+    z-index: 2;
+    margin-right: 8px;
   }
 
   &:hover .anticon {
@@ -273,10 +341,11 @@ const PointsBadge = styled(Badge)`
     padding: 0 8px;
     height: 24px;
     line-height: 24px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(148, 194, 189, 0.2);
     min-width: 60px;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.8);
     
     &::after {
       content: '';
@@ -466,59 +535,33 @@ const ReviewAnalysisButton = styled(ActionButton)`
   }
 `;
 
-const UserContainer = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+const VendorStatsButton = styled(ActionButton)`
   background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  box-shadow: 0 2px 8px rgba(148, 194, 189, 0.25),
-              0 4px 12px rgba(181, 221, 209, 0.15),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    z-index: 1;
-  }
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 16px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.2),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
-  }
-`;
-
-const UserAvatar = styled(Avatar)`
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #ffffff 0%, #f4faf8 100%);
-  color: #2c3e50;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 8px rgba(148, 194, 189, 0.2);
-  font-size: 18px;
-  font-weight: 600;
-  z-index: 2;
-  
-  .anticon {
-    font-size: 20px;
     color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
   }
 `;
 
@@ -636,37 +679,45 @@ const ChatLayout = () => {
   }, [user, updateUser]);
 
   useEffect(() => {
-    const handlePointsUpdate = async (event) => {
-        if (user && typeof updateUser === 'function') {
-            try {
-                // 获取最新的用户信息
-                const response = await http.get('/users/me');
-                if (response.data.success) {
-                    updateUser(response.data.data);
-                    
-                    // 自动刷新积分历史
-                    const historyResponse = await getUserPointsHistory(user._id);
-                    if (historyResponse.success && Array.isArray(historyResponse.data)) {
-                        // 如果当前积分历史弹窗是打开的，就更新它
-                        const modalElement = document.querySelector('.ant-modal-wrap');
-                        if (modalElement && !modalElement.classList.contains('ant-modal-hidden')) {
-                            showPointsHistory();
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('更新用户信息失败:', error);
-                message.error('更新用户信息失败');
-            }
+    const handlePointsUpdate = async () => {
+      try {
+        const response = await http.get('/users/me', {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
+        
+        if (response.data.success && response.status !== 304) {
+          updateUser(response.data.data);
         }
+      } catch (error) {
+        console.error('更新用户信息失败:', error);
+      }
     };
 
     window.addEventListener('userPointsUpdate', handlePointsUpdate);
+    return () => window.removeEventListener('userPointsUpdate', handlePointsUpdate);
+  }, [updateUser]);
 
-    return () => {
-        window.removeEventListener('userPointsUpdate', handlePointsUpdate);
-    };
-  }, [user, updateUser, showPointsHistory]);
+  const handlePointsClick = async () => {
+    try {
+      const response = await http.get('/users/me', {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      
+      if (response.data.success) {
+        updateUser(response.data.data);
+      }
+      showPointsHistory();
+    } catch (error) {
+      console.error('获取用户信息失败:', error);
+      message.error('获取用户信息失败');
+    }
+  };
 
   const handleSelectAssistant = (assistant) => {
     setSelectedAssistant(assistant);
@@ -694,6 +745,14 @@ const ChatLayout = () => {
       return;
     }
     window.open('/visualization', '_blank');
+  };
+
+  const handleVendorStatsClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用服务商统计功能');
+      return;
+    }
+    window.open('/vendor-statistics', '_blank');
   };
 
   return (
@@ -724,6 +783,9 @@ const ChatLayout = () => {
             />
           </HeaderLeft>
           <HeaderRight>
+            <VendorStatsButton type="default" icon={<LineChartOutlined />} onClick={handleVendorStatsClick}>
+              服务商统计
+            </VendorStatsButton>
             <VisualizationButton type="default" icon={<BarChartOutlined />} onClick={handleVisualizationClick}>
               数据可视化
             </VisualizationButton>
@@ -739,24 +801,21 @@ const ChatLayout = () => {
             <ServiceButton type="default" icon={<WechatOutlined />}>
               微信客服
             </ServiceButton>
-            <DownloadButton type="default" icon={<DesktopOutlined />}>
-              下载客户端
-            </DownloadButton>
             <Tooltip title="积分记录">
-              <ActionButton type="default" onClick={showPointsHistory}>
+              <PointsHistoryButton type="default" onClick={showPointsHistory}>
                 <ClockCircleOutlined />
                 积分记录
-              </ActionButton>
+              </PointsHistoryButton>
             </Tooltip>
             <Tooltip title="当前积分">
-              <ActionButton type="default">
+              <PointsButton type="default" onClick={handlePointsClick}>
                 <TrophyOutlined />
                 <PointsBadge 
                   count={user?.points || 0} 
                   overflowCount={99999}
                   title={user?.points || 0}
                 />
-              </ActionButton>
+              </PointsButton>
             </Tooltip>
             <UserInfo />
           </HeaderRight>

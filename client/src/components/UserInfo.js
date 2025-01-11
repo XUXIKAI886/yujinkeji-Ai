@@ -4,8 +4,6 @@ import { Avatar, Dropdown } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { 
   UserOutlined, 
-  SettingOutlined, 
-  CrownOutlined,
   LogoutOutlined,
   QuestionCircleOutlined,
   DashboardOutlined

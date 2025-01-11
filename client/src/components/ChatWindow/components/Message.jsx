@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { Avatar } from 'antd';
-import { CopyOutlined, DownloadOutlined, UserOutlined, RobotOutlined } from '@ant-design/icons';
+import { CopyOutlined, DownloadOutlined, UserOutlined, RobotOutlined, FilePdfOutlined, FileMarkdownOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -117,7 +117,7 @@ const StyledMarkdown = styled.div`
   p {
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    line-height: 1.5;
     
     &:empty {
       display: none;
@@ -148,6 +148,52 @@ const StyledMarkdown = styled.div`
     overflow-x: auto;
   }
 
+  /* 标题样式 */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 8px 0 4px 0;
+    line-height: 1.3;
+  }
+
+  /* 移除多余的空行 */
+  br {
+    display: none;
+  }
+
+  p:empty {
+    display: none;
+  }
+
+  /* 调整相邻元素间距 */
+  * + * {
+    margin-top: 4px;
+  }
+
+  /* 确保第一个和最后一个元素没有多余的边距 */
+  > *:first-child {
+    margin-top: 0 !important;
+  }
+
+  > *:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* 优化引用样式 */
+  blockquote {
+    margin: 4px 0;
+    padding-left: 12px;
+    border-left: 3px solid ${props => props.isUser ? 'rgba(255, 255, 255, 0.2)' : '#e5e7eb'};
+  }
+
+  /* 表格样式优化 */
+  table {
+    margin: 4px 0;
+    font-size: 0.95em;
+    
+    th, td {
+      padding: 6px 8px;
+    }
+  }
+
   /* 行内代码样式 */
   code {
     font-family: 'Fira Code', monospace;
@@ -157,100 +203,102 @@ const StyledMarkdown = styled.div`
     background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.1)' : '#f3f4f6'};
   }
 
-  /* 引用样式 */
-  blockquote {
-    margin: 4px 0;
-    padding-left: 16px;
-    border-left: 4px solid ${props => props.isUser ? 'rgba(255, 255, 255, 0.2)' : '#e5e7eb'};
-    color: ${props => props.isUser ? 'rgba(255, 255, 255, 0.8)' : '#6b7280'};
-  }
-
   /* 图片样式 */
   img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 4px 0;
+    margin: 8px 0;
     display: block;
-  }
 
-  /* 表格样式 */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 4px 0;
-    
-    th, td {
-      border: 1px solid ${props => props.isUser ? 'rgba(255, 255, 255, 0.2)' : '#e5e7eb'};
-      padding: 8px;
-      text-align: left;
-    }
-
-    th {
-      background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.1)' : '#f9fafb'};
-    }
-  }
-
-  /* 去除连续空行 */
-  br + br {
-    display: none;
-  }
-
-  /* 优化标题间距 */
-  h1, h2, h3, h4, h5, h6 {
-    margin: 8px 0 4px 0;
-    line-height: 1.4;
-    
     &:first-child {
       margin-top: 0;
     }
   }
 `;
 
-const Message = ({ message, handleCopy, handleExport }) => {
+const Message = ({ message, handleCopy, handleExport, handleExportPDF, handleExportMarkdown }) => {
+  const contentRef = useRef(null);
+
+  const getContent = () => {
+    if (contentRef.current) {
+      return contentRef.current.innerHTML;
+    }
+    return message.content;
+  };
+
   return (
     <MessageWrapper>
       <MessageAvatar $isUser={message.isUser} icon={message.isUser ? <UserOutlined /> : <RobotOutlined />} />
       <MessageBubble isUser={message.isUser}>
         <MessageContent isUser={message.isUser}>
           <StyledMarkdown isUser={message.isUser}>
-            <ReactMarkdown
-              components={{
-                code({node, inline, className, children, ...props}) {
-                  const match = /language-(\w+)/.exec(className || '');
-                  return !inline && match ? (
-                    <SyntaxHighlighter
-                      style={tomorrow}
-                      language={match[1]}
-                      PreTag="div"
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
-                  ) : (
-                    <code className={className} {...props}>
-                      {children}
-                    </code>
-                  );
-                }
-              }}
-            >
-              {message.content}
-            </ReactMarkdown>
+            <div ref={contentRef}>
+              <ReactMarkdown
+                components={{
+                  code({node, inline, className, children, ...props}) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={tomorrow}
+                        language={match[1]}
+                        PreTag="div"
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                  p({children}) {
+                    if (children.length === 0 || (children.length === 1 && children[0] === '')) {
+                      return null;
+                    }
+                    return <p>{children}</p>;
+                  },
+                  br() {
+                    return null;
+                  },
+                  text({children}) {
+                    if (typeof children === 'string' && children.trim() === '') {
+                      return null;
+                    }
+                    return children;
+                  }
+                }}
+              >
+                {message.content}
+              </ReactMarkdown>
+            </div>
           </StyledMarkdown>
         </MessageContent>
         <ActionButtons isUser={message.isUser}>
           <ActionButton 
             isUser={message.isUser} 
-            onClick={() => handleCopy(message.content)}
+            onClick={() => handleCopy(getContent())}
           >
             <CopyOutlined /> 复制
           </ActionButton>
           <ActionButton 
             isUser={message.isUser} 
-            onClick={() => handleExport(message.content)}
+            onClick={() => handleExport(getContent())}
           >
             <DownloadOutlined /> 导出
+          </ActionButton>
+          <ActionButton 
+            isUser={message.isUser} 
+            onClick={() => handleExportPDF(getContent())}
+          >
+            <FilePdfOutlined /> PDF
+          </ActionButton>
+          <ActionButton 
+            isUser={message.isUser} 
+            onClick={() => handleExportMarkdown(getContent())}
+          >
+            <FileMarkdownOutlined /> Markdown
           </ActionButton>
         </ActionButtons>
       </MessageBubble>

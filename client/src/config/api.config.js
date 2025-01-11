@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
         REGISTER: `${API_BASE_URL}/users/register`,
         LOGIN: `${API_BASE_URL}/users/login`,
         ME: `${API_BASE_URL}/users/me`,
+        DELETE: (id) => `${API_BASE_URL}/users/${id}`,
     },
     // AI助手相关接口
     ASSISTANT: {

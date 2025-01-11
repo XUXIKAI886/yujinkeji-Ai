@@ -62,7 +62,8 @@ app.get('/api', (req, res) => {
             users: {
                 me: '/api/users/me',
                 list: '/api/users',
-                points: '/api/users/:id/points'
+                points: '/api/users/:id/points',
+                delete: '/api/users/:id'
             },
             assistants: {
                 list: '/api/assistants',

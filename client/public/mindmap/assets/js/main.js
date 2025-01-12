@@ -100,7 +100,7 @@ function updateMarkmap(content) {
     console.log('更新思维导图:', content);
     try {
         // 使用全局 transformer 对象
-        const { root, features } = window.transformer.transform(content);
+        const { root } = window.transformer.transform(content);
         mm.setData(root);
         mm.fit(); // 自适应大小
     } catch (error) {

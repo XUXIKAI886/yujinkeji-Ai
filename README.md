@@ -1,204 +1,166 @@
-# AI助手平台后端服务
+# 域锦科技 AI 助手平台
 
-基于Node.js和Express框架开发的AI助手平台后端服务，支持用户管理、积分系统、AI助手调用等功能。
+一个基于 AI 技术的智能助手平台，专注于提升外卖运营效率和数据分析能力。
 
 ## 功能特性
 
-- 用户管理
-  - 注册与登录
-  - 用户信息管理
-  - 角色权限控制
-- 积分系统
-  - 积分明细记录
-  - 积分消费与赠送
-  - 积分统计分析
-- AI助手管理
-  - AI助手配置
-  - 调用权限控制
-  - 使用统计分析
-- 系统功能
-  - JWT认证
-  - 请求日志记录
-  - 错误处理机制
-  - API访问限制
+### 1. AI 智能对话
+- 多场景专业 AI 助手
+- 自然语言交互
+- 智能问答和建议
 
-## 管理员账号
+### 2. 数据分析工具
 
-默认管理员账号信息：
-- 邮箱：admin@example.com
-- 密码：admin123
+#### 2.1 商圈分析
+- 店铺评分分布分析
+- 月售订单分布统计
+- 起送价分布分析
+- 配送费分析
+- 配送时间分布
+- 店铺名称词云图
 
-请在首次部署后及时修改默认密码！
+#### 2.2 评价分析
+- 评分分布统计
+- 情感分析
+- 评分趋势分析
+- 词频统计
+- 评价词云图
+
+#### 2.3 销售可视化
+- 收入趋势分析
+- 营业额分析
+- 曝光人数统计
+- 入店人数分析
+- 转化率分析
+- 下单人数趋势
+
+#### 2.4 绩效统计
+- 店铺结算分析
+- 结算天数统计
+- 绩效金额计算
+- 数据导出功能
+
+#### 2.5 商家统计
+- 每日店铺数统计
+- 结算金额分析
+- 趋势图表展示
+- Excel导出功能
+
+### 3. 思维导图工具
+- Markdown 格式支持
+- 实时预览
+- 导出 SVG
+- 全屏显示模式
 
 ## 技术栈
 
-- Node.js
-- Express.js
-- MongoDB (Mongoose)
-- JSON Web Token
-- Winston (日志)
-- Express Validator
-- 其他依赖...
+### 前端
+- React
+- Ant Design
+- ECharts
+- Layui
+- Styled Components
+- Papa Parse (CSV解析)
+- XLSX (Excel处理)
+- Markmap (思维导图)
 
-## 安装说明
+### 后端
+- Node.js
+- Express
+- MongoDB
+- JWT认证
+- Winston日志
+- Multer文件处理
+
+## 安装部署
+
+### 环境要求
+- Node.js >= 14.0.0
+- MongoDB >= 4.0
+- NPM 或 Yarn
+
+### 安装步骤
 
 1. 克隆项目
 ```bash
 git clone [项目地址]
-cd [项目目录]
 ```
 
 2. 安装依赖
 ```bash
+# 安装后端依赖
+npm install
+
+# 安装前端依赖
+cd client
 npm install
 ```
 
 3. 配置环境变量
-复制`.env.example`文件为`.env`，并根据实际情况修改配置：
 ```bash
-cp .env.example .env
+# 后端配置 (server/.env)
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/your_database
+JWT_SECRET=your_jwt_secret
+API_VERSION=1.0.0
+
+# 前端配置 (client/.env)
+REACT_APP_API_URL=http://localhost:3000/api
 ```
 
 4. 启动服务
 ```bash
-# 开发环境
+# 开发模式
 npm run dev
 
-# 生产环境
+# 生产模式
 npm start
 ```
 
-## API文档
-
-### 用户相关
-
-#### 注册
-- 路径: POST /api/users/register
-- 描述: 新用户注册
-- 请求体:
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "password123",
-    "username": "username"
-  }
-  ```
-
-#### 登录
-- 路径: POST /api/users/login
-- 描述: 用户登录
-- 请求体:
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "password123"
-  }
-  ```
-
-### AI助手相关
-
-#### 获取AI助手列表
-- 路径: GET /api/assistants
-- 描述: 获取可用的AI助手列表
-- 查询参数:
-  - page: 页码
-  - limit: 每页数量
-  - type: AI助手类型
-
-#### 调用AI助手
-- 路径: POST /api/assistants/:assistantId/call
-- 描述: 调用指定的AI助手
-- 请求体:
-  ```json
-  {
-    "input": "用户输入内容"
-  }
-  ```
-
-### 积分相关
-
-#### 获取积分历史
-- 路径: GET /api/users/points/history
-- 描述: 获取用户积分变动历史
-- 查询参数:
-  - page: 页码
-  - limit: 每页数量
-  - type: 记录类型
-
-## 开发指南
-
-### 项目结构
+## 项目结构
 ```
-src/
-├── config/         # 配置文件
-├── controllers/    # 控制器
-├── middleware/     # 中间件
-├── models/         # 数据模型
-├── routes/         # 路由定义
-├── utils/          # 工具函数
-└── app.js         # 应用入口
+.
+├── client/                 # 前端代码
+│   ├── public/            # 静态资源
+│   │   ├── mindmap/      # 思维导图模块
+│   │   ├── performance-stats/  # 绩效统计模块
+│   │   ├── sales-visualization/  # 销售可视化模块
+│   │   ├── takeout-review-analysis/  # 评价分析模块
+│   │   └── vendor-statistics/  # 商家统计模块
+│   └── src/              # React源代码
+│       ├── components/   # 组件
+│       ├── contexts/     # 上下文
+│       ├── pages/        # 页面
+│       ├── services/     # 服务
+│       └── utils/        # 工具函数
+└── server/               # 后端代码
+    ├── controllers/      # 控制器
+    ├── middleware/       # 中间件
+    ├── models/          # 数据模型
+    ├── routes/          # 路由
+    └── utils/           # 工具函数
 ```
 
-### 开发规范
+## 使用说明
 
-1. 代码风格
-- 使用ES6+语法
-- 使用async/await处理异步
-- 遵循ESLint规则
+1. 用户认证
+- 注册/登录系统
+- 会员功能仅限域锦科技会员使用
 
-2. 错误处理
-- 使用统一的错误处理中间件
-- 合理使用try-catch
-- 记录错误日志
+2. 数据分析
+- 支持上传 CSV/Excel 格式数据
+- 自动生成可视化图表
+- 支持导出分析结果
 
-3. API设计
-- 遵循RESTful规范
-- 使用适当的HTTP方法
-- 返回统一的响应格式
+3. 思维导图
+- 支持 Markdown 格式输入
+- 实时预览效果
+- 可导出为 SVG 格式
 
-4. 安全性
-- 验证所有用户输入
-- 使用适当的认证和授权
-- 保护敏感信息
+## 开发团队
 
-## 部署说明
+- 域锦科技研发团队
 
-1. 环境要求
-- Node.js >= 14
-- MongoDB >= 4.0
-- PM2 (用于生产环境)
+## 版权信息
 
-2. 部署步骤
-```bash
-# 安装依赖
-npm install --production
-
-# 配置环境变量
-vim .env
-
-# 使用PM2启动服务
-pm2 start ecosystem.config.js
-```
-
-3. 监控和维护
-- 使用PM2监控进程
-- 定期检查日志
-- 配置自动备份
-
-## 贡献指南
-
-1. Fork项目
-2. 创建特性分支
-3. 提交更改
-4. 推送到分支
-5. 创建Pull Request
-
-## 许可证
-
-[MIT License](LICENSE)
-
-## 联系方式
-
-- 作者: [您的名字]
-- 邮箱: [您的邮箱]
-- 项目地址: [项目仓库地址] 
+© 2025 域锦科技 保留所有权利 

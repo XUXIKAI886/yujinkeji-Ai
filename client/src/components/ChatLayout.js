@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Layout, Badge, Tooltip, Button, Input, Modal, Table, message } from 'antd';
-// eslint-disable-next-line no-unused-vars
-import { 
-  MenuFoldOutlined, 
+import { Layout, Badge, Tooltip, Button, Modal, Table, message } from 'antd';
+import {
+  MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SearchOutlined,
-  ClockCircleOutlined,
-  TrophyOutlined,
+  FileTextOutlined,
   WechatOutlined,
   ShareAltOutlined,
-  FileTextOutlined,
   BarChartOutlined,
   PieChartOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  TrophyOutlined,
+  ClockCircleOutlined,
+  CalculatorOutlined
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
@@ -146,31 +145,6 @@ const HeaderRight = styled.div`
   padding-right: 12px;
   position: relative;
   z-index: 10;
-`;
-
-const SearchInput = styled(Input)`
-  max-width: 400px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-
-  .ant-input {
-    background: transparent;
-    color: rgba(255, 255, 255, 0.9);
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-  }
-
-  .ant-input-prefix {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  &:hover, &:focus {
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-  }
 `;
 
 const MenuButton = styled(Button)`
@@ -445,6 +419,36 @@ const MindMapButton = styled(ActionButton)`
   }
 `;
 
+const PerformanceButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #cfe9e1 0%, #dcefe9 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(207, 233, 225, 0.2),
+              0 4px 8px rgba(220, 239, 233, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #bde1d7 0%, #cae7df 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(207, 233, 225, 0.3),
+                0 8px 24px rgba(220, 239, 233, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
 const DocsButton = styled(ActionButton)`
   background: linear-gradient(135deg, #cfe9e1 0%, #dcefe9 100%);
   color: #2c3e50;
@@ -536,6 +540,36 @@ const ReviewAnalysisButton = styled(ActionButton)`
 `;
 
 const VendorStatsButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const SalesVisualizationButton = styled(ActionButton)`
   background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
   color: #2c3e50;
   padding: 0 24px;
@@ -776,16 +810,11 @@ const ChatLayout = () => {
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={toggleCollapsed}
             />
-            <SearchInput 
-              placeholder="域锦科技AI - 搜索100+个AI工具"
-              prefix={<SearchOutlined />}
-              allowClear
-            />
           </HeaderLeft>
           <HeaderRight>
-            <VendorStatsButton type="default" icon={<LineChartOutlined />} onClick={handleVendorStatsClick}>
-              服务商统计
-            </VendorStatsButton>
+            <SalesVisualizationButton type="default" icon={<BarChartOutlined />} onClick={() => window.open('/sales-visualization', '_blank')}>
+              图表可视化（销售）
+            </SalesVisualizationButton>
             <VisualizationButton type="default" icon={<BarChartOutlined />} onClick={handleVisualizationClick}>
               数据可视化
             </VisualizationButton>
@@ -795,6 +824,12 @@ const ChatLayout = () => {
             <MindMapButton type="default" icon={<ShareAltOutlined />} onClick={handleMindMapClick}>
               思维导图
             </MindMapButton>
+            <PerformanceButton type="default" icon={<CalculatorOutlined />} onClick={() => window.open('/performance-stats', '_blank')}>
+              绩效统计
+            </PerformanceButton>
+            <VendorStatsButton type="default" icon={<LineChartOutlined />} onClick={handleVendorStatsClick}>
+              服务商统计
+            </VendorStatsButton>
             <DocsButton type="default" icon={<FileTextOutlined />} onClick={handleDocsClick}>
               使用文档
             </DocsButton>

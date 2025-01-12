@@ -1,0 +1,110 @@
+/* 全局样式 */
+body {
+    min-height: 100vh;
+    background-color: #f2f2f2;
+}
+
+/* 头部样式 */
+.layui-header {
+    height: 60px;
+    background: linear-gradient(90deg, #1E9FFF 0%, #0089FF 100%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    color: #fff;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.vip-tip {
+    font-size: 14px;
+}
+
+.nav-btn .layui-btn {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.nav-btn .layui-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* 主要内容区样式 */
+.layui-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.layui-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.layui-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.layui-card-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* 图表容器样式 */
+.chart-container {
+    height: 400px;
+    padding: 20px;
+}
+
+/* 上传区域样式 */
+.layui-upload {
+    text-align: center;
+    padding: 20px;
+}
+
+.layui-upload .layui-btn {
+    margin-right: 10px;
+}
+
+.layui-upload-list {
+    margin-top: 10px;
+}
+
+#fileName {
+    color: #666;
+    margin: 10px 0;
+}
+
+/* 按钮样式 */
+.layui-btn {
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.layui-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .layui-col-md6 {
+        width: 100%;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+} 

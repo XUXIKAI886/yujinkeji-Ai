@@ -1,42 +1,43 @@
 import http from '../utils/http';
 
-class AuthService {
-    async login(email, password) {
-        return http.post('/api/users/login', { email, password });
+const register = async (userData) => {
+    try {
+        const response = await http.post('/auth/register', userData);
+        return {
+            success: true,
+            data: response.data.data,
+            message: response.data.message
+        };
+    } catch (error) {
+        throw error;
     }
+};
 
-    async register(email, password, username) {
-        return http.post('/api/users/register', { email, password, username });
-    }
-
-    setAuthHeader(token) {
-        if (token) {
-            http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+const login = async (credentials) => {
+    try {
+        const response = await http.post('/auth/login', credentials);
+        if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
         }
+        return response.data;
+    } catch (error) {
+        throw error;
     }
+};
 
-    removeAuthHeader() {
-        delete http.defaults.headers.common['Authorization'];
-    }
+const logout = () => {
+    localStorage.removeItem('token');
+};
 
-    logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.removeAuthHeader();
-    }
+const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem('user'));
+};
 
-    getCurrentUser() {
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
-            return JSON.parse(userStr);
-        }
-        return null;
-    }
+const authService = {
+    register,
+    login,
+    logout,
+    getCurrentUser
+};
 
-    isAuthenticated() {
-        return !!localStorage.getItem('token');
-    }
-}
-
-const authService = new AuthService();
 export default authService; 

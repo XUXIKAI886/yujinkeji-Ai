@@ -15,11 +15,12 @@ import ChatLayout from '../components/ChatLayout';
 import ProfilePage from '../pages/ProfilePage';
 import SettingsPage from '../pages/SettingsPage';
 import AdminLayout from '../components/AdminLayout';
-import Dashboard from '../pages/admin/Dashboard';
 import UserManagement from '../pages/admin/UserManagement';
 import AIAssistantManagement from '../pages/admin/AIAssistantManagement';
 import Statistics from '../pages/admin/Statistics';
 import SystemSettings from '../pages/admin/SystemSettings';
+import DisclaimerPage from '../pages/DisclaimerPage';
+import PrivacyPage from '../pages/PrivacyPage';
 
 // 受保护的路由组件
 const ProtectedRoute = ({ children, requireAdmin }) => {
@@ -80,6 +81,9 @@ const AppRoutes = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/about" element={<iframe src="/about/index.html" title="关于域锦科技" style={{border: 'none', width: '100%', height: '100vh'}} />} />
 
           {/* 用户路由 */}
           <Route
@@ -116,8 +120,7 @@ const AppRoutes = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Dashboard />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route index element={<UserManagement />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="assistants" element={<AIAssistantManagement />} />
             <Route path="statistics" element={<Statistics />} />

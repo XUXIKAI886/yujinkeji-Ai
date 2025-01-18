@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <!-- 渐变和滤镜定义 -->
+    <defs>
+        <!-- 主背景渐变 -->
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2980b9"/>
+            <stop offset="100%" style="stop-color:#3498db"/>
+        </linearGradient>
+        
+        <!-- 文字渐变 -->
+        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff"/>
+            <stop offset="100%" style="stop-color:#f1f1f1"/>
+        </linearGradient>
+        
+        <!-- 阴影效果 -->
+        <filter id="dropShadow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+            <feOffset dx="0" dy="1" result="offsetblur"/>
+            <feFlood flood-color="#000000" flood-opacity="0.2"/>
+            <feComposite in2="offsetblur" operator="in"/>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <!-- 发光效果 -->
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- 主背景 -->
+    <circle cx="64" cy="64" r="60" 
+            fill="url(#bgGradient)" 
+            filter="url(#dropShadow)"/>
+    
+    <!-- 装饰性圆环 -->
+    <g opacity="0.8">
+        <circle cx="64" cy="64" r="52" 
+                fill="none" 
+                stroke="rgba(255,255,255,0.2)" 
+                stroke-width="1"
+                stroke-dasharray="4,2"/>
+        <circle cx="64" cy="64" r="46" 
+                fill="none" 
+                stroke="rgba(255,255,255,0.15)" 
+                stroke-width="1"/>
+    </g>
+    
+    <!-- 装饰性曲线 -->
+    <path d="M 34,64 A 30,30 0 0 1 64,34" 
+          stroke="rgba(255,255,255,0.3)" 
+          stroke-width="2" 
+          fill="none"/>
+    <path d="M 64,94 A 30,30 0 0 1 94,64" 
+          stroke="rgba(255,255,255,0.3)" 
+          stroke-width="2" 
+          fill="none"/>
+    
+    <!-- 主文字 -->
+    <text x="64" y="64" 
+          font-family="Microsoft YaHei, sans-serif" 
+          font-size="48" 
+          font-weight="bold" 
+          fill="url(#textGradient)"
+          text-anchor="middle" 
+          dominant-baseline="middle"
+          filter="url(#glow)">
+        域
+    </text>
+    
+    <!-- 光效装饰 -->
+    <circle cx="88" cy="32" r="8" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="82" cy="38" r="4" fill="rgba(255,255,255,0.15)"/>
+    <circle cx="40" cy="88" r="6" fill="rgba(255,255,255,0.1)"/>
+</svg> 

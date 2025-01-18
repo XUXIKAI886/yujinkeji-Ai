@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于域锦科技</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.9.0/css/layui.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+            color: #333;
+            line-height: 1.8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #00c6fb, #005bea);
+            border-radius: 2px;
+        }
+
+        .company-name {
+            font-size: 48px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .slogan {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #1890ff;
+            margin-bottom: 30px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 24px;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 2;
+            color: #4a4a4a;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00c6fb, #005bea);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-item:hover::before {
+            opacity: 1;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            color: #1890ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-title i {
+            font-size: 18px;
+        }
+
+        .feature-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .feature-item ul {
+            margin-top: 15px;
+            padding-left: 20px;
+            color: #666;
+        }
+
+        .feature-item li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .feature-item li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: #1890ff;
+            border-radius: 50%;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .company-name {
+                font-size: 36px;
+            }
+
+            .slogan {
+                font-size: 20px;
+            }
+
+            .section {
+                padding: 30px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 添加滚动动画 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header scroll-reveal">
+            <h1 class="company-name">域锦科技</h1>
+            <p class="slogan">数据驱动创新 · 智慧赋能未来</p>
+        </div>
+
+        <div class="section scroll-reveal">
+            <h2 class="section-title">
+                <i class="ri-building-4-line"></i>
+                公司简介
+            </h2>
+            <div class="section-content">
+                <p>域锦科技是一家专注于商业智能和数据分析的科技创新企业。我们致力于为企业提供全方位的数据分析解决方案，通过先进的技术手段，帮助企业深入洞察市场趋势，优化经营决策，提升运营效率。</p>
+                <p>作为数据科技领域的先行者，我们整合了人工智能、大数据分析、商业智能等前沿技术，打造了一系列功能强大、操作便捷的数据分析工具，为企业的数字化转型提供强有力的技术支持。</p>
+            </div>
+        </div>
+
+        <div class="section scroll-reveal">
+            <h2 class="section-title">
+                <i class="ri-apps-2-line"></i>
+                核心产品与服务
+            </h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-robot-line"></i>
+                        智能AI助手
+                    </h3>
+                    <p class="feature-desc">基于大语言模型打造的多场景智能助手，包括：</p>
+                    <ul>
+                        <li>外卖运营助手：优化菜品描述、活动策划、定价策略</li>
+                        <li>数据分析助手：深度解读数据报表、提供决策建议</li>
+                        <li>内容创作助手：编写营销文案、活动策划方案</li>
+                        <li>客服助手：智能回复、情感分析、用户意图理解</li>
+                        <li>运营策略助手：竞品分析、市场洞察、增长策略</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-bar-chart-box-line"></i>
+                        商圈数据分析
+                    </h3>
+                    <p class="feature-desc">全方位的商圈数据分析工具：</p>
+                    <ul>
+                        <li>商圈活跃度分析：客流量、消费频次、用户画像</li>
+                        <li>竞争态势分析：品类分布、价格带、市场份额</li>
+                        <li>商家表现分析：销售趋势、评分分布、配送效率</li>
+                        <li>市场机会分析：品类空白、消费升级、细分市场</li>
+                        <li>选址决策支持：区域分析、客群画像、竞争评估</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-message-3-line"></i>
+                        评价分析系统
+                    </h3>
+                    <p class="feature-desc">深度的用户评价分析平台：</p>
+                    <ul>
+                        <li>情感倾向分析：正面/负面情绪识别</li>
+                        <li>热点问题发现：高频词汇提取、问题分类</li>
+                        <li>评价趋势追踪：评分变化、满意度走势</li>
+                        <li>竞品评价对比：优劣势分析、差异化定位</li>
+                        <li>改进建议生成：基于AI的优化方案</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-store-2-line"></i>
+                        服务商统计平台
+                    </h3>
+                    <p class="feature-desc">专业的服务商数据管理系统：</p>
+                    <ul>
+                        <li>业绩追踪：销售额、订单量、客单价分析</li>
+                        <li>运营效率：响应时间、完成率、客户满意度</li>
+                        <li>质量监控：服务质量评估、问题跟踪</li>
+                        <li>收益分析：利润率、成本构成、收益优化</li>
+                        <li>发展规划：增长预测、资源配置建议</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-line-chart-line"></i>
+                        绩效统计系统
+                    </h3>
+                    <p class="feature-desc">智能化的绩效管理工具：</p>
+                    <ul>
+                        <li>多维度考核：KPI追踪、目标完成度、工作质量</li>
+                        <li>数据可视化：直观展示、趋势分析、对比研究</li>
+                        <li>智能报告：自动生成分析报告、改进建议</li>
+                        <li>激励机制：绩效积分、奖惩制度、晋升通道</li>
+                        <li>团队协同：部门协作、资源调配、效能提升</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-pie-chart-2-line"></i>
+                        销售可视化平台
+                    </h3>
+                    <p class="feature-desc">专业的销售数据分析工具：</p>
+                    <ul>
+                        <li>销售趋势：实时监控、周期分析、预测模型</li>
+                        <li>渠道分析：多渠道数据整合、效果对比</li>
+                        <li>转化漏斗：用户行为分析、转化率优化</li>
+                        <li>产品洞察：品类分析、价格策略、库存优化</li>
+                        <li>营销效果：活动分析、ROI计算、策略优化</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section scroll-reveal">
+            <h2 class="section-title">
+                <i class="ri-code-box-line"></i>
+                技术优势
+            </h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-ai-generate"></i>
+                        AI技术赋能
+                    </h3>
+                    <p class="feature-desc">采用最新的人工智能技术，包括大语言模型、机器学习算法、深度学习网络，为企业提供智能化解决方案。</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-shield-keyhole-line"></i>
+                        数据安全保障
+                    </h3>
+                    <p class="feature-desc">严格的数据加密机制、多重安全认证、隐私保护措施，确保企业数据安全万无一失。</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">
+                        <i class="ri-database-2-line"></i>
+                        高性能架构
+                    </h3>
+                    <p class="feature-desc">采用分布式计算架构，支持海量数据实时处理，确保系统高可用性和稳定性。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section scroll-reveal">
+            <h2 class="section-title">
+                <i class="ri-focus-3-line"></i>
+                企业愿景
+            </h2>
+            <div class="section-content">
+                <p>域锦科技秉持"数据驱动创新，智慧赋能未来"的理念，致力于成为商业智能领域的领军企业。我们不断创新技术，优化产品，为客户提供更专业、更全面的数据分析服务。</p>
+                <p>通过持续的技术创新和服务优化，我们期望能够帮助更多企业实现数字化转型，在数据时代占据先机，创造更大的商业价值。</p>
+            </div>
+        </div>
+
+        <div class="contact-info scroll-reveal">
+            <p>© 2025 域锦科技 保留所有权利</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.staticfile.org/layui/2.9.0/layui.js"></script>
+    <script>
+        // 添加滚动动画
+        function reveal() {
+            var reveals = document.querySelectorAll('.scroll-reveal');
+            
+            reveals.forEach(element => {
+                var windowHeight = window.innerHeight;
+                var elementTop = element.getBoundingClientRect().top;
+                var elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
+</body>
+</html> 

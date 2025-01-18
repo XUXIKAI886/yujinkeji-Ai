@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域锦科技 AI 助手使用手册</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1890ff;
+            --text-color: #333;
+            --border-color: #e8e8e8;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .assistant-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .assistant-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .assistant-title i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .assistant-title h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 8px;
+        }
+
+        .template {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .tips {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tips h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            border-top: 1px dashed var(--border-color);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>域锦科技 AI 助手使用手册</h1>
+            <p>本手册详细介绍了各个AI助手的使用方法和功能特点，帮助您更好地利用AI助手提升工作效率。</p>
+        </div>
+
+        <!-- 美团全能客服助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-customer-service-2-line"></i>
+                <h2>美团全能客服助手</h2>
+            </div>
+            <p>专业解答各类商家咨询和投诉问题的智能客服助手。</p>
+            <h3>主要功能：</h3>
+            <ul class="feature-list">
+                <li>解答商家各类咨询问题</li>
+                <li>处理客户投诉和反馈</li>
+                <li>提供专业的解决方案</li>
+            </ul>
+            <h3>使用方法：</h3>
+            <p>您可以直接询问以下类型的问题：</p>
+            <ul class="feature-list">
+                <li>单量相关问题（如："单量为什么这么差"）</li>
+                <li>效果相关问题（如："到底什么时候能看到效果"）</li>
+                <li>复制商家实际消息进行咨询</li>
+            </ul>
+        </div>
+
+        <!-- 品牌定位设计助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-palette-line"></i>
+                <h2>品牌定位设计助手</h2>
+            </div>
+            <p>专业的品牌战略专家，帮您打造独特的品牌价值。</p>
+            <h3>基础信息模板：</h3>
+            <div class="template">
+                店铺名称：[您的店铺名称]<br>
+                经营品类：[主营类目 > 子类目 > 具体品类]
+            </div>
+            <h3>示例：</h3>
+            <div class="template">
+                店铺名称：江南小馆<br>
+                经营品类：美食 > 正餐 > 江浙菜
+            </div>
+            <h3>服务内容：</h3>
+            <ul class="feature-list">
+                <li>分析品牌定位和市场机会</li>
+                <li>设计品牌形象和视觉识别</li>
+                <li>制定营销策略和推广方案</li>
+                <li>优化品牌传播和用户体验</li>
+            </ul>
+        </div>
+
+        <!-- 分类栏描述优化助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-list-settings-line"></i>
+                <h2>分类栏描述优化助手</h2>
+            </div>
+            <p>专业的分类优化专家，帮您提升店铺分类结构和转化率。</p>
+            <h3>分类列表模板：</h3>
+            <div class="template">
+                [主打分类]<br>
+                [套餐分类]<br>
+                [主食分类]<br>
+                [优惠专区]<br>
+                [加料专区]<br>
+                [荤菜分类]<br>
+                [素菜分类]<br>
+                [饮品分类]<br>
+                [小吃分类]
+            </div>
+            <h3>示例分类结构：</h3>
+            <div class="template">
+                🔸 特色卤粉<br>
+                🔸 人气套餐<br>
+                🔸 卤汁拌饭<br>
+                🔸 优惠套餐<br>
+                🔸 加量区<br>
+                🔸 热卤荤菜<br>
+                🔸 热卤素菜<br>
+                🔸 清凉饮料<br>
+                🔸 美味小吃
+            </div>
+            <h3>优化内容：</h3>
+            <ul class="feature-list">
+                <li>优化分类顺序和层级</li>
+                <li>提供吸引人的分类名称建议</li>
+                <li>分析竞品分类优势</li>
+                <li>给出提升转化的分类策略</li>
+            </ul>
+        </div>
+
+        <!-- 外卖套餐搭配助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-restaurant-line"></i>
+                <h2>外卖套餐搭配助手</h2>
+            </div>
+            <p>专业的套餐优化专家，帮您设计最优套餐组合。</p>
+            <h3>菜品价格表模板：</h3>
+            <div class="template">
+                【主食类】<br>
+                [菜品名称1]    [价格]<br>
+                [菜品名称2]    [价格]<br>
+                [菜品名称3]    [价格]<br><br>
+                【配菜类】<br>
+                [菜品名称1]    [价格]<br>
+                [菜品名称2]    [价格]<br>
+                [菜品名称3]    [价格]
+            </div>
+            <h3>示例菜品结构：</h3>
+            <div class="template">
+                【主食类】<br>
+                🔸 特色大肉粉    ¥17.88<br>
+                🔸 猪脚粉        ¥20.88<br>
+                🔸 软哨粉        ¥16.88<br>
+                🔸 辣鸡粉        ¥16.88<br>
+                🔸 招牌肠旺粉    ¥16.88<br><br>
+                【配菜类】<br>
+                🔸 卤蛋          ¥3.00<br>
+                🔸 豆腐          ¥4.00<br>
+                🔸 血旺          ¥4.00<br>
+                🔸 辣鸡          ¥8.00
+            </div>
+            <h3>优化内容：</h3>
+            <ul class="feature-list">
+                <li>设计最优套餐组合方案</li>
+                <li>分析价格区间合理性</li>
+                <li>推荐高毛利搭配组合</li>
+                <li>提供促销策略建议</li>
+            </ul>
+        </div>
+
+        <!-- 美团评价解释助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-message-2-line"></i>
+                <h2>美团评价解释助手</h2>
+            </div>
+            <p>专业的评价分析专家，帮您深入解读评价内容。</p>
+            <h3>评价内容模板：</h3>
+            <div class="template">
+                【好评内容】<br>
+                [请粘贴好评内容...]<br><br>
+                【差评内容】<br>
+                [请粘贴差评内容...]
+            </div>
+            <h3>分析内容：</h3>
+            <ul class="feature-list">
+                <li>分析评价关键词和情感倾向</li>
+                <li>识别用户核心诉求和痛点</li>
+                <li>提供专业的回复建议</li>
+                <li>给出针对性的改进方案</li>
+            </ul>
+            <div class="tips">
+                <h4>使用技巧：</h4>
+                <ul class="feature-list">
+                    <li>可以一次发送多条评价</li>
+                    <li>建议包含完整的评价描述</li>
+                    <li>如有图片评价可以描述图片内容</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖数据周报分析助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-line-chart-line"></i>
+                <h2>外卖数据周报分析助手</h2>
+            </div>
+            <p>专业的数据分析专家，帮您深入解读运营数据。</p>
+            <h3>数据模板格式：</h3>
+            <div class="template">
+                统计周期：[起始日期] 至 [结束日期]<br>
+                店铺名称：[您的店铺名称]<br><br>
+                📊 核心指标：<br>
+                • 店铺营业额：[金额]元<br>
+                • 实付单均价：[金额]元<br>
+                • 曝光人数：[数量]人<br>
+                • 入店人数：[数量]人<br>
+                • 下单人数：[数量]人<br>
+                • 入店转化率：[百分比]<br>
+                • 下单转化率：[百分比]
+            </div>
+            <h3>分析内容：</h3>
+            <ul class="feature-list">
+                <li>分析各项指标表现</li>
+                <li>对比历史数据趋势</li>
+                <li>诊断转化率瓶颈</li>
+                <li>提供提升建议方案</li>
+            </ul>
+            <div class="tips">
+                <h4>使用建议：</h4>
+                <ul class="feature-list">
+                    <li>建议每周固定时间分析数据</li>
+                    <li>确保数据完整且准确</li>
+                    <li>可以添加其他补充数据说明</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖菜品描述优化助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-file-text-line"></i>
+                <h2>外卖菜品描述优化助手</h2>
+            </div>
+            <p>专业的菜品文案优化专家，帮您打造吸引顾客的商品描述。</p>
+            <h3>数据准备步骤：</h3>
+            <div class="template">
+                1. 登录美团外卖商家版<br>
+                2. 进入"商品列表"页面<br>
+                3. 点击"下载商品"<br>
+                4. 将商品名称复制到新的Excel文件<br>
+                5. 保存Excel文件（支持.xlsx格式）
+            </div>
+            <h3>Excel格式要求：</h3>
+            <ul class="feature-list">
+                <li>第一列为商品名称</li>
+                <li>每行一个商品</li>
+                <li>最多支持50个商品</li>
+                <li>无需表头，直接填写商品名称</li>
+            </ul>
+            <h3>优化内容：</h3>
+            <ul class="feature-list">
+                <li>批量优化商品描述文案</li>
+                <li>添加吸引人的特色标签</li>
+                <li>突出商品卖点和特色</li>
+                <li>融入适合的表情符号</li>
+            </ul>
+        </div>
+
+        <!-- 外卖店铺活动分析助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-gift-line"></i>
+                <h2>外卖店铺活动分析助手</h2>
+            </div>
+            <p>专业的活动策略分析专家，帮您优化活动效果。</p>
+            <h3>活动数据示例：</h3>
+            <div class="template">
+                【满减活动】<br>
+                • 满35减1 | 满55减3 | 满88减6  ↑9<br><br>
+                【优惠券活动】<br>
+                • 集3单返3元优惠券  0<br><br>
+                【配送费活动】<br>
+                • 配送费立减4元  ↑44<br><br>
+                【邀评发券】<br>
+                • 满50减5  -<br><br>
+                【折扣商品】<br>
+                • 收藏点亮/★送牛肉一片<br>
+                • 仅限一份 - 1人份<br>
+                • 商品0.1元售卖  ↓20
+            </div>
+            <h3>分析内容：</h3>
+            <ul class="feature-list">
+                <li>分析各项活动效果</li>
+                <li>评估活动投产比</li>
+                <li>对比同行活动策略</li>
+                <li>提供优化建议方案</li>
+            </ul>
+            <div class="tips">
+                <h4>使用建议：</h4>
+                <ul class="feature-list">
+                    <li>请提供完整的活动数据</li>
+                    <li>包含活动效果指标（↑↓）</li>
+                    <li>建议定期分析活动效果</li>
+                    <li>可补充说明活动目标</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 图片识别助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-image-line"></i>
+                <h2>图片识别助手</h2>
+            </div>
+            <p>专业的图片文字提取专家，帮您快速获取图片中的文字内容。</p>
+            <h3>支持的图片类型：</h3>
+            <ul class="feature-list">
+                <li>外卖订单截图</li>
+                <li>商品详情截图</li>
+                <li>评价内容截图</li>
+                <li>活动数据截图</li>
+                <li>后台数据截图</li>
+            </ul>
+            <h3>功能特点：</h3>
+            <ul class="feature-list">
+                <li>精准识别图片文字</li>
+                <li>智能排版提取内容</li>
+                <li>保持原始格式结构</li>
+                <li>输出可复制文本</li>
+            </ul>
+            <div class="tips">
+                <h4>使用技巧：</h4>
+                <ul class="feature-list">
+                    <li>图片要清晰完整</li>
+                    <li>避免图片倾斜变形</li>
+                    <li>支持批量识别图片</li>
+                    <li>建议避免截图重叠</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖菜品图生成助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-image-add-line"></i>
+                <h2>外卖菜品图生成助手</h2>
+            </div>
+            <p>专业的美食图片生成专家，帮您创作精美的菜品展示图。</p>
+            <h3>描述建议格式：</h3>
+            <div class="template">
+                • 菜品名称：[具体名称]<br>
+                • 主要食材：[食材列表]<br>
+                • 烹饪方式：[具体做法]<br>
+                • 摆盘风格：[期望效果]<br>
+                • 特殊要求：[其他细节]
+            </div>
+            <h3>示例描述：</h3>
+            <div class="template">
+                "红烧牛肉面，使用上等牛腩肉，红汤浓郁，配以青菜点缀，面条筋道，碗中摆放整齐，特写拍摄角度，光线明亮自然"
+            </div>
+            <h3>功能特点：</h3>
+            <ul class="feature-list">
+                <li>生成高清菜品图片</li>
+                <li>确保画面真实诱人</li>
+                <li>突出菜品特色卖点</li>
+                <li>符合外卖展示需求</li>
+            </ul>
+            <div class="tips">
+                <h4>使用技巧：</h4>
+                <ul class="feature-list">
+                    <li>描述越详细，效果越好</li>
+                    <li>可以参考竞品图片风格</li>
+                    <li>建议说明拍摄角度要求</li>
+                    <li>可以指定特定的场景</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 抖音文案提取助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-douyin-line"></i>
+                <h2>抖音文案提取助手</h2>
+            </div>
+            <p>专业的抖音内容提取专家，帮您快速获取视频文案。</p>
+            <h3>支持的链接格式：</h3>
+            <ul class="feature-list">
+                <li>抖音APP分享链接</li>
+                <li>抖音网页版链接</li>
+                <li>抖音短链接</li>
+            </ul>
+            <div class="template">
+                链接示例：https://v.douyin.com/iyKvBb3Q/
+            </div>
+            <h3>功能特点：</h3>
+            <ul class="feature-list">
+                <li>提取视频完整文案</li>
+                <li>保留文案排版格式</li>
+                <li>提取话题和标签</li>
+                <li>输出可复制文本</li>
+            </ul>
+            <div class="tips">
+                <h4>使用注意事项：</h4>
+                <ul class="feature-list">
+                    <li>确保链接格式正确</li>
+                    <li>一次发送一个链接</li>
+                    <li>链接需要是公开视频</li>
+                    <li>等待提取完成后再发送下一个</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖商圈调研助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-bar-chart-2-line"></i>
+                <h2>外卖商圈调研助手</h2>
+            </div>
+            <p>专业的商圈数据分析专家，帮您深入解读市场数据。</p>
+            <h3>数据采集步骤：</h3>
+            <div class="template">
+                1. 使用商圈数据工具采集数据<br>
+                2. 选择目标区域范围<br>
+                3. 采集完整商圈数据<br>
+                4. 导出数据表格文件
+            </div>
+            <h3>分析内容：</h3>
+            <ul class="feature-list">
+                <li>商圈规模分析</li>
+                <li>竞争态势评估</li>
+                <li>市场机会识别</li>
+                <li>选址建议支持</li>
+            </ul>
+            <div class="tips">
+                <h4>使用建议：</h4>
+                <ul class="feature-list">
+                    <li>确保数据采集完整性</li>
+                    <li>包含所有必要的分析维度</li>
+                    <li>定期更新数据分析</li>
+                    <li>结合实地考察信息</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖店铺数据分析助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-line-chart-line"></i>
+                <h2>外卖店铺数据分析助手</h2>
+            </div>
+            <p>专业的店铺数据分析专家，帮您深入解读运营数据。</p>
+            <h3>数据获取步骤：</h3>
+            <div class="template">
+                1. 登录美团外卖商家版<br>
+                2. 选择经营分析-报表下载<br>
+                3. 选择30天内的日期<br>
+                4. 全选所有指标<br>
+                5. 下载数据并上传分析
+            </div>
+            <h3>分析指标：</h3>
+            <ul class="feature-list">
+                <li>销售额和订单量趋势</li>
+                <li>客单价分析</li>
+                <li>流量转化分析</li>
+                <li>商品销售分布</li>
+            </ul>
+            <div class="tips">
+                <h4>使用建议：</h4>
+                <ul class="feature-list">
+                    <li>保持数据时间连续性</li>
+                    <li>确保数据完整准确</li>
+                    <li>定期进行数据分析</li>
+                    <li>关注异常数据波动</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 外卖店铺诊断助手 -->
+        <div class="assistant-section">
+            <div class="assistant-title">
+                <i class="ri-health-book-line"></i>
+                <h2>外卖店铺诊断助手</h2>
+            </div>
+            <p>专业的店铺运营诊断专家，帮您全面优化店铺表现。</p>
+            <h3>诊断项目：</h3>
+            <div class="template">
+                基础信息：<br>
+                • 店铺名称<br>
+                • 店铺评分<br>
+                • 月销量<br>
+                • 配送时间<br><br>
+                运营数据：<br>
+                • 促销活动<br>
+                • 商品定价<br>
+                • 菜品结构<br>
+                • 视觉展示
+            </div>
+            <h3>诊断内容：</h3>
+            <ul class="feature-list">
+                <li>店铺整体表现评估</li>
+                <li>运营短板识别</li>
+                <li>竞争优势分析</li>
+                <li>改进建议制定</li>
+            </ul>
+            <div class="tips">
+                <h4>使用建议：</h4>
+                <ul class="feature-list">
+                    <li>提供完整的店铺信息</li>
+                    <li>包含具体的数据指标</li>
+                    <li>说明主要竞争对手</li>
+                    <li>描述当前经营痛点</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

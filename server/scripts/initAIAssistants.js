@@ -190,7 +190,7 @@ const assistants = [
             modelType: 'deepseek',
             apiKey: process.env.DEEPSEEK_API_KEY || 'your-deepseek-api-key',
             apiUrl: 'https://api.deepseek.com/v1/chat/completions',
-            systemPrompt: '你是一个专业的美食文案专家，擅长编写诱人的菜品描述。',
+            systemPrompt: '你是一个专业的美食文案专家，擅长编写诱人的菜品描述。请以HTML表格格式输出内容，表格应包含以下列：菜品名称、价格、特色、推荐指数、描述。其中推荐指数用1-5颗星表示（★）。表格样式应该美观大方，使用浅色背景。每个单元格的内容应该简洁明了，突出菜品特色。',
             temperature: 0.8,
             maxTokens: 1500
         },

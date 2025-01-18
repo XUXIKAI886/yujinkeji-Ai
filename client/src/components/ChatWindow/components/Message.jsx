@@ -50,6 +50,8 @@ const MessageBubble = styled.div`
   border-radius: 16px;
   box-shadow: ${props => props.isUser ? '0 2px 8px rgba(96, 165, 250, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.06)'};
   transition: all 0.3s ease;
+  overflow-x: hidden;
+  word-wrap: break-word;
 
   &:hover {
     box-shadow: ${props => props.isUser ? '0 4px 12px rgba(96, 165, 250, 0.25)' : '0 4px 12px rgba(0, 0, 0, 0.08)'};
@@ -111,6 +113,9 @@ const StyledMarkdown = styled.div`
     white-space: pre-wrap !important;
     margin: 0;
     padding: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
   /* 段落样式 */
@@ -118,23 +123,29 @@ const StyledMarkdown = styled.div`
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
     
     &:empty {
       display: none;
     }
     
     & + p {
-      margin-top: 4px;
+      margin-top: 2px;
     }
   }
 
   /* 列表样式 */
   ul, ol {
-    margin: 4px 0;
+    margin: 2px 0;
     padding-left: 24px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
     
     li {
-      margin: 2px 0;
+      margin: 1px 0;
       padding: 0;
     }
   }
@@ -146,12 +157,8 @@ const StyledMarkdown = styled.div`
     border-radius: 8px;
     background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.1)' : '#f3f4f6'};
     overflow-x: auto;
-  }
-
-  /* 标题样式 */
-  h1, h2, h3, h4, h5, h6 {
-    margin: 8px 0 4px 0;
-    line-height: 1.3;
+    white-space: pre-wrap !important;
+    word-wrap: break-word;
   }
 
   /* 移除多余的空行 */
@@ -165,7 +172,7 @@ const StyledMarkdown = styled.div`
 
   /* 调整相邻元素间距 */
   * + * {
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   /* 确保第一个和最后一个元素没有多余的边距 */
@@ -179,18 +186,25 @@ const StyledMarkdown = styled.div`
 
   /* 优化引用样式 */
   blockquote {
-    margin: 4px 0;
+    margin: 2px 0;
     padding-left: 12px;
     border-left: 3px solid ${props => props.isUser ? 'rgba(255, 255, 255, 0.2)' : '#e5e7eb'};
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
   /* 表格样式优化 */
   table {
-    margin: 4px 0;
+    margin: 2px 0;
     font-size: 0.95em;
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
     
     th, td {
-      padding: 6px 8px;
+      padding: 4px 6px;
+      word-break: break-word;
     }
   }
 
@@ -201,6 +215,7 @@ const StyledMarkdown = styled.div`
     padding: 2px 4px;
     border-radius: 4px;
     background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.1)' : '#f3f4f6'};
+    word-break: break-word;
   }
 
   /* 图片样式 */

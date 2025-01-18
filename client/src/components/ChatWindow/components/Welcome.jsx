@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { RobotOutlined, MessageOutlined, StarOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const WelcomeContainer = styled.div`
     display: flex;
@@ -149,6 +150,24 @@ const CompanyIntro = styled.div`
     }
 `;
 
+const Footer = styled.footer`
+    margin-top: 2rem;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+
+    a {
+        color: #666;
+        text-decoration: none;
+        margin: 0 1rem;
+        transition: color 0.3s;
+
+        &:hover {
+            color: #1890ff;
+        }
+    }
+`;
+
 const Welcome = () => {
     return (
         <WelcomeContainer>
@@ -201,6 +220,12 @@ const Welcome = () => {
                     域锦科技以创新为魂，以智能为翼。我们深谙每位用户的独特需求，精心打造个性化解决方案。通过尖端AI技术，我们致力于全方位提升用户工作效率，释放更大商业价值。从个人创业者到大型企业，从传统行业到新兴领域，我们的产品设计始终秉持着简约直观的理念，让每个用户都能轻松驾驭科技的力量，开启智能化运营新篇章。你有任何需求，可以随时联系我们！
                 </p>
             </CompanyIntro>
+
+            <Footer>
+                <Link to="/disclaimer">免责声明</Link>
+                <Link to="/privacy">隐私声明</Link>
+                <div style={{ marginTop: '0.5rem' }}>© 2025 域锦科技 保留所有权利</div>
+            </Footer>
         </WelcomeContainer>
     );
 };

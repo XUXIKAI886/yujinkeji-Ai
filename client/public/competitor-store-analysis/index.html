@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞店数据分析</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/css/layui.css">
+    <style>
+        .layui-layout-admin .layui-body {
+            bottom: 0;
+            background-color: #fff;
+        }
+        .layui-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: #001529;
+        }
+        .layui-logo {
+            flex: 0 0 200px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .vip-tip-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .vip-tip {
+            color: #faad14;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(250,173,20,0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .layui-nav.layui-layout-right {
+            flex: 0 0 auto;
+            background: none;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item {
+            background: none;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item a.layui-btn {
+            height: 32px;
+            line-height: 32px;
+            padding: 0 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-top: 14px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .layui-nav.layui-layout-right .layui-nav-item a.layui-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+        .layui-fluid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow: visible !important;
+            padding-bottom: 60px;
+        }
+        .layui-card {
+            margin-bottom: 15px;
+            background: #fff;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+        }
+        .layui-card-header {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 16px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        .layui-card-body {
+            padding: 20px;
+            background: #fff;
+        }
+        .layui-btn {
+            border-radius: 4px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.015);
+        }
+        .layui-btn-primary:hover {
+            border-color: #1890ff;
+            color: #1890ff;
+        }
+        .status-box {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .info {
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+        }
+        .success {
+            background-color: #f6ffed;
+            border: 1px solid #b7eb8f;
+        }
+        .error {
+            background-color: #fff2f0;
+            border: 1px solid #ffccc7;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div class="layui-header">
+            <div class="layui-logo">域锦竞店分析</div>
+            <div class="vip-tip-container">
+                <span class="vip-tip">仅限域锦科技会员才能免费使用</span>
+            </div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="/chat" class="layui-btn layui-btn-primary">返回聊天</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 内容主体 -->
+        <div class="layui-body">
+            <div class="layui-fluid">
+                <!-- 竞店数据采集卡片 -->
+                <div class="layui-card">
+                    <div class="layui-card-header">竞店数据采集</div>
+                    <div class="layui-card-body">
+                        <div class="button-group">
+                            <button type="button" class="layui-btn" id="startCollectCompetitor">
+                                <i class="layui-icon layui-icon-search"></i> 采集竞店数据
+                            </button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="saveCompetitorData">
+                                <i class="layui-icon layui-icon-download-circle"></i> 保存数据
+                            </button>
+                        </div>
+                        <div id="competitorStatus" class="status-box"></div>
+                    </div>
+                </div>
+
+                <!-- 数据预览表格 -->
+                <div class="layui-card">
+                    <div class="layui-card-header">数据预览</div>
+                    <div class="layui-card-body">
+                        <table id="shopTable" lay-filter="shopTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

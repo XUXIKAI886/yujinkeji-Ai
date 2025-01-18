@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined, KeyOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -120,6 +120,10 @@ const StyledForm = styled(Form)`
     &:hover {
       color: #00F5FF;
     }
+  }
+
+  .ant-form-item-extra {
+    color: rgba(255, 255, 255, 0.8);
   }
 `;
 
@@ -337,10 +341,12 @@ const RegisterPage = () => {
   const onFinish = async (values) => {
     try {
       setLoading(true);
+      console.log('注册参数:', values);
       const response = await authService.register({
         email: values.email,
         password: values.password,
-        username: values.username
+        username: values.username,
+        inviteCode: values.inviteCode
       });
       
       if (response?.success) {
@@ -351,7 +357,7 @@ const RegisterPage = () => {
         }, 500);
       }
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error('注册失败:', error.response?.data);
       message.error(error.response?.data?.message || '注册失败，请稍后重试');
     } finally {
       setLoading(false);
@@ -412,12 +418,46 @@ const RegisterPage = () => {
               name="password"
               rules={[
                 { required: true, message: '请输入密码' },
-                { min: 6, message: '密码至少6个字符' }
+                { min: 8, message: '密码至少8个字符' },
+                {
+                  validator: async (_, value) => {
+                    if (!value) return Promise.reject();
+                    
+                    if (!/[A-Z]/.test(value)) {
+                      return Promise.reject('密码必须包含大写字母');
+                    }
+                    if (!/[a-z]/.test(value)) {
+                      return Promise.reject('密码必须包含小写字母');
+                    }
+                    if (!/\d/.test(value)) {
+                      return Promise.reject('密码必须包含数字');
+                    }
+                    if (!/[!@#$%^&*(),.?:{}|<>]/.test(value)) {
+                      return Promise.reject('密码必须包含特殊字符');
+                    }
+                    return Promise.resolve();
+                  }
+                }
               ]}
+              extra={'密码必须包含：大写字母、小写字母、数字和特殊字符(!@#$%^&*(),.?:{}|<>)'}
             >
               <Input.Password
                 prefix={<LockOutlined />}
                 placeholder="密码"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="inviteCode"
+              rules={[
+                { required: true, message: '请输入邀请码' },
+                { len: 8, message: '邀请码长度必须为8位' }
+              ]}
+            >
+              <Input
+                prefix={<KeyOutlined />}
+                placeholder="邀请码"
                 size="large"
               />
             </Form.Item>

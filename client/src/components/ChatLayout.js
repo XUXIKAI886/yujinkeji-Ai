@@ -12,7 +12,9 @@ import {
   LineChartOutlined,
   TrophyOutlined,
   ClockCircleOutlined,
-  CalculatorOutlined
+  CalculatorOutlined,
+  ShopOutlined,
+  ToolOutlined
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
@@ -599,6 +601,96 @@ const SalesVisualizationButton = styled(ActionButton)`
   }
 `;
 
+const BusinessDistrictButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const CompetitorButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const DevToolsButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
+  color: #2c3e50;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
+              0 4px 8px rgba(181, 221, 209, 0.1),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #2c3e50;
+    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
+                0 8px 24px rgba(181, 221, 209, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #2c3e50;
+    opacity: 0.95;
+    font-size: 20px;
+  }
+
+  &:hover .anticon {
+    color: #2c3e50;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
 const ChatLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState(null);
@@ -770,7 +862,7 @@ const ChatLayout = () => {
   };
 
   const handleDocsClick = () => {
-    window.open('https://ev42nm8mkac.feishu.cn/wiki/KJEhwhvWvilhe2k6COjc7KR4nxe?from=from_copylink', '_blank');
+    window.open('/docs/ai-assistant-manual.html', '_blank');
   };
 
   const handleVisualizationClick = () => {
@@ -781,12 +873,36 @@ const ChatLayout = () => {
     window.open('/visualization', '_blank');
   };
 
+  const handleCompetitorClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用竞店数据功能');
+      return;
+    }
+    window.open('/competitor-store-analysis', '_blank');
+  };
+
   const handleVendorStatsClick = () => {
     if (!user) {
       message.warning('请先登录后再使用服务商统计功能');
       return;
     }
     window.open('/vendor-statistics', '_blank');
+  };
+
+  const handleBusinessDistrictClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用商圈数据功能');
+      return;
+    }
+    window.open('/business-district-analysis', '_blank');
+  };
+
+  const handleDevToolsClick = () => {
+    if (!user) {
+      message.warning('请先登录后再使用开发软件合集功能');
+      return;
+    }
+    window.open('/dev-tools-collection', '_blank');
   };
 
   return (
@@ -812,7 +928,31 @@ const ChatLayout = () => {
             />
           </HeaderLeft>
           <HeaderRight>
-            <SalesVisualizationButton type="default" icon={<BarChartOutlined />} onClick={() => window.open('/sales-visualization', '_blank')}>
+            <DevToolsButton
+              icon={<ToolOutlined />}
+              onClick={handleDevToolsClick}
+            >
+              开发软件合集
+            </DevToolsButton>
+            <CompetitorButton
+              type="default"
+              icon={<ShopOutlined />}
+              onClick={handleCompetitorClick}
+            >
+              竞店数据
+            </CompetitorButton>
+            <BusinessDistrictButton 
+              type="default" 
+              icon={<ShopOutlined />} 
+              onClick={handleBusinessDistrictClick}
+            >
+              商圈数据
+            </BusinessDistrictButton>
+            <SalesVisualizationButton 
+              type="default" 
+              icon={<BarChartOutlined />} 
+              onClick={() => window.open('/sales-visualization', '_blank')}
+            >
               图表可视化（销售）
             </SalesVisualizationButton>
             <VisualizationButton type="default" icon={<BarChartOutlined />} onClick={handleVisualizationClick}>

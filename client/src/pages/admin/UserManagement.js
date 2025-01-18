@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, Switch, message, Space, Tooltip, Spin, Popconfirm } from 'antd';
-import { PlusOutlined, EditOutlined, StopOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, StopOutlined, DeleteOutlined, KeyOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import * as userService from '../../services/userService';
+import * as inviteCodeService from '../../services/inviteCodeService';
 import { getUserAssistantPermissions, updateUserAssistantPermission } from '../../services/userAssistantPermissionService';
 import moment from 'moment';
 
@@ -334,6 +335,28 @@ const UserManagement = () => {
     }
   };
 
+  // 处理生成邀请码
+  const handleGenerateInviteCode = async () => {
+    try {
+      const response = await inviteCodeService.generateInviteCode();
+      if (response.success) {
+        Modal.success({
+          title: '邀请码生成成功',
+          content: (
+            <div>
+              <p>邀请码: <strong>{response.data.code}</strong></p>
+              <p>有效期至: {moment(response.data.expiresAt).format('YYYY-MM-DD HH:mm:ss')}</p>
+            </div>
+          ),
+        });
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error('生成邀请码失败');
+    }
+  };
+
   const columns = [
     {
       title: '用户名',
@@ -456,17 +479,25 @@ const UserManagement = () => {
     <div>
       <PageHeader>
         <h2>用户管理</h2>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => {
-            setEditingUser(null);
-            form.resetFields();
-            setModalVisible(true);
-          }}
-        >
-          添加用户
-        </Button>
+        <Space>
+          <Button
+            icon={<KeyOutlined />}
+            onClick={handleGenerateInviteCode}
+          >
+            生成邀请码
+          </Button>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setEditingUser(null);
+              form.resetFields();
+              setModalVisible(true);
+            }}
+          >
+            添加用户
+          </Button>
+        </Space>
       </PageHeader>
 
       <Table

@@ -425,7 +425,7 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
       key: 'docs',
       icon: <FileTextOutlined />,
       label: '使用文档',
-      onClick: () => window.open('https://ev42nm8mkac.feishu.cn/wiki/KJEhwhvWvilhe2k6COjc7KR4nxe?from=from_copylink', '_blank')
+      onClick: () => window.open('/docs/ai-assistant-manual.html', '_blank')
     },
     {
       key: 'settings',

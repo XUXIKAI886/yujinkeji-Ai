@@ -73,7 +73,8 @@ const aiAssistantSchema = new mongoose.Schema({
         maxTokens: {
             type: Number,
             default: 2000,
-            min: [1, '最大令牌数不能小于1']
+            min: [1, '最大令牌数不能小于1'],
+            max: [8000, '最大令牌数不能超过8000']
         },
         botId: String,
         systemPrompt: String

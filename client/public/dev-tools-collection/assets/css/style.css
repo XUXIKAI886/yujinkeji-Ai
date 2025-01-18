@@ -1,0 +1,126 @@
+/* 全局样式 */
+body {
+    background-color: #fff;
+}
+
+/* 布局样式 */
+.layui-layout-admin .layui-body {
+    background-color: #fff;
+    padding: 15px;
+    left: 0;
+}
+
+.layui-container {
+    padding: 15px;
+    max-width: 1400px;
+}
+
+/* 顶部导航栏 */
+.layui-header {
+    background-color: #23262E;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.layui-logo {
+    color: #fff;
+    font-size: 18px;
+    line-height: 60px;
+    text-align: center;
+    width: 200px;
+}
+
+/* 卡片样式 */
+.layui-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+}
+
+.layui-card-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px;
+}
+
+.layui-card-body {
+    padding: 20px;
+}
+
+/* 按钮组样式 */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.button-group .layui-btn {
+    flex: 1;
+    text-align: center;
+}
+
+/* 状态框样式 */
+.status-box {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    min-height: 40px;
+    margin-top: 15px;
+}
+
+.status-box.loading {
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+}
+
+.status-box.success {
+    background-color: #f6ffed;
+    border: 1px solid #b7eb8f;
+}
+
+.status-box.error {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+}
+
+/* 表格样式 */
+.layui-table {
+    margin: 0;
+}
+
+.layui-table-view {
+    border-radius: 4px;
+}
+
+/* 按钮样式 */
+.layui-btn {
+    border-radius: 4px;
+    padding: 0 25px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+}
+
+.layui-btn-normal {
+    background-color: #1E9FFF;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .layui-container {
+        padding: 10px;
+    }
+    
+    .layui-card {
+        margin-bottom: 10px;
+    }
+    
+    .layui-card-body {
+        padding: 15px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+} 

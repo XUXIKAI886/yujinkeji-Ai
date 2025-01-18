@@ -217,8 +217,8 @@ exports.analyzeFiles = async (req, res) => {
             return res.status(404).json({ success: false, message: '用户不存在' });
         }
 
-        // 每个文件额外消耗5积分
-        const totalPointsCost = assistant.pointsCost + (req.files?.length * 5 || 0);
+        // 移除每个文件额外消耗5积分的设定，只使用基础积分
+        const totalPointsCost = assistant.pointsCost;
         if (user.points < totalPointsCost) {
             return res.status(400).json({ success: false, message: '积分不足' });
         }

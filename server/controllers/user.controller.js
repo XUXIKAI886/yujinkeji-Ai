@@ -42,7 +42,7 @@ const validatePassword = (password) => {
  */
 exports.register = async (req, res) => {
     try {
-        const { email, password, username } = req.body;
+        const { email, password, username, inviteCode } = req.body;
 
         // 验证邮箱格式
         if (!validateEmail(email)) {
@@ -65,6 +65,17 @@ exports.register = async (req, res) => {
 
         // 检查是否是管理员邮箱
         const isAdmin = email === process.env.ADMIN_EMAIL;
+
+        // 如果不是管理员邮箱，验证邀请码
+        if (!isAdmin) {
+            logger.info('开始验证邀请码:', { inviteCode, email });
+            const inviteCodeController = require('./inviteCode.controller');
+            const inviteCodeValid = await inviteCodeController.useInviteCode(inviteCode);
+            logger.info('邀请码验证结果:', { inviteCode, isValid: inviteCodeValid });
+            if (!inviteCodeValid) {
+                return res.status(400).json(ApiResponse.error('无效的邀请码'));
+            }
+        }
 
         // 创建用户
         const user = await User.create({

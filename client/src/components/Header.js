@@ -130,7 +130,7 @@ const RegisterButton = styled(Button)`
   }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled(Link)`
   color: rgba(255, 255, 255, 0.85);
   font-size: 16px;
   font-weight: 500;
@@ -200,8 +200,8 @@ const Header = () => {
         域锦科技
       </Logo>
       <div className="right-section">
-        <NavLink href="/about">关于域锦科技</NavLink>
-        <NavLink href="https://subsidiary.example.com" target="_blank" rel="noopener noreferrer">子公司官网</NavLink>
+        <NavLink as="a" href="/about" target="_blank" rel="noopener noreferrer">关于域锦科技</NavLink>
+        <NavLink as="a" href="https://subsidiary.example.com" target="_blank" rel="noopener noreferrer">子公司官网</NavLink>
         <Link to="/login">
           <LoginButton>
             登录

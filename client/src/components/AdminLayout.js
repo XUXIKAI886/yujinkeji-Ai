@@ -3,7 +3,6 @@ import { Layout, Menu } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  DashboardOutlined,
   UserOutlined,
   RobotOutlined,
   BarChartOutlined,
@@ -183,12 +182,6 @@ const AdminLayout = () => {
 
   const menuItems = [
     {
-      key: 'dashboard',
-      icon: <DashboardOutlined />,
-      label: '仪表盘',
-      onClick: () => navigate('/admin/dashboard'),
-    },
-    {
       key: 'users',
       icon: <UserOutlined />,
       label: '用户管理',
@@ -225,7 +218,7 @@ const AdminLayout = () => {
           <MenuSection>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['dashboard']}
+              defaultSelectedKeys={['users']}
               items={menuItems}
               theme="dark"
             />

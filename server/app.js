@@ -20,6 +20,7 @@ const userRoutes = require('./routes/user.routes');
 const aiAssistantRoutes = require('./routes/aiAssistant.routes');
 const userAssistantPermissionRoutes = require('./routes/userAssistantPermission.routes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const inviteCodeRoutes = require('./routes/inviteCode.routes');
 
 const app = express();
 
@@ -83,7 +84,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/assistants', aiAssistantRoutes);
 app.use('/api/upload', uploadRoutes);
-app.use('/api', userAssistantPermissionRoutes);
+app.use('/api/user-assistant-permissions', userAssistantPermissionRoutes);
+app.use('/api/invite-codes', inviteCodeRoutes);
 
 // 静态文件服务
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

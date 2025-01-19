@@ -29,7 +29,7 @@ class CozeService {
                     'Authorization': `Bearer ${config.apiKey}`,
                     'Content-Type': 'application/json'
                 },
-                timeout: 180000
+                timeout: 300000
             });
 
             console.log('Coze API Response:', response.data);

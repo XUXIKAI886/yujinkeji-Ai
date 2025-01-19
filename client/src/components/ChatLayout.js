@@ -33,7 +33,7 @@ const StyledLayout = styled(Layout)`
 const StyledHeader = styled(Header)`
   background: rgba(0, 4, 40, 0.85);
   backdrop-filter: blur(10px);
-  padding: 0 16px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +45,26 @@ const StyledHeader = styled(Header)`
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 1200px;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
   
   &::before {
     content: '';
@@ -135,7 +154,8 @@ const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  flex: 1;
+  flex: 0 0 auto;
+  padding-left: 16px;
   position: relative;
   z-index: 10;
 `;
@@ -143,13 +163,17 @@ const HeaderLeft = styled.div`
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-right: 12px;
+  gap: 12px;
+  padding: 0 16px;
   position: relative;
   z-index: 10;
+  flex: 0 0 auto;
+  white-space: nowrap;
 `;
 
 const MenuButton = styled(Button)`
+  height: 40px;
+  padding: 0 12px;
   color: rgba(255, 255, 255, 0.8) !important;
   &:hover {
     color: rgba(255, 255, 255, 1) !important;

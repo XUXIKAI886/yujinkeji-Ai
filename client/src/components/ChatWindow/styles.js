@@ -4,10 +4,15 @@ import { Button } from 'antd';
 export const ChatContainer = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
+    min-height: 600px;
+    min-width: 1000px;
+    position: relative;
+    padding-bottom: 60px;
     background: #ffffff;
     border-radius: 8px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: auto;
 `;
 
 export const ChatHeader = styled.div`
@@ -73,6 +78,7 @@ export const MessageList = styled.div`
     flex: 1;
     overflow-y: auto;
     padding: 20px;
+    margin-bottom: 20px;
     background: #ffffff;
 
     &::-webkit-scrollbar {
@@ -273,4 +279,27 @@ export const ClearChatButton = styled(Button)`
     display: flex;
     align-items: center;
     gap: 8px;
+`;
+
+export const Footer = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-width: 1000px;
+    padding: 15px;
+    background: #fff;
+    text-align: center;
+    border-top: 1px solid #e8e8e8;
+    z-index: 1000;
+    
+    a {
+        margin: 0 10px;
+        color: #666;
+        text-decoration: none;
+        
+        &:hover {
+            color: #1890ff;
+        }
+    }
 `; 

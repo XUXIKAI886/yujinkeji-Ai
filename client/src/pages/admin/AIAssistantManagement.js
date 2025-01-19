@@ -385,7 +385,7 @@ const AIAssistantManagement = () => {
                     >
                         <InputNumber
                             min={100}
-                            max={8000}
+                            max={12000}
                             step={100}
                             placeholder="请输入最大Token数"
                             style={{ width: '100%' }}

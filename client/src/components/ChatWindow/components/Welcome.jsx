@@ -9,10 +9,16 @@ const WelcomeContainer = styled.div`
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
     box-sizing: border-box;
+    overflow-x: hidden;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
 `;
 
 const Title = styled.h1`
@@ -39,6 +45,11 @@ const FeaturesGrid = styled.div`
     gap: 2rem;
     width: 100%;
     margin: 3rem 0;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 `;
 
 const FeatureCard = styled.div`
@@ -74,13 +85,22 @@ const CompanyIntro = styled.div`
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
     border-radius: 16px;
     padding: 2.5rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    width: 80%;
+    margin: 2rem auto;
+    width: min(80%, 1200px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+
+    @media (max-width: 1200px) {
+        width: 90%;
+        padding: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        width: 95%;
+        padding: 1.5rem;
+    }
 
     &::before {
         content: '';
@@ -142,11 +162,19 @@ const CompanyIntro = styled.div`
     p {
         color: #333;
         line-height: 1.8;
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 1.1vw, 1.1rem);
         text-align: justify;
         margin: 0;
         padding: 0;
         position: relative;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        
+        @media (max-width: 768px) {
+            line-height: 1.6;
+            text-align: left;
+        }
     }
 `;
 
@@ -230,4 +258,4 @@ const Welcome = () => {
     );
 };
 
-export default Welcome; 
+export default Welcome;

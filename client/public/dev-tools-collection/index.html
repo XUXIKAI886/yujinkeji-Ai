@@ -113,6 +113,56 @@
             background-color: #fff2f0;
             border: 1px solid #ffccc7;
         }
+        /* 工具卡片样式 */
+        .tool-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+            height: 100%;
+        }
+        .tool-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            border-color: #1890ff;
+        }
+        .tool-card .layui-card-header {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1890ff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .tool-card .layui-card-header i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        .tool-desc {
+            color: #666;
+            margin: 12px 0;
+            line-height: 1.6;
+            min-height: 48px;
+        }
+        .tool-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .feature-tag {
+            background: #f5f5f5;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .feature-tag:hover {
+            background: #e6f7ff;
+            color: #1890ff;
+        }
+        .layui-col-space15 > * {
+            padding: 7.5px;
+        }
     </style>
 </head>
 <body class="layui-layout-body">
@@ -133,7 +183,27 @@
         <!-- 内容主体 -->
         <div class="layui-body">
             <div class="layui-fluid">
-                <!-- 这里将添加开发软件合集的具体内容 -->
+                <!-- 工具卡片区域 -->
+                <div class="layui-row layui-col-space15">
+                    <!-- CSV转Excel工具卡片 -->
+                    <div class="layui-col-md6 layui-col-lg4">
+                        <div class="layui-card tool-card" onclick="window.location.href='csv-to-excel/'">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-file"></i>
+                                CSV转Excel工具
+                            </div>
+                            <div class="layui-card-body">
+                                <p class="tool-desc">快速将CSV文件转换为Excel格式，支持文件预览和批量转换。自动识别编码，解决中文乱码问题。</p>
+                                <div class="tool-features">
+                                    <span class="feature-tag">文件转换</span>
+                                    <span class="feature-tag">在线预览</span>
+                                    <span class="feature-tag">编码识别</span>
+                                    <span class="feature-tag">批量处理</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

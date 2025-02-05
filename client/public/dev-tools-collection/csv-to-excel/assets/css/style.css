@@ -1,0 +1,83 @@
+/* 全局样式 */
+.layui-layout-admin .layui-body {
+    bottom: 0;
+    background-color: #fff;
+}
+
+.layui-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: #001529;
+}
+
+.layui-logo {
+    flex: 0 0 200px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.points-info {
+    color: #fff;
+    font-size: 14px;
+}
+
+/* 内容区域样式 */
+.layui-fluid {
+    padding: 15px;
+}
+
+.layui-card {
+    margin-bottom: 15px;
+}
+
+.layui-card-header {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.preview-container {
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.layui-table {
+    margin-top: 0;
+}
+
+/* 按钮样式 */
+.layui-btn {
+    min-width: 120px;
+}
+
+.layui-btn .layui-icon {
+    margin-right: 5px;
+}
+
+/* 底部样式 */
+.layui-footer {
+    text-align: center;
+    color: #666;
+    padding: 10px 0;
+    background: #f2f2f2;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .layui-logo {
+        flex: 0 0 150px;
+        font-size: 16px;
+    }
+    
+    .layui-btn {
+        min-width: 100px;
+    }
+}

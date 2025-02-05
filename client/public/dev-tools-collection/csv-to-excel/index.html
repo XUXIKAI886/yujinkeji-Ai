@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV转Excel工具</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/css/layui.css">
+    <style>
+        .layui-layout-admin .layui-body {
+            bottom: 0;
+            background-color: #fff;
+        }
+        .layui-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: #001529;
+        }
+        .layui-logo {
+            flex: 0 0 200px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .layui-badge-dot {
+            margin-right: 8px;
+        }
+        .points-info {
+            color: #52c41a;
+            font-size: 14px;
+        }
+        .vip-tip-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .vip-tip {
+            color: #faad14;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(250,173,20,0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .layui-nav.layui-layout-right {
+            flex: 0 0 auto;
+            background: none;
+        }
+        .layui-fluid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .layui-card {
+            margin-bottom: 15px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+        }
+        .layui-card-header {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 16px 20px;
+            background: #fafafa;
+        }
+        .layui-card-body {
+            padding: 20px;
+        }
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #e8e8e8;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .preview-table th {
+            background: #fafafa;
+        }
+        #convertBtn {
+            margin-left: 10px;
+        }
+        #convertBtn[disabled] {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部区域 -->
+        <div class="layui-header">
+            <div class="layui-logo">
+                CSV转Excel工具
+            </div>
+            <div class="vip-tip-container">
+                <span class="vip-tip">仅限域锦科技会员才能免费使用</span>
+            </div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="/chat" class="layui-btn layui-btn-primary">返回聊天</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="layui-body">
+            <div class="layui-fluid">
+                <!-- 控制面板 -->
+                <div class="layui-card">
+                    <div class="layui-card-header">文件转换</div>
+                    <div class="layui-card-body">
+                        <div class="layui-form">
+                            <div class="layui-form-item" style="text-align: center;">
+                                <button type="button" class="layui-btn" id="uploadBtn">
+                                    <i class="layui-icon">&#xe67c;</i>选择CSV文件
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-normal" id="convertBtn" disabled>
+                                    <i class="layui-icon">&#xe67d;</i>转换为Excel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文件预览区 -->
+                <div class="layui-card">
+                    <div class="layui-card-header">文件预览</div>
+                    <div class="layui-card-body">
+                        <table class="preview-table" id="previewTable">
+                            <thead>
+                                <tr>
+                                    <th>请选择CSV文件以预览数据</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.full.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

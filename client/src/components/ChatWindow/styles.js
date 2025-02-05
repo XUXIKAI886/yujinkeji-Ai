@@ -8,7 +8,7 @@ export const ChatContainer = styled.div`
     min-height: 600px;
     min-width: 1000px;
     position: relative;
-    padding-bottom: 60px;
+    padding-bottom: 20px;
     background: #ffffff;
     border-radius: 8px;
     overflow-x: auto;
@@ -78,7 +78,7 @@ export const MessageList = styled.div`
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     background: #ffffff;
 
     &::-webkit-scrollbar {
@@ -100,7 +100,7 @@ export const MessageList = styled.div`
 `;
 
 export const InputArea = styled.div`
-    padding: 20px;
+    padding: 15px 20px;
     background: #f9fafb;
     border-top: 1px solid #e5e7eb;
 `;

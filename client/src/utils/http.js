@@ -4,7 +4,7 @@ import { message } from 'antd';
 // 创建axios实例
 const http = axios.create({
     baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000/api',
-    timeout: 60000, // 增加超时时间到60秒
+    timeout: 600000, // 增加超时时间到600秒
     headers: {
         'Content-Type': 'application/json',
     }

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据大盘配置</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/css/layui.css">
+    <style>
+        .config-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .config-title {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .config-section {
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1890ff;
+        }
+        .layui-form-item {
+            margin-bottom: 15px;
+        }
+        .action-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .preview-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-container">
+        <div class="config-title">
+            <h2>数据大盘配置</h2>
+        </div>
+        
+        <form class="layui-form">
+            <!-- 基础配置 -->
+            <div class="config-section">
+                <div class="section-title">基础配置</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">大盘标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入数据大盘标题" value="业务数据分析大盘" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">副标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="subtitle" placeholder="请输入副标题（英文）" value="Business Data Analysis Dashboard" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOP5配置 -->
+            <div class="config-section">
+                <div class="section-title">TOP5数据配置</div>
+                <div class="layui-form" id="top5-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">TOP5标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="top5_title" required lay-verify="required" placeholder="请输入TOP5模块标题" value="产品销量TOP5" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div id="top5-items">
+                        <!-- TOP5项目1 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">项目1</label>
+                            <div class="layui-input-inline" style="width: 200px;">
+                                <input type="text" name="top5_name_1" required placeholder="名称" value="产品A" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_value_1" required placeholder="数值" value="1586" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_percent_1" required placeholder="百分比" value="92" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- TOP5项目2 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">项目2</label>
+                            <div class="layui-input-inline" style="width: 200px;">
+                                <input type="text" name="top5_name_2" required placeholder="名称" value="产品B" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_value_2" required placeholder="数值" value="1482" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_percent_2" required placeholder="百分比" value="88" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- TOP5项目3 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">项目3</label>
+                            <div class="layui-input-inline" style="width: 200px;">
+                                <input type="text" name="top5_name_3" required placeholder="名称" value="产品C" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_value_3" required placeholder="数值" value="1386" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_percent_3" required placeholder="百分比" value="85" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- TOP5项目4 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">项目4</label>
+                            <div class="layui-input-inline" style="width: 200px;">
+                                <input type="text" name="top5_name_4" required placeholder="名称" value="产品D" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_value_4" required placeholder="数值" value="1265" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_percent_4" required placeholder="百分比" value="80" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- TOP5项目5 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">项目5</label>
+                            <div class="layui-input-inline" style="width: 200px;">
+                                <input type="text" name="top5_name_5" required placeholder="名称" value="产品E" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_value_5" required placeholder="数值" value="1156" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="number" name="top5_percent_5" required placeholder="百分比" value="75" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 销售数据配置 -->
+            <div class="config-section">
+                <div class="section-title">销售数据配置</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">年订单量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="yearly_orders" required lay-verify="required" placeholder="请输入年订单量" value="568471" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">月订单量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="monthly_orders" required lay-verify="required" placeholder="请输入月订单量" value="45710" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">总营业额</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="total_revenue" required lay-verify="required" placeholder="请输入总营业额" value="5689714" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 运营指标配置 -->
+            <div class="config-section">
+                <div class="section-title">运营指标配置</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">好评率</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="satisfaction_rate" required lay-verify="required" placeholder="请输入好评率" value="89" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">准时率</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="ontime_rate" required lay-verify="required" placeholder="请输入准时率" value="92" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="layui-btn" lay-submit lay-filter="saveConfig">保存配置并查看大盘</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/layui@2.6.8/dist/layui.js"></script>
+    <script>
+        layui.use(['form', 'layer'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            
+            // 加载已有配置或默认配置
+            var config = JSON.parse(localStorage.getItem('dashboardConfig')) || {
+                title: '业务数据分析大盘',
+                subtitle: 'Business Data Analysis Dashboard',
+                top5_title: '产品销量TOP5',
+                top5_name_1: '产品A', top5_value_1: '1586', top5_percent_1: '92',
+                top5_name_2: '产品B', top5_value_2: '1482', top5_percent_2: '88',
+                top5_name_3: '产品C', top5_value_3: '1386', top5_percent_3: '85',
+                top5_name_4: '产品D', top5_value_4: '1265', top5_percent_4: '80',
+                top5_name_5: '产品E', top5_value_5: '1156', top5_percent_5: '75',
+                yearly_orders: '568471',
+                monthly_orders: '45710',
+                total_revenue: '5689714',
+                satisfaction_rate: '89',
+                ontime_rate: '92'
+            };
+
+            // 填充表单
+            Object.keys(config).forEach(function(key) {
+                var input = document.querySelector(`input[name="${key}"]`);
+                if (input) {
+                    input.value = config[key];
+                }
+            });
+            
+            // 表单提交处理
+            form.on('submit(saveConfig)', function(data){
+                // 保存配置到localStorage
+                localStorage.setItem('dashboardConfig', JSON.stringify(data.field));
+                
+                // 跳转到数据大盘页面
+                window.location.href = 'index.html';
+                
+                return false;
+            });
+        });
+    </script>
+</body>
+</html> 

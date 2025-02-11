@@ -37,8 +37,8 @@ class DeepseekService {
             const requestData = {
                 model: 'deepseek-chat',
                 messages: messages,
-                temperature: config.temperature || 0.7,
-                max_tokens: config.maxTokens || 2000,
+                temperature: config.temperature || 1,
+                max_tokens: config.maxTokens || 7000,
                 stream: false
             };
 
@@ -56,7 +56,7 @@ class DeepseekService {
                     'Accept': 'application/json',
                     'Accept-Charset': 'utf-8'
                 },
-                timeout: 60000, // 60秒超时
+                timeout: 600000, // 600秒超时
                 responseType: 'json',
                 responseEncoding: 'utf8'
             });

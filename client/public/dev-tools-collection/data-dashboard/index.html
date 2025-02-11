@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据大盘可视化</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!-- 头部模块 -->
+    <header>
+        <h1><span>数据大盘可视化分析平台</span></h1>
+        <p><span>Data Dashboard Visualization Platform</span></p>
+    </header>
+
+    <div class="main">
+        <!-- top5 -->
+        <div class="top5">
+            <div class="top5-title">
+                <span>热销商品TOP5</span>
+            </div>
+            <div class="top5-content">
+                <ul>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>香辣小龙虾</span>
+                            <span>1586</span>
+                            <span>92%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>黄焖鸡米饭</span>
+                            <span>1482</span>
+                            <span>88%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>麻辣烫</span>
+                            <span>1386</span>
+                            <span>85%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>炸鸡套餐</span>
+                            <span>1265</span>
+                            <span>80%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>酸菜鱼</span>
+                            <span>1156</span>
+                            <span>75%</span>
+                            <span><img src="./images/down.png" alt=""></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="top5-title">
+                <span>餐品类别分析</span>
+            </div>
+        </div>
+        <!-- 销售总额 -->
+        <div class="total">
+            <div class="data1">
+                <span>年订单量</span>
+                <p>568471</p>
+            </div>
+            <div class="data2">
+                <span>月订单量</span>
+                <p>45710</p>
+            </div>
+            <div class="data3">
+                <span>周订单量</span>
+                <p>5647</p>
+            </div>
+            <div class="data4">
+                <span>日订单量</span>
+                <p>145</p>
+            </div>
+            <canvas class="rain"></canvas>
+            <canvas class="dashed"></canvas>
+            <div class="sphere">
+                <div class="sphere-bg"></div>
+                <div class="sum">
+                    <span>总营业额</span>
+                    <p>5689714</p>
+                </div>
+            </div>
+            <div class="cicle3"></div>
+            <div class="cicle4"></div>
+            <div class="cicle5"></div>
+            <div class="cicle6"></div>
+            <div class="cicle7"></div>
+            <div class="cicle8">
+                <span>89%</span>
+                <p>好评率</p>
+            </div>
+            <div class="cicle9">
+                <span>92%</span>
+                <p>准时率</p>
+            </div>
+            <div class="cicle10">
+                <span>95%</span>
+                <p>接单率</p>
+            </div>
+            <div class="cicle11">
+                <span>85%</span>
+                <p>复购率</p>
+            </div>
+        </div>
+        <!-- 运营分析 -->
+        <div class="analyse">
+            <div class="analyse-title">
+                <span>外卖运营分析</span>
+            </div>
+            <ul>
+                <li>
+                    <img src="./images/s1.png" alt="">
+                    <h5>日均订单</h5><br>
+                    <span>Daily Orders</span><br>
+                    <em>145单</em>
+                </li>
+                <li>
+                    <img src="./images/s3.png" alt="">
+                    <h5>客单价</h5><br>
+                    <span>Per Customer Transaction</span><br>
+                    <em>￥38.5</em>
+                </li>
+                <li>
+                    <img src="./images/s2.png" alt="">
+                    <h5>月营收</h5><br>
+                    <span>Monthly Revenue</span><br>
+                    <em>￥167,420</em>
+                </li>
+            </ul>
+            <div class="execution">
+                <div class="title">运营指标</div>
+                <div class="cicle1"></div>
+                <div class="cicle2"></div>
+                <div class="waterChart1">
+                    <div class="chart-title">配送准时率</div>
+                    <div class="chart1"></div>
+                </div>
+                <div class="waterChart2">
+                    <div class="chart-title">订单完成率</div>
+                    <div class="chart2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 餐品分类销售分析 -->
+        <div class="sale">
+            <ul>
+                <li>
+                    <div class="showImg">
+                        <img src="./images/food1.png" alt="">
+                    </div>
+                    <div class="data">
+                        <span>主食类</span>
+                        <span>5256</span>
+                    </div>
+                    <div class="shoeChart"></div>
+                </li>
+                <li>
+                    <div class="showImg">
+                        <img src="./images/food2.png" alt="">
+                    </div>
+                    <div class="data">
+                        <span>小吃类</span>
+                        <span>3256</span>
+                    </div>
+                    <div class="clothesChart"></div>
+                </li>
+                <li>
+                    <div class="showImg">
+                        <img src="./images/food3.png" alt="">
+                    </div>
+                    <div class="data">
+                        <span>饮品类</span>
+                        <span>1256</span>
+                    </div>
+                    <div class="mzChart"></div>
+                </li>
+            </ul>
+        </div>
+        <!-- 折线图 -->
+        <div class="lineChart">
+
+        </div>
+    </div>
+
+    <!-- 底部模块 -->
+    <div class="bottom">
+        <h5><span>实时数据监控</span></h5>
+        <p>Real-time Data Monitoring</p>
+    </div>
+</body>
+<script src="./js/jquery-1.11.0.min.js"></script>
+<script src="./js/echarts.min.js"></script>
+<script src="./js/echarts-liquidfill.min.js"></script>
+<script src="./js/main.js"></script>
+
+</html>

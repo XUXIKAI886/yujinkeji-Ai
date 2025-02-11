@@ -718,6 +718,7 @@ const DevToolsButton = styled(ActionButton)`
 const ChatLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState(null);
+  const [wechatModalVisible, setWechatModalVisible] = useState(false);
   const { user, updateUser } = useAuth();
 
   const showPointsHistory = React.useCallback(async () => {
@@ -929,6 +930,10 @@ const ChatLayout = () => {
     window.open('/dev-tools-collection', '_blank');
   };
 
+  const handleWechatClick = () => {
+    setWechatModalVisible(true);
+  };
+
   return (
     <StyledLayout>
       <StyledSider
@@ -997,7 +1002,7 @@ const ChatLayout = () => {
             <DocsButton type="default" icon={<FileTextOutlined />} onClick={handleDocsClick}>
               使用文档
             </DocsButton>
-            <ServiceButton type="default" icon={<WechatOutlined />}>
+            <ServiceButton type="default" icon={<WechatOutlined />} onClick={handleWechatClick}>
               微信客服
             </ServiceButton>
             <Tooltip title="积分记录">
@@ -1026,6 +1031,35 @@ const ChatLayout = () => {
             updateUser={updateUser}
           />
         </StyledContent>
+
+        <Modal
+          title="微信客服"
+          open={wechatModalVisible}
+          onCancel={() => setWechatModalVisible(false)}
+          footer={null}
+          width={400}
+          centered
+        >
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <img 
+              src="/images/wechat-qr.png" 
+              alt="微信客服二维码"
+              style={{ 
+                width: '100%', 
+                maxWidth: '300px',
+                borderRadius: '8px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }} 
+            />
+            <p style={{ 
+              marginTop: '16px',
+              color: '#666',
+              fontSize: '14px'
+            }}>
+              扫描二维码添加客服微信
+            </p>
+          </div>
+        </Modal>
       </Layout>
     </StyledLayout>
   );

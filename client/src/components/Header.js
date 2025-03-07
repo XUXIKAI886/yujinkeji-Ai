@@ -35,14 +35,14 @@ const Logo = styled(Link)`
   font-weight: 700;
 
   &:hover {
-    color: #00c6fb;
+    color: #6f42c1;
   }
 `;
 
 const LogoIcon = styled.div`
   width: 48px;
   height: 48px;
-  background: linear-gradient(45deg, #00c6fb 0%, #005bea 100%);
+  background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -50,7 +50,7 @@ const LogoIcon = styled.div`
   font-weight: bold;
   font-size: 24px;
   color: white;
-  box-shadow: 0 4px 15px rgba(0, 198, 251, 0.3);
+  box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
 `;
 
 const LoginButton = styled(Button)`
@@ -67,13 +67,13 @@ const LoginButton = styled(Button)`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(111, 66, 193, 0.1);
+    border-color: rgba(111, 66, 193, 0.3);
     color: white;
     transform: translateY(-2px);
     box-shadow: 
-      0 5px 15px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.15);
+      0 5px 15px rgba(111, 66, 193, 0.2),
+      0 0 0 1px rgba(111, 66, 193, 0.15);
   }
 
   &:active {
@@ -82,7 +82,7 @@ const LoginButton = styled(Button)`
 `;
 
 const RegisterButton = styled(Button)`
-  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
   border: none;
   color: white;
   height: 48px;
@@ -91,8 +91,8 @@ const RegisterButton = styled(Button)`
   font-weight: 500;
   border-radius: 24px;
   box-shadow: 
-    0 5px 15px rgba(0, 198, 251, 0.3),
-    0 3px 6px rgba(0, 91, 234, 0.2);
+    0 5px 15px rgba(111, 66, 193, 0.3),
+    0 3px 6px rgba(111, 66, 193, 0.2);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -115,10 +115,10 @@ const RegisterButton = styled(Button)`
 
   &:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+    background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
     box-shadow: 
-      0 8px 20px rgba(0, 198, 251, 0.4),
-      0 4px 8px rgba(0, 91, 234, 0.3);
+      0 8px 20px rgba(111, 66, 193, 0.4),
+      0 4px 8px rgba(111, 66, 193, 0.3);
     
     &::before {
       left: 100%;
@@ -148,30 +148,31 @@ const NavLink = styled(Link)`
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #00c6fb, #005bea);
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, #8a65d9, #6f42c1);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
   }
 
   &:hover {
     color: white;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 
-      0 5px 15px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.15);
-
+    background: rgba(111, 66, 193, 0.1);
+    border-color: rgba(111, 66, 193, 0.3);
+    
     &::before {
       width: 80%;
     }
   }
 
-  &:active {
-    transform: translateY(0);
+  &.active {
+    background: rgba(111, 66, 193, 0.15);
+    border-color: rgba(111, 66, 193, 0.4);
+    color: white;
+    
+    &::before {
+      width: 90%;
+    }
   }
 `;
 

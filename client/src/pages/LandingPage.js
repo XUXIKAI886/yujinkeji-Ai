@@ -28,7 +28,7 @@ const { Title, Paragraph } = Typography;
 
 const HeroSection = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+  background: linear-gradient(135deg, #0a192f 0%, #2d1b4e 100%);
   padding: 60px 20px;
   display: flex;
   align-items: center;
@@ -36,11 +36,42 @@ const HeroSection = styled.div`
   position: relative;
   overflow: hidden;
 
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(1px 1px at 20px 30px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 40px 70px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 50px 160px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 80px 120px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0)),
+      radial-gradient(1.5px 1.5px at 110px 50px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1.5px 1.5px at 150px 180px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0));
+    background-size: 200px 200px;
+    animation: animateStars 20s linear infinite;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  @keyframes animateStars {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-200px);
+    }
+  }
+
   .hero-content {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     padding-top: 60px;
+    position: relative;
+    z-index: 1;
   }
 
   .left-content {
@@ -103,8 +134,8 @@ const TechLines = styled.div`
     top: -50%;
     left: -50%;
     background-image: 
-      linear-gradient(90deg, rgba(0,245,255,0.1) 1px, transparent 1px),
-      linear-gradient(0deg, rgba(0,245,255,0.1) 1px, transparent 1px);
+      linear-gradient(90deg, rgba(111, 66, 193, 0.1) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(111, 66, 193, 0.1) 1px, transparent 1px);
     background-size: 30px 30px;
     animation: techMove 15s linear infinite;
     transform-origin: center center;
@@ -141,7 +172,7 @@ const FloatingParticles = styled.div`
     position: absolute;
     width: 3px;
     height: 3px;
-    background: #00F5FF;
+    background: rgba(111, 66, 193, 0.8);
     border-radius: 50%;
     filter: blur(1px);
     animation: float 20s infinite linear;
@@ -198,7 +229,7 @@ const ServiceCard = styled(motion.div)`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(45deg, rgba(147, 197, 253, 0.2), transparent, rgba(147, 197, 253, 0.2));
+    background: linear-gradient(45deg, rgba(111, 66, 193, 0.2), transparent, rgba(111, 66, 193, 0.2));
     opacity: 0;
     transition: all 0.3s ease;
     pointer-events: none;
@@ -274,7 +305,7 @@ const ServiceCard = styled(motion.div)`
 `;
 
 const GradientText = styled(motion.span)`
-  background: linear-gradient(45deg, #ffffff 30%, #00c6fb 100%);
+  background: linear-gradient(45deg, #ffffff 30%, #6f42c1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% 200%;
@@ -283,7 +314,7 @@ const GradientText = styled(motion.span)`
 `;
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
   border: none;
   color: white;
   height: 48px;
@@ -292,9 +323,9 @@ const StyledButton = styled(Button)`
   font-weight: 500;
   border-radius: 24px;
   box-shadow: 
-    0 10px 20px rgba(0, 198, 251, 0.3),
-    0 6px 6px rgba(0, 91, 234, 0.2),
-    0 0 0 1px rgba(0, 198, 251, 0.1) inset;
+    0 10px 20px rgba(111, 66, 193, 0.3),
+    0 6px 6px rgba(111, 66, 193, 0.2),
+    0 0 0 1px rgba(111, 66, 193, 0.1) inset;
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -322,7 +353,7 @@ const StyledButton = styled(Button)`
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(90deg, #00c6fb, #005bea);
+    background: linear-gradient(90deg, #8a65d9, #6f42c1);
     z-index: -1;
     animation: borderGlow 3s ease-in-out infinite;
     border-radius: 24px;
@@ -332,11 +363,11 @@ const StyledButton = styled(Button)`
 
   &:hover {
     transform: translateY(-2px) scale(1.02);
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+    background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
     box-shadow: 
-      0 15px 30px rgba(0, 198, 251, 0.4),
-      0 8px 12px rgba(0, 91, 234, 0.3),
-      0 0 0 1px rgba(0, 198, 251, 0.2) inset;
+      0 15px 30px rgba(111, 66, 193, 0.4),
+      0 8px 12px rgba(111, 66, 193, 0.3),
+      0 0 0 1px rgba(111, 66, 193, 0.2) inset;
     
     &::before {
       left: 100%;
@@ -388,9 +419,9 @@ const AnimatedTitle = styled(motion.div)`
     }
     
     .normal-text {
-      color: #00c6fb;
+      color: #8a65d9;
       transform: translateY(-2px);
-      text-shadow: 0 0 20px rgba(0, 198, 251, 0.5);
+      text-shadow: 0 0 20px rgba(111, 66, 193, 0.5);
     }
   }
 `;
@@ -405,8 +436,8 @@ const AnimatedText = styled(motion.span)`
 
   &:hover {
     transform: translateY(-2px);
-    color: #00c6fb;
-    text-shadow: 0 0 20px rgba(0, 198, 251, 0.5);
+    color: #8a65d9;
+    text-shadow: 0 0 20px rgba(111, 66, 193, 0.5);
   }
 `;
 
@@ -415,9 +446,9 @@ const AnimatedParagraph = styled(Paragraph)`
   transition: all 0.3s ease;
   
   &:hover {
-    color: #00c6fb !important;
+    color: #8a65d9 !important;
     transform: translateY(-2px);
-    text-shadow: 0 0 20px rgba(0, 198, 251, 0.3);
+    text-shadow: 0 0 20px rgba(111, 66, 193, 0.3);
   }
 `;
 
@@ -426,7 +457,7 @@ const CallToAction = styled.div`
   padding: 120px 0;
   position: relative;
   z-index: 10;
-  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+  background: linear-gradient(135deg, #0a192f 0%, #2d1b4e 100%);
   overflow: hidden;
 
   &::before {
@@ -660,7 +691,7 @@ const SocialMediaSection = styled.div`
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, rgba(147, 197, 253, 0.2), transparent, rgba(147, 197, 253, 0.2));
+    background: linear-gradient(45deg, rgba(111, 66, 193, 0.2), transparent, rgba(111, 66, 193, 0.2));
     z-index: 0;
     animation: borderGlow 6s linear infinite;
   }
@@ -861,7 +892,7 @@ const PreviewImage = styled(motion.div)`
   overflow: hidden;
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(147, 197, 253, 0.2);
+    0 0 0 1px rgba(111, 66, 193, 0.2);
   
   img {
     width: 100%;
@@ -877,7 +908,7 @@ const PreviewImage = styled(motion.div)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 198, 251, 0.1) 0%, rgba(0, 91, 234, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(111, 66, 193, 0.1) 0%, rgba(56, 178, 172, 0.1) 100%);
     pointer-events: none;
   }
 
@@ -887,7 +918,7 @@ const PreviewImage = styled(motion.div)`
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at center, rgba(147, 197, 253, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(111, 66, 193, 0.1) 0%, transparent 70%);
     animation: rotate 10s linear infinite;
   }
 

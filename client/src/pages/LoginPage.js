@@ -11,7 +11,7 @@ const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%) !important;
+  background: linear-gradient(135deg, #0a192f 0%, #2d1b4e 100%) !important;
   position: relative;
   overflow: hidden;
   z-index: 0;
@@ -47,7 +47,7 @@ const StyledCard = styled(Card)`
     font-size: 32px;
     font-weight: 600;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to right, #fff, #00F5FF);
+    background: linear-gradient(to right, #fff, #6f42c1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shimmer 2s infinite linear;
@@ -99,24 +99,24 @@ const StyledForm = styled(Form)`
     }
 
     &:hover {
-      border-color: #00F5FF;
+      border-color: #6f42c1;
       background: rgba(15, 23, 42, 0.8) !important;
       transform: translateY(-2px);
 
       .anticon {
-        color: #00F5FF;
+        color: #6f42c1;
       }
     }
 
     &:focus,
     &-focused {
-      border-color: #00F5FF;
-      box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+      border-color: #6f42c1;
+      box-shadow: 0 0 20px rgba(111, 66, 193, 0.2);
       background: rgba(15, 23, 42, 0.8) !important;
       transform: translateY(-2px);
 
       .anticon {
-        color: #00F5FF;
+        color: #6f42c1;
       }
     }
 
@@ -138,7 +138,7 @@ const StyledForm = styled(Form)`
     font-size: 16px;
     
     &:hover {
-      color: #00F5FF;
+      color: #6f42c1;
     }
   }
 
@@ -158,7 +158,7 @@ const StyledForm = styled(Form)`
   }
 
   input::selection {
-    background: rgba(0, 245, 255, 0.2);
+    background: rgba(111, 66, 193, 0.2);
     color: #ffffff;
   }
 
@@ -210,7 +210,7 @@ const StyledButton = styled(Button)`
   border-radius: 16px;
   font-size: 18px;
   font-weight: 600;
-  background: linear-gradient(135deg, rgba(147, 197, 253, 0.8) 0%, rgba(96, 165, 250, 0.8) 100%);
+  background: linear-gradient(135deg, #8a65d9 0%, #6f42c1 100%);
   border: none;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -237,7 +237,7 @@ const StyledButton = styled(Button)`
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, rgba(147, 197, 253, 0.9) 0%, rgba(96, 165, 250, 0.9) 100%);
+    background: linear-gradient(135deg, #9d7fea 0%, #8a65d9 100%);
     
     &::before {
       left: 100%;
@@ -268,13 +268,13 @@ const StyledLink = styled(Link)`
     left: 0;
     width: 0;
     height: 2px;
-    background: #00F5FF;
+    background: #6f42c1;
     transition: all 0.3s ease;
   }
   
   &:hover {
-    color: #00F5FF;
-    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+    color: #6f42c1;
+    text-shadow: 0 0 10px rgba(111, 66, 193, 0.5);
     
     &::after {
       width: 100%;
@@ -302,8 +302,8 @@ const TechLines = styled.div`
     top: -50%;
     left: -50%;
     background-image: 
-      linear-gradient(90deg, rgba(0,245,255,0.1) 1px, transparent 1px),
-      linear-gradient(0deg, rgba(0,245,255,0.1) 1px, transparent 1px);
+      linear-gradient(90deg, rgba(111, 66, 193, 0.1) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(111, 66, 193, 0.1) 1px, transparent 1px);
     background-size: 30px 30px;
     animation: techMove 30s linear infinite;
     transform-origin: center center;
@@ -339,7 +339,7 @@ const FloatingParticles = styled.div`
     position: absolute;
     width: 3px;
     height: 3px;
-    background: #00F5FF;
+    background: #6f42c1;
     border-radius: 50%;
     filter: blur(1px);
     animation: float 30s infinite linear;
@@ -363,7 +363,7 @@ const FloatingParticles = styled.div`
 const BrandLogo = styled.div`
   width: 48px;
   height: 48px;
-  background: linear-gradient(45deg, #00c6fb 0%, #005bea 100%);
+  background: linear-gradient(45deg, #8a65d9 0%, #6f42c1 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -371,7 +371,7 @@ const BrandLogo = styled.div`
   font-weight: bold;
   font-size: 24px;
   color: white;
-  box-shadow: 0 4px 15px rgba(0, 198, 251, 0.3);
+  box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
 `;
 
 const BrandName = styled.div`
@@ -379,7 +379,7 @@ const BrandName = styled.div`
   font-weight: 700;
   color: white;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(to right, #fff, #00F5FF);
+  background: linear-gradient(to right, #fff, #6f42c1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -402,11 +402,11 @@ const BrandContainer = styled(Link)`
     transform: translateX(-50%) translateY(-2px);
     
     ${BrandLogo} {
-      box-shadow: 0 8px 25px rgba(0, 198, 251, 0.4);
+      box-shadow: 0 8px 25px rgba(111, 66, 193, 0.4);
     }
     
     ${BrandName} {
-      text-shadow: 0 4px 15px rgba(0, 198, 251, 0.5);
+      text-shadow: 0 4px 15px rgba(111, 66, 193, 0.5);
     }
   }
 `;

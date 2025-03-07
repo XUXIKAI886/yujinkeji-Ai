@@ -1,147 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- 深邃星空背景渐变 -->
-    <linearGradient id="spaceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0F2027;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#203A43;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#2C5364;stop-opacity:1" />
-    </linearGradient>
-
-    <!-- AI科技线条渐变 -->
-    <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#0088FF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#0033FF;stop-opacity:1" />
-    </linearGradient>
-
-    <!-- 星云效果 -->
-    <radialGradient id="nebulaGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0.2" />
-      <stop offset="100%" style="stop-color:#0033FF;stop-opacity:0" />
-    </radialGradient>
-
-    <!-- 粒子系统滤镜 -->
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0   0 0 0 0 0.8   0 0 0 0 1  0 0 0 1 0" />
-    </filter>
-  </defs>
-
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- 背景 -->
-  <rect width="800" height="600" fill="url(#spaceGradient)" />
-
-  <!-- 星云效果 -->
+  <rect width="800" height="600" fill="#18253E" />
+  
+  <!-- 中心圆环 -->
+  <circle cx="400" cy="300" r="150" stroke="#6F42C1" stroke-opacity="0.3" stroke-width="2" />
+  <circle cx="400" cy="300" r="200" stroke="#6F42C1" stroke-opacity="0.2" stroke-width="1.5" />
+  
+  <!-- 六边形 -->
+  <path d="M425 250L475 300L425 350L375 350L325 300L375 250L425 250Z" stroke="#6F42C1" stroke-opacity="0.6" stroke-width="2" />
+  <path d="M420 270L450 300L420 330L380 330L350 300L380 270L420 270Z" stroke="#6F42C1" stroke-opacity="0.8" stroke-width="1.5" />
+  
+  <!-- 中心圆 -->
+  <circle cx="400" cy="300" r="30" stroke="#6F42C1" stroke-opacity="0.5" stroke-width="2" fill="#18253E" />
+  <circle cx="400" cy="300" r="20" stroke="#6F42C1" stroke-opacity="0.8" stroke-width="1" fill="#18253E" />
+  
+  <!-- 交叉线 -->
+  <line x1="250" y1="300" x2="550" y2="300" stroke="#6F42C1" stroke-opacity="0.4" stroke-width="1" />
+  <line x1="400" y1="150" x2="400" y2="450" stroke="#6F42C1" stroke-opacity="0.4" stroke-width="1" />
+  
+  <!-- 小点点 -->
+  <circle cx="400" cy="200" r="6" fill="#6F42C1" />
+  <circle cx="400" cy="400" r="6" fill="#6F42C1" />
+  <circle cx="300" cy="300" r="6" fill="#6F42C1" />
+  <circle cx="500" cy="300" r="6" fill="#6F42C1" />
+  <circle cx="460" cy="240" r="6" fill="#6F42C1" />
+  <circle cx="340" cy="360" r="6" fill="#6F42C1" />
+  
+  <!-- 闪烁小点 -->
+  <circle cx="400" cy="300" r="3" fill="#9D7FEA">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- 动画旋转元素 -->
   <g>
-    <circle cx="400" cy="300" r="250" fill="url(#nebulaGlow)" opacity="0.5">
-      <animate attributeName="opacity" values="0.5;0.3;0.5" dur="8s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="200" cy="400" r="180" fill="url(#nebulaGlow)" opacity="0.3">
-      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="10s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="600" cy="200" r="200" fill="url(#nebulaGlow)" opacity="0.4">
-      <animate attributeName="opacity" values="0.4;0.2;0.4" dur="12s" repeatCount="indefinite" />
-    </circle>
-  </g>
-
-  <!-- 动态星空 -->
-  <g>
-    <!-- 生成100个随机位置的星星 -->
-    <script type="text/javascript">
-      <![CDATA[
-      for(let i = 0; i < 100; i++) {
-        const x = Math.random() * 800;
-        const y = Math.random() * 600;
-        const r = Math.random() * 2 + 1;
-        const delay = Math.random() * 3;
-        const dur = Math.random() * 2 + 2;
-        document.write(`
-          <circle cx="${x}" cy="${y}" r="${r}" fill="#ffffff" filter="url(#glow)">
-            <animate attributeName="opacity" values="1;0.2;1" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/>
-            <animate attributeName="r" values="${r};${r*1.5};${r}" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/>
-          </circle>
-        `);
-      }
-      ]]>
-    </script>
-  </g>
-
-  <!-- AI科技线条网络 -->
-  <g transform="translate(400 300)">
-    <!-- 外环 -->
-    <circle r="180" fill="none" stroke="url(#techGradient)" stroke-width="1" opacity="0.6">
-      <animate attributeName="stroke-dasharray" from="0,1200" to="1200,0" dur="20s" repeatCount="indefinite"/>
-      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite"/>
-    </circle>
-
-    <!-- 数据流动线条 -->
-    <g>
-      <path d="M-150,0 L150,0" stroke="url(#techGradient)" stroke-width="1" opacity="0.5">
-        <animate attributeName="stroke-dasharray" values="0,300;300,0" dur="3s" repeatCount="indefinite"/>
-      </path>
-      <path d="M0,-150 L0,150" stroke="url(#techGradient)" stroke-width="1" opacity="0.5">
-        <animate attributeName="stroke-dasharray" values="0,300;300,0" dur="4s" repeatCount="indefinite"/>
-      </path>
-      <path d="M-106,-106 L106,106" stroke="url(#techGradient)" stroke-width="1" opacity="0.5">
-        <animate attributeName="stroke-dasharray" values="0,300;300,0" dur="5s" repeatCount="indefinite"/>
-      </path>
-      <path d="M106,-106 L-106,106" stroke="url(#techGradient)" stroke-width="1" opacity="0.5">
-        <animate attributeName="stroke-dasharray" values="0,300;300,0" dur="6s" repeatCount="indefinite"/>
-      </path>
-    </g>
-
-    <!-- 中心科技核心 -->
-    <g>
-      <path d="M0,-60 L52,-30 L52,30 L0,60 L-52,30 L-52,-30 Z" 
-            fill="none" 
-            stroke="url(#techGradient)" 
-            stroke-width="2"
-            opacity="0.8">
-        <animate attributeName="stroke-dasharray" values="0,400;400,0" dur="4s" repeatCount="indefinite"/>
-        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
-      </path>
-      <circle r="30" fill="none" stroke="url(#techGradient)" stroke-width="2" opacity="0.8">
-        <animate attributeName="r" values="30;35;30" dur="2s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
-      </circle>
-    </g>
-
-    <!-- 数据节点 -->
-    <g>
-      <circle cx="0" cy="-120" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="104" cy="-60" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" begin="0.4s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="104" cy="60" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="0" cy="120" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" begin="1.2s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="-104" cy="60" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" begin="1.6s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="-104" cy="-60" r="4" fill="#00F5FF" filter="url(#glow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" begin="2s" repeatCount="indefinite"/>
-      </circle>
-    </g>
-  </g>
-
-  <!-- 飞行的数据粒子 -->
-  <g>
-    <circle cx="0" cy="0" r="2" fill="#00F5FF" filter="url(#glow)">
-      <animateMotion path="M0,0 C100,-100 200,-50 800,0" dur="4s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="0" cy="0" r="2" fill="#00F5FF" filter="url(#glow)">
-      <animateMotion path="M0,600 C300,500 500,550 800,600" dur="5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;0" dur="5s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="0" cy="0" r="2" fill="#00F5FF" filter="url(#glow)">
-      <animateMotion path="M0,300 C200,200 400,400 800,300" dur="6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;0" dur="6s" repeatCount="indefinite"/>
-    </circle>
+    <animateTransform attributeName="transform" type="rotate" from="0 400 300" to="360 400 300" dur="20s" repeatCount="indefinite" />
+    <path d="M250 300 L350 270 L400 250 L450 270 L550 300" stroke="#6F42C1" stroke-opacity="0.3" stroke-width="1" fill="none" />
+    <path d="M250 300 L350 330 L400 350 L450 330 L550 300" stroke="#6F42C1" stroke-opacity="0.3" stroke-width="1" fill="none" />
   </g>
 </svg> 

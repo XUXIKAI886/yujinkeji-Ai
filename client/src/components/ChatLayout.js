@@ -112,6 +112,12 @@ const StyledSider = styled(Sider)`
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: ${props => props.collapsed ? '50px' : '200px'} !important;
+  min-width: ${props => props.collapsed ? '50px' : '200px'} !important;
+  max-width: ${props => props.collapsed ? '50px' : '200px'} !important;
 
   .ant-layout-sider-children {
     display: flex;
@@ -119,6 +125,7 @@ const StyledSider = styled(Sider)`
     height: 100%;
     position: relative;
     z-index: 1;
+    width: 100%;
   }
 
   &::before {
@@ -172,8 +179,9 @@ const HeaderRight = styled.div`
 `;
 
 const MenuButton = styled(Button)`
-  height: 40px;
+  height: 36px;
   padding: 0 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.8) !important;
   &:hover {
     color: rgba(255, 255, 255, 1) !important;
@@ -182,15 +190,15 @@ const MenuButton = styled(Button)`
 `;
 
 const ActionButton = styled(Button)`
-  height: 40px;
+  height: 36px;
   padding: 0 20px;
+  font-size: 14px;
   border-radius: 12px;
   border: none;
   color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
   font-weight: 500;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
@@ -204,10 +212,10 @@ const ActionButton = styled(Button)`
     background: rgba(255, 255, 255, 0.15) !important;
     transform: translateY(-1px);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-                0 4px 12px rgba(0, 0, 0, 0.1);
+                0 4px 12px rgba(111, 66, 193, 0.3);
                 
     .anticon {
-      color: white;
+      color: #ffffff !important;
       opacity: 1;
       transform: scale(1.1);
     }
@@ -220,7 +228,7 @@ const ActionButton = styled(Button)`
   }
 
   .anticon {
-    font-size: 20px;
+    font-size: 16px;
     transition: all 0.3s ease;
     color: rgba(255, 255, 255, 0.85);
     
@@ -242,11 +250,11 @@ const ActionButton = styled(Button)`
 `;
 
 const PointsHistoryButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #b5ddd1 0%, #c2e3d9 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(181, 221, 209, 0.2),
-              0 4px 8px rgba(194, 227, 217, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -263,35 +271,35 @@ const PointsHistoryButton = styled(ActionButton)`
   }
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #a3d4c5 0%, #b0dbcf 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(181, 221, 209, 0.3),
-                0 8px 24px rgba(194, 227, 217, 0.2),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
     z-index: 2;
     margin-right: 8px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const PointsButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #c2e3d9 0%, #cfe9e1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(194, 227, 217, 0.2),
-              0 4px 8px rgba(207, 233, 225, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -309,24 +317,24 @@ const PointsButton = styled(ActionButton)`
   }
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #b0dbcf 0%, #bde1d7 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(194, 227, 217, 0.3),
-                0 8px 24px rgba(207, 233, 225, 0.2),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
     z-index: 2;
     margin-right: 8px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
@@ -334,8 +342,8 @@ const PointsButton = styled(ActionButton)`
 
 const PointsBadge = styled(Badge)`
   .ant-badge-count {
-    background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-    color: #2c3e50;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+    color: #ffffff !important;
     font-weight: 600;
     font-size: 14px;
     padding: 0 8px;
@@ -375,33 +383,33 @@ const StyledContent = styled(Content)`
 `;
 
 const ServiceButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color: white;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
-              0 4px 8px rgba(22, 163, 74, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: white;
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3),
-                0 8px 24px rgba(22, 163, 74, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   &:active {
     transform: translateY(0);
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2),
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+    box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
   .anticon {
-    color: white;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
     
     svg {
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -409,307 +417,307 @@ const ServiceButton = styled(ActionButton)`
   }
 
   &:hover .anticon {
-    color: white;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const MindMapButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #c2e3d9 0%, #cfe9e1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(194, 227, 217, 0.2),
-              0 4px 8px rgba(207, 233, 225, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #b0dbcf 0%, #bde1d7 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(194, 227, 217, 0.3),
-                0 8px 24px rgba(207, 233, 225, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const PerformanceButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #cfe9e1 0%, #dcefe9 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(207, 233, 225, 0.2),
-              0 4px 8px rgba(220, 239, 233, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #bde1d7 0%, #cae7df 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(207, 233, 225, 0.3),
-                0 8px 24px rgba(220, 239, 233, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const DocsButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #cfe9e1 0%, #dcefe9 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(207, 233, 225, 0.2),
-              0 4px 8px rgba(220, 239, 233, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #bde1d7 0%, #cae7df 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(207, 233, 225, 0.3),
-                0 8px 24px rgba(220, 239, 233, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const VisualizationButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const ReviewAnalysisButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #b5ddd1 0%, #c2e3d9 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(181, 221, 209, 0.2),
-              0 4px 8px rgba(194, 227, 217, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #a3d4c5 0%, #b0dbcf 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(181, 221, 209, 0.3),
-                0 8px 24px rgba(194, 227, 217, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const VendorStatsButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const SalesVisualizationButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const BusinessDistrictButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
-    opacity: 1;
-    transform: scale(1.1);
-  }
-`;
-
-const CompetitorButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
-  padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-
-  &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-  }
-
-  .anticon {
-    color: #2c3e50;
-    opacity: 0.95;
-    font-size: 20px;
-  }
-
-  &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
 `;
 
 const DevToolsButton = styled(ActionButton)`
-  background: linear-gradient(135deg, #94c2bd 0%, #b5ddd1 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(148, 194, 189, 0.2),
-              0 4px 8px rgba(181, 221, 209, 0.1),
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+              0 4px 8px rgba(111, 66, 193, 0.1),
               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    color: #2c3e50;
-    background: linear-gradient(135deg, #7fb5b0 0%, #a3d4c5 100%);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(148, 194, 189, 0.3),
-                0 8px 24px rgba(181, 221, 209, 0.15),
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
     opacity: 0.95;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   &:hover .anticon {
-    color: #2c3e50;
+    color: #ffffff !important;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const CompetitorButton = styled(ActionButton)`
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+  color: #ffffff !important;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2),
+               0 4px 8px rgba(111, 66, 193, 0.1),
+               inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.8) 0%, rgba(78, 168, 222, 0.8) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3),
+                0 8px 24px rgba(111, 66, 193, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .anticon {
+    color: #ffffff !important;
+    opacity: 0.95;
+    font-size: 16px;
+  }
+
+  &:hover .anticon {
+    color: #ffffff !important;
     opacity: 1;
     transform: scale(1.1);
   }
@@ -937,7 +945,7 @@ const ChatLayout = () => {
   return (
     <StyledLayout>
       <StyledSider
-        width={260}
+        width={collapsed ? 50 : 200}
         collapsed={collapsed}
         trigger={null}
         collapsible

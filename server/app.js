@@ -89,6 +89,7 @@ app.use('/api/invite-codes', inviteCodeRoutes);
 
 // 静态文件服务
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 // 404处理
 app.use((req, res) => {

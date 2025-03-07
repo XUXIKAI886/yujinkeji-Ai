@@ -22,7 +22,7 @@ const SidebarContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(0, 4, 40, 0.85);
+  background: linear-gradient(135deg, #0a192f 0%, #2d1b4e 100%);
   color: #e2e8f0;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -37,12 +37,12 @@ const SidebarContainer = styled.div`
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.95), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 50px 160px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 80px 120px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
-      radial-gradient(1.5px 1.5px at 110px 50px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
-      radial-gradient(1.5px 1.5px at 150px 180px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0));
+      radial-gradient(1px 1px at 20px 30px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 40px 70px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 50px 160px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1px 1px at 80px 120px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0)),
+      radial-gradient(1.5px 1.5px at 110px 50px, rgba(111, 66, 193, 0.3), rgba(0, 0, 0, 0)),
+      radial-gradient(1.5px 1.5px at 150px 180px, rgba(56, 178, 172, 0.2), rgba(0, 0, 0, 0));
     background-size: 200px 200px;
     animation: animateSiderStars 20s linear infinite;
     opacity: 0.5;
@@ -59,38 +59,46 @@ const SidebarContainer = styled.div`
 `;
 
 const Logo = styled(Link)`
-  padding: 20px;
-  font-size: 20px;
+  padding: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: #ffffff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   text-decoration: none;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(13, 28, 51, 0.7);
   position: relative;
   z-index: 1;
+  justify-content: ${props => props.collapsed ? 'center' : 'flex-start'};
 
   &:hover {
-    color: #3b82f6;
-    background: rgba(255, 255, 255, 0.05);
+    color: #6f42c1;
+    background: rgba(13, 28, 51, 0.9);
+  }
+  
+  span {
+    display: ${props => props.collapsed ? 'none' : 'block'};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
 const LogoIcon = styled.div`
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #6f42c1 0%, #5a67d8 100%);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
   position: relative;
   overflow: hidden;
 
@@ -106,14 +114,14 @@ const LogoIcon = styled.div`
 `;
 
 const MenuSection = styled.div`
-  padding: 16px 12px;
+  padding: 12px 8px;
   flex: 1;
   overflow-y: auto;
   position: relative;
   z-index: 1;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 2px;
   }
 
   &::-webkit-scrollbar-track {
@@ -122,7 +130,7 @@ const MenuSection = styled.div`
 
   &::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 1px;
     
     &:hover {
       background: rgba(255, 255, 255, 0.2);
@@ -131,50 +139,50 @@ const MenuSection = styled.div`
 `;
 
 const MenuItem = styled.div`
-  padding: 12px 16px;
-  margin: 4px 8px;
-  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 6px 4px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 15px;
+  font-size: 14px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  background: ${props => props.className === 'selected' ? 'rgba(59, 130, 246, 0.3)' : 'transparent'};
+  background: ${props => props.className === 'selected' ? 'rgba(111, 66, 193, 0.3)' : 'transparent'};
 
   &:hover {
-    background: rgba(59, 130, 246, 0.25);
+    background: rgba(111, 66, 193, 0.25);
     color: #ffffff;
-    transform: translateX(4px);
+    transform: translateX(2px);
   }
 
   .menu-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     color: ${props => props.className === 'selected' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)'};
-    font-weight: ${props => props.className === 'selected' ? '600' : '500'};
+    font-weight: ${props => props.className === 'selected' ? '500' : '400'};
     
     .badges {
       margin-left: auto;
       display: flex;
-      gap: 8px;
+      gap: 4px;
     }
   }
 
   .menu-description {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
-    padding-left: 30px;
-    line-height: 1.4;
+    padding-left: 20px;
+    line-height: 1.2;
     display: ${props => props.collapsed ? 'none' : 'block'};
   }
 
   .anticon {
-    font-size: 18px;
+    font-size: 16px;
     transition: all 0.3s ease;
     color: rgba(255, 255, 255, 0.8);
   }
@@ -185,7 +193,7 @@ const MenuItem = styled.div`
   }
 
   &.selected {
-    background: rgba(59, 130, 246, 0.3);
+    background: rgba(111, 66, 193, 0.3);
     color: #ffffff;
     font-weight: 500;
     transform: translateX(4px);
@@ -214,7 +222,7 @@ const MenuItem = styled.div`
 const CategoryTitle = styled.div`
   padding: 16px 16px 8px;
   color: rgba(255, 255, 255, 0.4);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -235,20 +243,19 @@ const CategoryTitle = styled.div`
 `;
 
 const NewBadge = styled.span`
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #6f42c1 0%, #5a67d8 100%);
   color: white;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 6px;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 3px;
   margin-left: auto;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 4px rgba(111, 66, 193, 0.15);
 `;
 
 const HotBadge = styled(NewBadge)`
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
 `;
 
 const Sidebar = ({ onSelectAssistant, collapsed }) => {
@@ -463,7 +470,8 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
     '外卖竞店数据分析',
     '外卖店铺数据分析',
     '外卖商圈调研',
-    '外卖店铺诊断'
+    '外卖店铺诊断',
+    '美团logo设计'
   ];
 
   const isHotAssistant = (name) => {
@@ -508,9 +516,9 @@ const Sidebar = ({ onSelectAssistant, collapsed }) => {
 
   return (
     <SidebarContainer>
-      <Logo to="/">
+      <Logo to="/" collapsed={collapsed}>
         <LogoIcon>域</LogoIcon>
-        {!collapsed && '域锦AI平台'}
+        <span>域锦AI平台</span>
       </Logo>
       <MenuSection>
         {menuItems.map(item => renderMenuItem(item))}

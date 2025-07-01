@@ -247,7 +247,7 @@ cd client
 npm run build
 
 # 启动服务器 (会自动提供客户端静态文件)
-cd ../server
+cd .. # 返回项目根目录
 npm start
 ```
 

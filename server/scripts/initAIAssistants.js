@@ -263,6 +263,69 @@ const assistants = [
             version: '1.0.0',
             tags: ['数据', '分析', '报告']
         }
+    },
+    {
+        key: 'xiaohongshu-content',
+        name: '小红书图文助手',
+        description: '专业创作小红书爆款内容，提供图片美化和排版建议',
+        type: 'visual',
+        pointsCost: 10,
+        config: {
+            modelType: 'deepseek',
+            apiKey: process.env.DEEPSEEK_API_KEY || 'your-deepseek-api-key',
+            apiUrl: 'https://api.deepseek.com/v1/chat/completions',
+            systemPrompt: '你是一个专业的小红书内容创作和图片美化专家，帮助用户创作爆款内容并提供专业的排版和美化建议。',
+            temperature: 0.7,
+            maxTokens: 2500
+        },
+        isActive: true,
+        accessLevel: 'public',
+        metadata: {
+            version: '1.0.0',
+            tags: ['小红书', '内容创作', '图片美化', '排版']
+        }
+    },
+    {
+        key: 'flashbuy-selling-points',
+        name: '美团闪购八字卖点提炼',
+        description: '专业提炼商品核心优势，凝练八字精准卖点',
+        type: 'text',
+        pointsCost: 8,
+        config: {
+            modelType: 'deepseek',
+            apiKey: process.env.DEEPSEEK_API_KEY || 'your-deepseek-api-key',
+            apiUrl: 'https://api.deepseek.com/v1/chat/completions',
+            systemPrompt: '你是一个专业的商品卖点提炼专家，擅长把商品的特点和优势浓缩为简短有力的八字卖点，帮助商家提高转化率。',
+            temperature: 0.6,
+            maxTokens: 2000
+        },
+        isActive: true,
+        accessLevel: 'public',
+        metadata: {
+            version: '1.0.0',
+            tags: ['美团', '闪购', '卖点', '商品描述']
+        }
+    },
+    {
+        key: 'wechat-graphic-copywriting',
+        name: '微信群发图形化文案创作',
+        description: '专业创作微信群发图文消息，提供精美排版和高转化率文案',
+        type: 'visual',
+        pointsCost: 10,
+        config: {
+            modelType: 'deepseek',
+            apiKey: process.env.DEEPSEEK_API_KEY || 'your-deepseek-api-key',
+            apiUrl: 'https://api.deepseek.com/v1/chat/completions',
+            systemPrompt: '你是一个专业的微信营销文案专家，擅长创作图文并茂、富有吸引力的微信群发内容，帮助用户提高转化率和互动率。',
+            temperature: 0.7,
+            maxTokens: 2500
+        },
+        isActive: true,
+        accessLevel: 'public',
+        metadata: {
+            version: '1.0.0',
+            tags: ['微信', '群发', '图文', '营销文案']
+        }
     }
 ];
 

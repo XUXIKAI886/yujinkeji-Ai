@@ -26,29 +26,32 @@ const app = express();
 
 // 中间件
 app.use(cors());
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            connectSrc: ["'self'", "https://whliiqpcehll.sealoshzh.site", "*"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+            fontSrc: ["'self'", "https:", "http:", "data:"]
+        }
+    }
+}));
 app.use(compression());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 根路径处理
-app.get('/', (req, res) => {
-    res.json({
-        success: true,
-        message: '欢迎访问域锦科技 API 服务',
-        version: process.env.API_VERSION || '1.0.0',
-        endpoints: {
-            auth: '/api/auth',
-            users: '/api/users',
-            assistants: '/api/assistants',
-            upload: '/api/upload'
-        },
-        documentation: '访问 /api 路径获取更多API信息'
-    });
-});
+// 路由
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/assistants', aiAssistantRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/user-assistant-permissions', userAssistantPermissionRoutes);
+app.use('/api/invite-codes', inviteCodeRoutes);
 
-// API信息路径
+// API根路径处理
 app.get('/api', (req, res) => {
     res.json({
         success: true,
@@ -79,17 +82,34 @@ app.get('/api', (req, res) => {
     });
 });
 
-// 路由
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/assistants', aiAssistantRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/user-assistant-permissions', userAssistantPermissionRoutes);
-app.use('/api/invite-codes', inviteCodeRoutes);
+// API根路径处理
+app.get('/api/', (req, res) => {
+    res.json({
+        success: true,
+        message: '欢迎访问域锦科技 API 服务',
+        version: process.env.API_VERSION || '1.0.0',
+        endpoints: {
+            auth: '/api/auth',
+            users: '/api/users',
+            assistants: '/api/assistants',
+            upload: '/api/upload'
+        },
+        documentation: '访问 /api 路径获取更多API信息'
+    });
+});
 
 // 静态文件服务
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// 处理所有前端路由请求，将它们导向index.html
+app.get('*', (req, res, next) => {
+    // 排除API和上传路径
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+        return next();
+    }
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 // 404处理
 app.use((req, res) => {

@@ -1355,6 +1355,69 @@ https://v.douyin.com/iyKvBb3Q/
                     isUser: false
                 };
                 setMessages([welcomeMessage]);
+            } else if (selectedAssistant?.name === '小红书图文助手') {
+                // 小红书图文助手的欢迎消息
+                const welcomeMessage = {
+                    id: Date.now(),
+                    content: `# 欢迎使用小红书图文助手！📱✨
+
+我是您的创作伙伴，帮您打造爆款内容和精美排版！
+
+## 我能做什么：
+• 生成吸引人的标题和文案
+• 优化图片布局和排版
+• 推荐热门话题和标签
+• 提供多种风格模板
+
+**使用提示：**
+发送您需要美化的图片或文字，我将立即为您提供优化建议！
+
+开始创作您的下一个爆款笔记吧！💫`,
+                    isUser: false
+                };
+                setMessages([welcomeMessage]);
+            } else if (selectedAssistant?.name === '美团闪购八字卖点提炼') {
+                // 美团闪购八字卖点提炼的欢迎消息
+                const welcomeMessage = {
+                    id: Date.now(),
+                    content: `# 欢迎使用美团闪购八字卖点提炼！⚡
+
+我是您的卖点提炼专家，帮您打造简洁有力的商品描述！
+
+## 我能帮您：
+• 提炼商品核心优势
+• 凝练八字精准卖点
+• 突出差异化特色
+• 抓住用户痛点需求
+
+**使用提示：**
+直接发送您的商品信息，我将立即为您提炼吸引人的八字卖点！
+
+让您的商品描述更吸睛，转化更给力！💫`,
+                    isUser: false
+                };
+                setMessages([welcomeMessage]);
+            } else if (selectedAssistant?.name === '微信群发图形化文案创作') {
+                // 微信群发图形化文案创作的欢迎消息
+                const welcomeMessage = {
+                    id: Date.now(),
+                    content: `# 欢迎使用微信群发图形化文案创作！💬
+
+我是您的微信营销专家，帮您打造吸睛的图文消息！
+
+## 我能帮您：
+• 设计引人注目的图文排版
+• 创作高转化率营销文案
+• 提供多样化的风格模板
+• 优化图文互动体验
+
+**使用提示：**
+直接发送您需要创作的主题或产品信息，我将立即为您生成精美的图文文案！
+
+让您的微信群发更有吸引力，提升客户互动！✨`,
+                    isUser: false
+                };
+                setMessages([welcomeMessage]);
             } else {
                 // 加载其他助手的历史记录
                 const history = chatHistoryService.getHistory(assistantId);

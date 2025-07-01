@@ -103,24 +103,9 @@ const MessageContent = styled.div`
   font-size: 14px;
   letter-spacing: 0;
   
-  p {
-    margin-bottom: 0;
-    margin-top: 0;
-    padding: 0;
-    text-shadow: ${props => props.isUser ? '0 1px 1px rgba(0, 0, 0, 0.1)' : 'none'};
-  }
-  
   a {
-    color: ${props => props.isUser ? '#e0f2fe' : '#3b82f6'};
-    text-decoration: none;
-    position: relative;
-    transition: all 0.2s;
-    font-weight: 500;
-    
-    &:hover {
-      color: ${props => props.isUser ? '#ffffff' : '#2563eb'};
-      text-decoration: underline;
-    }
+    color: ${props => props.isUser ? '#ffffff' : '#2563eb'};
+    text-decoration: underline;
   }
   
   code {
@@ -140,42 +125,112 @@ const MessageContent = styled.div`
   }
 `;
 
+// SVG预览的Modal样式
+const SVGPreviewModal = styled(Modal)`
+  .ant-modal-content {
+    background: #f9f9f9;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .ant-modal-header {
+    background: linear-gradient(135deg, #6f42c1, #5a67d8);
+    border-bottom: none;
+    padding: 16px 24px;
+  }
+  
+  .ant-modal-title {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .svg-preview-container {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+`;
+
+// SVG预览按钮样式
+const PreviewButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 12px;
+  height: 26px;
+  background: linear-gradient(135deg, #6f42c1, #5a67d8);
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.3s;
+  
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(111, 66, 193, 0.3);
+    color: white;
+  }
+  
+  .anticon {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+`;
+
+// 代码头部容器
+const CodeHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(15,23,42,0.8);
+  color: white;
+  font-size: 12px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  
+  .code-language {
+    opacity: 0.7;
+  }
+  
+  .code-actions {
+    display: flex;
+    gap: 8px;
+  }
+`;
+
 const ActionButtons = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 8px;
-  justify-content: ${props => props.isUser ? 'flex-start' : 'flex-end'};
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 0.3s ease;
-
-  ${MessageBubble}:hover & {
-    opacity: 1;
-    transform: translateY(0);
-  }
 `;
 
 const ActionButton = styled.button`
-  background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.15)' : 'rgba(59, 130, 246, 0.08)'};
+  background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.15)' : 'rgba(15, 23, 42, 0.05)'};
+  color: ${props => props.isUser ? 'rgba(255, 255, 255, 0.8)' : '#6366f1'};
   border: none;
+  border-radius: 6px;
   padding: 4px 8px;
-  color: ${props => props.isUser ? 'rgba(255, 255, 255, 0.9)' : 'rgba(59, 130, 246, 0.9)'};
-  font-size: 13px;
-  border-radius: 5px;
+  font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
-  transition: all 0.25s ease;
+  gap: 4px;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.25)' : 'rgba(59, 130, 246, 0.15)'};
-    color: ${props => props.isUser ? '#ffffff' : '#3b82f6'};
-    transform: translateY(-2px);
-  }
-  
-  &:active {
-    transform: translateY(0);
+    background: ${props => props.isUser ? 'rgba(255, 255, 255, 0.25)' : 'rgba(99, 102, 241, 0.1)'};
+    transform: translateY(-1px);
   }
 
   .anticon {
@@ -207,16 +262,13 @@ const StyledMarkdown = styled(ReactMarkdown)`
   }
   
   h1, h2, h3, h4, h5, h6 {
-    margin: 6px 0 4px;
-    line-height: 1.2;
-    color: ${props => props.isUser ? '#ffffff' : '#1e40af'};
+    margin: 10px 0 4px;
+    color: ${props => props.isUser ? '#ffffff' : '#111827'};
     font-weight: 600;
   }
   
   h1 {
-    font-size: 1.4em;
-    border-bottom: ${props => props.isUser ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(59,130,246,0.2)'};
-    padding-bottom: 3px;
+    font-size: 1.5em;
   }
   
   h2 {
@@ -227,23 +279,16 @@ const StyledMarkdown = styled(ReactMarkdown)`
     font-size: 1.2em;
   }
   
-  h4, h5, h6 {
-    font-size: 1.1em;
-  }
-  
   blockquote {
-    border-left: 4px solid ${props => props.isUser ? 'rgba(255,255,255,0.3)' : '#3b82f6'};
-    padding: 0.3em 0.8em;
-    margin: 4px 0;
-    background: ${props => props.isUser ? 'rgba(255,255,255,0.1)' : 'rgba(59,130,246,0.05)'};
-    border-radius: 4px;
+    margin: 6px 0;
+    padding-left: 12px;
+    border-left: 3px solid ${props => props.isUser ? 'rgba(255, 255, 255, 0.4)' : '#8b5cf6'};
+    color: ${props => props.isUser ? 'rgba(255, 255, 255, 0.8)' : '#6366f1'};
   }
   
-  img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin: 6px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  a {
+    color: ${props => props.isUser ? '#ffffff' : '#2563eb'};
+    text-decoration: underline;
   }
   
   code {
@@ -267,33 +312,56 @@ const StyledMarkdown = styled(ReactMarkdown)`
     border-collapse: collapse;
     width: 100%;
     margin: 6px 0;
-    border: 1px solid ${props => props.isUser ? 'rgba(255,255,255,0.2)' : 'rgba(229,231,235,0.8)'};
+    border-radius: 8px;
+    overflow: hidden;
   }
   
   th, td {
-    padding: 6px 10px;
-    border: 1px solid ${props => props.isUser ? 'rgba(255,255,255,0.2)' : 'rgba(229,231,235,0.8)'};
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid ${props => props.isUser ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.1)'};
   }
   
   th {
-    background: ${props => props.isUser ? 'rgba(255,255,255,0.1)' : 'rgba(243,244,246,0.8)'};
+    background: ${props => props.isUser ? 'rgba(255,255,255,0.1)' : 'rgba(99,102,241,0.1)'};
     font-weight: 600;
+  }
+  
+  tr:nth-child(even) {
+    background: ${props => props.isUser ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.03)'};
   }
 `;
 
 const Message = ({ message, handleCopy, handleExport, handleExportPDF, handleExportMarkdown }) => {
   const contentRef = useRef(null);
+  // 添加SVG预览状态
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewSVG, setPreviewSVG] = useState('');
 
   const getContent = () => {
     if (contentRef.current) {
       return contentRef.current.innerHTML;
     }
-    return message.content;
+    return '';
+  };
+
+  // 判断是否为SVG代码的函数
+  const isSVGCode = (code) => {
+    const lowerCode = code.toLowerCase();
+    return lowerCode.includes('<svg') && lowerCode.includes('</svg>');
+  };
+
+  // 添加SVG预览处理函数
+  const handlePreviewSVG = (svgCode) => {
+    setPreviewSVG(svgCode);
+    setPreviewVisible(true);
   };
 
   return (
     <MessageWrapper>
-      <MessageAvatar $isUser={message.isUser} icon={message.isUser ? <UserOutlined /> : <RobotOutlined />} />
+      <MessageAvatar $isUser={message.isUser}>
+        {message.isUser ? <UserOutlined /> : <RobotOutlined />}
+      </MessageAvatar>
       <MessageBubble isUser={message.isUser}>
         <MessageContent isUser={message.isUser}>
           <div ref={contentRef}>
@@ -302,15 +370,37 @@ const Message = ({ message, handleCopy, handleExport, handleExportPDF, handleExp
               components={{
                 code({node, inline, className, children, ...props}) {
                   const match = /language-(\w+)/.exec(className || '');
+                  const codeContent = String(children).replace(/\n$/, '');
+                  
+                  // 检查是否为SVG代码
+                  const isSvg = !inline && (match?.[1] === 'svg' || match?.[1] === 'html' || match?.[1] === 'xml') && isSVGCode(codeContent);
+                  
                   return !inline && match ? (
-                    <SyntaxHighlighter
-                      style={tomorrow}
-                      language={match[1]}
-                      PreTag="div"
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
+                    <div style={{marginBottom: '10px'}}>
+                      {isSvg && (
+                        <CodeHeader>
+                          <span className="code-language">{match[1].toUpperCase()} SVG</span>
+                          <div className="code-actions">
+                            <PreviewButton
+                              type="primary"
+                              size="small"
+                              onClick={() => handlePreviewSVG(codeContent)}
+                              icon={<EyeOutlined />}
+                            >
+                              预览SVG
+                            </PreviewButton>
+                          </div>
+                        </CodeHeader>
+                      )}
+                      <SyntaxHighlighter
+                        style={tomorrow}
+                        language={match[1]}
+                        PreTag="div"
+                        {...props}
+                      >
+                        {codeContent}
+                      </SyntaxHighlighter>
+                    </div>
                   ) : (
                     <code className={className} {...props}>
                       {children}
@@ -335,67 +425,45 @@ const Message = ({ message, handleCopy, handleExport, handleExportPDF, handleExp
                       }}
                     />
                   );
-                },
-                p({children}) {
-                  // 如果段落完全为空或只包含空白字符，则不渲染
-                  if (children.length === 0 || 
-                      (children.length === 1 && 
-                       (children[0] === '' || 
-                        (typeof children[0] === 'string' && children[0].trim() === '')))) {
-                    return null;
-                  }
-                  return <p>{children}</p>;
-                },
-                br() {
-                  // 完全忽略<br>标签
-                  return null;
-                },
-                text({children}) {
-                  // 移除纯空白文本节点，替换多个连续换行为单个换行
-                  if (typeof children === 'string') {
-                    if (children.trim() === '') {
-                      return null;
-                    }
-                    // 将多个连续换行符替换为单个换行符
-                    children = children.replace(/\n{2,}/g, '\n');
-                    // 去除前后的空白和换行
-                    children = children.trim();
-                  }
-                  return children;
                 }
               }}
             >
               {message.content}
             </StyledMarkdown>
           </div>
+          {!message.isUser && (
+            <ActionButtons>
+              <ActionButton isUser={message.isUser} onClick={() => handleCopy(getContent())}>
+                <CopyOutlined /> 复制
+              </ActionButton>
+              <ActionButton isUser={message.isUser} onClick={() => handleExport(getContent())}>
+                <DownloadOutlined /> 导出
+              </ActionButton>
+              <ActionButton isUser={message.isUser} onClick={() => handleExportPDF(getContent())}>
+                <FilePdfOutlined /> PDF
+              </ActionButton>
+              <ActionButton isUser={message.isUser} onClick={() => handleExportMarkdown(getContent())}>
+                <FileMarkdownOutlined /> MD
+              </ActionButton>
+            </ActionButtons>
+          )}
         </MessageContent>
-        <ActionButtons isUser={message.isUser}>
-          <ActionButton 
-            isUser={message.isUser} 
-            onClick={() => handleCopy(getContent())}
-          >
-            <CopyOutlined /> 复制
-          </ActionButton>
-          <ActionButton 
-            isUser={message.isUser} 
-            onClick={() => handleExport(getContent())}
-          >
-            <DownloadOutlined /> 导出
-          </ActionButton>
-          <ActionButton 
-            isUser={message.isUser} 
-            onClick={() => handleExportPDF(getContent())}
-          >
-            <FilePdfOutlined /> PDF
-          </ActionButton>
-          <ActionButton 
-            isUser={message.isUser} 
-            onClick={() => handleExportMarkdown(getContent())}
-          >
-            <FileMarkdownOutlined /> Markdown
-          </ActionButton>
-        </ActionButtons>
       </MessageBubble>
+      
+      {/* SVG预览Modal */}
+      <SVGPreviewModal
+        title="SVG图像预览"
+        open={previewVisible}
+        onCancel={() => setPreviewVisible(false)}
+        footer={[
+          <Button key="close" onClick={() => setPreviewVisible(false)}>
+            关闭
+          </Button>
+        ]}
+        width={600}
+      >
+        <div className="svg-preview-container" dangerouslySetInnerHTML={{ __html: previewSVG }} />
+      </SVGPreviewModal>
     </MessageWrapper>
   );
 };
